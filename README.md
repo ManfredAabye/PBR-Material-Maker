@@ -1,7 +1,7 @@
 ﻿# GLTF Packer
 
-**Version:** 2.2.64  
-**Target:** .NET 10 (Windows Forms & WPF)  
+**Version:** 3.x.x  
+**Target:** .NET 8 (Windows Forms & WPF)  
 **Plattform:** Windows 7.0 und neuer
 
 ## Beschreibung
@@ -122,4 +122,5 @@ Nach dem Speichern der Änderungen die Anwendung neu starten, damit die neuen Ei
 Dieses Projekt steht unter der MIT-Lizenz.
 
 ---
+
 
