@@ -1,4 +1,4 @@
-name: .NET Core Desktop
+name: .NET Core Desktop Build
 
 on:
   push:
@@ -16,9 +16,6 @@ jobs:
 
     env:
       Solution_Name: PBR_Material_Maker.sln
-      # Test_Project_Path: # (entfernt oder leer)
-      Wap_Project_Directory: PBR-Material-Maker.Package
-      Wap_Project_Path: PBR-Material-Maker.Package\PBR-Material-Maker.Package.wapproj
 
     steps:
     - name: Checkout
@@ -26,42 +23,18 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install .NET Core
+    - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2
+    - name: Build ${{ matrix.configuration }} Version
+      run: dotnet build $env:Solution_Name --configuration ${{ matrix.configuration }}
 
-    # Falls du Unit-Tests in der Lösung hast, führe sie aus:
-    - name: Execute unit tests
-      run: dotnet test $env:Solution_Name --verbosity normal --blame-hang-timeout 5m
-
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
-
-    - name: Decode the pfx
-      run: |
-        $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.Base64_Encoded_Pfx }}")
-        $certificatePath = Join-Path -Path $env:Wap_Project_Directory -ChildPath GitHubActionsWorkflow.pfx
-        [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-
-    - name: Create the app package
-      run: msbuild $env:Wap_Project_Path /p:Configuration=$env:Configuration /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:PackageCertificatePassword=${{ secrets.Pfx_Key }}
-      env:
-        Appx_Bundle: Always
-        Appx_Bundle_Platforms: x86|x64
-        Appx_Package_Build_Mode: StoreUpload
-        Configuration: ${{ matrix.configuration }}
-
-    - name: Remove the pfx
-      run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
-
-    - name: Upload build artifacts
+    # Optional: Upload Build-Artefakte
+    - name: Upload Build Output
       uses: actions/upload-artifact@v4
       with:
-        name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\AppPackages
+        name: BuildOutput-${{ matrix.configuration }}
+        path: |
+          PBR Material Maker/bin/${{ matrix.configuration }}/net10.0-windows/
