@@ -15,8 +15,8 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: PBR-Material-Maker.sln
-      Test_Project_Path: PBR-Material-Maker.Tests\PBR-Material-Maker.Tests.csproj
+      Solution_Name: PBR_Material_Maker.sln
+      # Test_Project_Path: # (entfernt oder leer)
       Wap_Project_Directory: PBR-Material-Maker.Package
       Wap_Project_Path: PBR-Material-Maker.Package\PBR-Material-Maker.Package.wapproj
 
@@ -34,11 +34,10 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
 
-    # WICHTIG: Teste gezielt das Testprojekt!
+    # Falls du Unit-Tests in der Lösung hast, führe sie aus:
     - name: Execute unit tests
-      run: dotnet test $env:Test_Project_Path --verbosity normal --blame-hang-timeout 5m
+      run: dotnet test $env:Solution_Name --verbosity normal --blame-hang-timeout 5m
 
-    # Restore (Bauen der Lösung)
     - name: Restore the application
       run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
