@@ -31,11 +31,11 @@ jobs:
     - name: Build ${{ matrix.configuration }} Version
       run: dotnet build $env:Solution_Name --configuration ${{ matrix.configuration }}
 
-    # Optional: Upload Build-Artefakte
+    # Upload Build-Artefakte
     - name: Upload Build Output
       uses: actions/upload-artifact@v4
       with:
         name: BuildOutput-${{ matrix.configuration }}
         path: |
-          PBR Material Maker/bin/${{ matrix.configuration }}/net10.0-windows/
-          PBR-Material-Maker/tree/main/PBR%20Material%20Maker/bin/Debug/net8.0-windows
+          "PBR Material Maker/bin/${{ matrix.configuration }}/net8.0-windows/"
+          "PBR Material Maker/bin/${{ matrix.configuration }}/net8.0-windows/**/*"
