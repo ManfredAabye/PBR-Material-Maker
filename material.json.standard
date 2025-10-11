@@ -1,0 +1,8 @@
+{
+  "NormalStrength": 0.20,
+  "RoughnessStrength": 0.20,
+  "OcclusionStrength": 1.0,
+  "MetallicThreshold": 200,
+  "EmissionStrength": 1.0,
+  "AlphaStrength": 1.0
+}
