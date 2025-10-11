@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>PBR_Material_Maker</RootNamespace>
+    <AssemblyName>PBR Material Maker</AssemblyName>
+    <ApplicationIcon>PBR_Material_Maker.ico</ApplicationIcon>
+    <Platforms>AnyCPU</Platforms>
+
+    <!-- Hinzugefügte Eigenschaften -->
+    <AssemblyTitle>PBR Material Maker</AssemblyTitle>
+    <AssemblyDescription>Beschreibung des PBR Material Makers</AssemblyDescription>
+    <AssemblyCompany>PBR Material Maker</AssemblyCompany>
+    <AssemblyProduct>PBR Material Maker</AssemblyProduct>
+    <AssemblyVersion>3.6.452.0</AssemblyVersion>
+    <FileVersion>3.6.452.0</FileVersion>
+    <InformationalVersion>3.6.452</InformationalVersion>
+    <TargetPlatform>Windows7.0</TargetPlatform>
+    <SupportedOSPlatform>Windows7.0</SupportedOSPlatform>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EnableDefaultItems>true</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\CubeCross01.gltf" />
+    <None Include="Resources\pavement_03_4k.gltf" />
+    <None Include="Resources\pavement_03_4k_TEST2.gltf" />
+    <None Include="Resources\icons8-pin-24.png" />
+    <None Include="Resources\icons8-pin-16.png" />
+    <None Include="Resources\material.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>material.json</TargetPath>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PBR_Material_Maker.ico" />
+  </ItemGroup>
+
+</Project>

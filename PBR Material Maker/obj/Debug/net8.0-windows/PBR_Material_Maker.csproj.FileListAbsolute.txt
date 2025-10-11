@@ -1,0 +1,23 @@
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\material.json
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.exe
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.dll.config
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.deps.json
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.runtimeconfig.json
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.dll
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.pdb
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.csproj.AssemblyReference.cache
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.MainForm.resources
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.Properties.Resources.resources
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.csproj.GenerateResource.cache
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.GeneratedMSBuildEditorConfig.editorconfig
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.AssemblyInfoInputs.cache
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.AssemblyInfo.cs
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.csproj.CoreCompileInputs.cache
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.sourcelink.json
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Mate.60E9DA4B.Up2Date
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR Material Maker.dll
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\refint\PBR Material Maker.dll
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR Material Maker.pdb
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\PBR_Material_Maker.genruntimeconfig.cache
+D:\GLTF-Packer\GLTF-Packer\PBR Material Maker\obj\Debug\net8.0-windows\ref\PBR Material Maker.dll
