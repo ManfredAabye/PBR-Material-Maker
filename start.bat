@@ -11,8 +11,8 @@ REM Aktuelles Verzeichnis setzen
 cd /d "%~dp0"
 
 REM Zuerst nach Release-Build suchen
-set "RELEASE_EXE=.\PBR Material Maker\bin\Release\net10.0-windows\PBR Material Maker.exe"
-set "DEBUG_EXE=.\PBR Material Maker\bin\Debug\net10.0-windows\PBR Material Maker.exe"
+set "RELEASE_EXE=.\PBR Material Maker\bin\Release\net8.0-windows\PBR Material Maker.exe"
+set "DEBUG_EXE=.\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.exe"
 
 if exist "%RELEASE_EXE%" (
     echo Release-Build gefunden. Starte PBR Material Maker...
