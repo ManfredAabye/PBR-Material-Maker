@@ -1189,14 +1189,25 @@ namespace PBR_Material_Maker
         {
             try
             {
-                // Prüfe welche Basis-Textur vorhanden ist
+                // Prüfe welche Basis-Textur vorhanden ist oder lade Fallback
                 Bitmap baseTexture = LoadTextureFromPictureBox(pictureBoxBaseColor);
                 
                 if (baseTexture == null)
                 {
-                    MessageBox.Show("Keine Base Color Textur vorhanden! Bitte laden Sie zuerst eine Base Color Textur.", 
-                                    "Keine Basis-Textur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    // Versuche Fallback-Textur zu laden
+                    baseTexture = LoadFallbackTexture();
+                    
+                    if (baseTexture == null)
+                    {
+                        MessageBox.Show("Keine Base Color Textur vorhanden und Fallback-Textur (fallback.jpg) nicht gefunden!\n\n" +
+                                        "Bitte laden Sie eine Base Color Textur oder stellen Sie sicher, dass 'fallback.jpg' im Resources-Verzeichnis vorhanden ist.", 
+                                        "Keine Basis-Textur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                    
+                    // Setze Fallback-Textur als Base Color
+                    pictureBoxBaseColor.Image = (Bitmap)baseTexture.Clone();
+                    Debug.WriteLine("Fallback-Textur 'fallback.jpg' wurde als Base Color geladen.");
                 }
 
                 int texWidth = baseTexture.Width;
@@ -1211,44 +1222,49 @@ namespace PBR_Material_Maker
                 float alphaStrength = GetTrackBarValue(trackBarAlphaStrength, 1.0f);
                 bool roughnessInvert = false; // TODO: Aus UI lesen wenn verfügbar
 
-                // Generiere fehlende Normal Map mit aktuellen Parametern
-                if (pictureBoxNormal.Image == null && pictureBoxNormal.ImageLocation == null)
+                // Generiere fehlende oder gelöschte Normal Map mit aktuellen Parametern
+                if (IsTextureEmpty(pictureBoxNormal))
                 {
                     Bitmap normalMap = GenerateNormalMapFromBaseColor(baseTexture, normalStrength);
                     pictureBoxNormal.Image = normalMap;
-                    UpdatePBRPreviewSquare(); // Verwende die neue quadratische Methode
+                    UpdatePBRPreviewSquare();
+                    Debug.WriteLine("Normal Map wurde generiert/regeneriert.");
                 }
 
-                // Generiere fehlende Roughness Map mit aktuellen Parametern
-                if (pictureBoxRoughness.Image == null && pictureBoxRoughness.ImageLocation == null)
+                // Generiere fehlende oder gelöschte Roughness Map mit aktuellen Parametern
+                if (IsTextureEmpty(pictureBoxRoughness))
                 {
                     Bitmap roughnessMap = GenerateRoughnessMap(baseTexture, roughnessStrength, roughnessInvert);
                     pictureBoxRoughness.Image = roughnessMap;
                     UpdatePBRPreviewSquare();
+                    Debug.WriteLine("Roughness Map wurde generiert/regeneriert.");
                 }
 
-                // Generiere fehlende Metallic Map mit aktuellen Parametern
-                if (pictureBoxMetallic.Image == null && pictureBoxMetallic.ImageLocation == null)
+                // Generiere fehlende oder gelöschte Metallic Map mit aktuellen Parametern
+                if (IsTextureEmpty(pictureBoxMetallic))
                 {
                     Bitmap metallicMap = GenerateMetallicMap(baseTexture, (int)metallicThreshold, metallicIntensity);
                     pictureBoxMetallic.Image = metallicMap;
                     UpdatePBRPreviewSquare();
+                    Debug.WriteLine("Metallic Map wurde generiert/regeneriert.");
                 }
 
-                // Generiere fehlende Occlusion Map mit aktuellen Parametern
-                if (pictureBoxOcclusion.Image == null && pictureBoxOcclusion.ImageLocation == null)
+                // Generiere fehlende oder gelöschte Occlusion Map mit aktuellen Parametern
+                if (IsTextureEmpty(pictureBoxOcclusion))
                 {
                     Bitmap occlusionMap = GenerateOcclusionMap(baseTexture, occlusionStrength);
                     pictureBoxOcclusion.Image = occlusionMap;
                     UpdatePBRPreviewSquare();
+                    Debug.WriteLine("Occlusion Map wurde generiert/regeneriert.");
                 }
 
-                // Generiere Alpha Map mit aktuellen Parametern
-                if (pictureBoxAlpha.Image == null && pictureBoxAlpha.ImageLocation == null)
+                // Generiere fehlende oder gelöschte Alpha Map mit aktuellen Parametern
+                if (IsTextureEmpty(pictureBoxAlpha))
                 {
                     Bitmap alphaMap = GenerateAlphaMap(baseTexture, alphaStrength);
                     pictureBoxAlpha.Image = alphaMap;
                     UpdatePBRPreviewSquare();
+                    Debug.WriteLine("Alpha Map wurde generiert/regeneriert.");
                 }
 
                 // Finale Vorschau-Aktualisierung
@@ -1266,6 +1282,50 @@ namespace PBR_Material_Maker
                 MessageBox.Show($"Fehler beim Generieren der Maps: {ex.Message}", 
                                 "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Lädt die Fallback-Textur aus dem Resources-Verzeichnis
+        /// </summary>
+        private Bitmap LoadFallbackTexture()
+        {
+            try
+            {
+                // Versuche verschiedene mögliche Pfade für fallback.jpg
+                string[] possiblePaths = {
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "fallback.jpg"),
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fallback.jpg"),
+                    Path.Combine(Environment.CurrentDirectory, "Resources", "fallback.jpg"),
+                    Path.Combine(Environment.CurrentDirectory, "fallback.jpg"),
+                    "Resources/fallback.jpg",
+                    "fallback.jpg"
+                };
+
+                foreach (string path in possiblePaths)
+                {
+                    if (File.Exists(path))
+                    {
+                        Debug.WriteLine($"Fallback-Textur gefunden: {path}");
+                        return new Bitmap(path);
+                    }
+                }
+
+                Debug.WriteLine("Fallback-Textur (fallback.jpg) nicht gefunden in keinem der möglichen Pfade.");
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fehler beim Laden der Fallback-Textur: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Prüft ob eine PictureBox leer ist (keine Textur geladen oder gelöscht)
+        /// </summary>
+        private bool IsTextureEmpty(PictureBox pictureBox)
+        {
+            return pictureBox.Image == null && string.IsNullOrEmpty(pictureBox.ImageLocation);
         }
 
         /// <summary>

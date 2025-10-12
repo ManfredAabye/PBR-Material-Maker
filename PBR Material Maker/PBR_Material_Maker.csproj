@@ -43,6 +43,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>material.json</TargetPath>
     </None>
+    <None Include="Resources\fallback.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Resources\fallback.jpg</TargetPath>
+    </None>
     <None Include="App.config" />
   </ItemGroup>
 
