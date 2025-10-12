@@ -535,6 +535,7 @@ namespace PBR_Material_Maker
             trackBarBaseColorStrength.TickFrequency = 25;
             trackBarBaseColorStrength.TickFrequency = 25;
             trackBarBaseColorStrength.Value = 100;
+            trackBarBaseColorStrength.Scroll += TrackBarBaseColorStrength_Scroll;
             toolTip1.SetToolTip(trackBarBaseColorStrength, "Base Color Intensität:\nVerstärkt oder reduziert die Intensität der Grundfarbe\n• 0.0 = Keine Farbe (grau)\n• 1.0 = Original-Farbintensität\n• 2.0 = Verstärkte Farben");
 
             textBoxBaseColorStrength.BackColor = Color.FromArgb(60, 60, 60);
@@ -565,6 +566,7 @@ namespace PBR_Material_Maker
             trackBarContrast.TickFrequency = 25;
             trackBarContrast.TickFrequency = 25;
             trackBarContrast.Value = 100;
+            trackBarContrast.Scroll += TrackBarContrast_Scroll;
             toolTip1.SetToolTip(trackBarContrast, "Base Color Kontrast:\nVerstärkt den Farbkontrast der Textur\n• 0.5 = Wenig Kontrast (flach)\n• 1.0 = Original-Kontrast\n• 2.0 = Hoher Kontrast (knackig)");
 
             textBoxContrast.BackColor = Color.FromArgb(60, 60, 60);
@@ -595,6 +597,7 @@ namespace PBR_Material_Maker
             trackBarBrightness.TickFrequency = 25;
             trackBarBrightness.TickFrequency = 25;
             trackBarBrightness.Value = 100;
+            trackBarBrightness.Scroll += TrackBarBrightness_Scroll;
             toolTip1.SetToolTip(trackBarBrightness, "Base Color Helligkeit:\nErhöht oder reduziert die Gesamthelligkeit\n• 0.0 = Sehr dunkel\n• 1.0 = Original-Helligkeit\n• 2.0 = Sehr hell");
 
             textBoxBrightness.BackColor = Color.FromArgb(60, 60, 60);
@@ -1039,11 +1042,13 @@ namespace PBR_Material_Maker
             pictureBoxPBRPreview.Dock = DockStyle.None;
             pictureBoxPBRPreview.Location = new Point(20, 20);
             pictureBoxPBRPreview.Name = "pictureBoxPBRPreview";
-            pictureBoxPBRPreview.Size = new Size(520, 400);
+            pictureBoxPBRPreview.Size = new Size(400, 400);  // Quadratisch: 400x400
             pictureBoxPBRPreview.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxPBRPreview.TabIndex = 0;
             pictureBoxPBRPreview.TabStop = false;
-            toolTip1.SetToolTip(pictureBoxPBRPreview, "PBR Material Vorschau in Echtzeit");
+            pictureBoxPBRPreview.Cursor = Cursors.Hand;  // Hand-Cursor für Klickbarkeit
+            pictureBoxPBRPreview.Click += PictureBoxPBRPreview_Click;  // Click-Event hinzufügen
+            toolTip1.SetToolTip(pictureBoxPBRPreview, "PBR Material Vorschau in Echtzeit\nKlicken Sie hier, um die Vorschau manuell zu aktualisieren");
 
             // 
             // PanelFooter

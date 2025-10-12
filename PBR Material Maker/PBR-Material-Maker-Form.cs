@@ -207,6 +207,10 @@ namespace PBR_Material_Maker
                 toolTip1.SetToolTip(textBoxMaterialName, "Material Name.\r\nAs shown in SecondLife.");
                 this.Controls.Add(textBoxMaterialName);
             }
+
+            // Initialize all TrackBar event handlers for real-time updates
+            // This must be called after InitializeComponent() has created all controls
+            InitializeTrackBarEventHandlers();
         }
 
         private static void AllowAllPictureBoxDragDrop(IEnumerable controlCollection)
@@ -1292,6 +1296,77 @@ namespace PBR_Material_Maker
             }
         }
 
+        /// <summary>
+        /// Event-Handler für Klick auf PBR Vorschau - Manuelle Aktualisierung
+        /// </summary>
+        private void PictureBoxPBRPreview_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Debug.WriteLine("PBR Vorschau: Manuelle Aktualisierung ausgelöst");
+                
+                // Sofortige manuelle Aktualisierung der PBR-Vorschau
+                UpdatePBRPreviewSquare();
+                
+                // Feedback für den Benutzer (optional)
+                pictureBoxPBRPreview.BorderStyle = BorderStyle.Fixed3D;
+                
+                // Timer für visuelles Feedback (Rahmen kurz anzeigen)
+                var feedbackTimer = new System.Windows.Forms.Timer();
+                feedbackTimer.Interval = 200; // 200ms
+                feedbackTimer.Tick += (s, ev) =>
+                {
+                    pictureBoxPBRPreview.BorderStyle = BorderStyle.None;
+                    feedbackTimer.Stop();
+                    feedbackTimer.Dispose();
+                };
+                feedbackTimer.Start();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fehler bei manueller PBR-Vorschau-Aktualisierung: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Aktualisiert die PBR-Vorschau in quadratischem Format
+        /// </summary>
+        private void UpdatePBRPreviewSquare()
+        {
+            try
+            {
+                // Quadratische 400x400 PBR-Vorschau auf Sphere rendern
+                var preview = RenderPBRSphere(400, 400); // Quadratisch statt 520x400
+                
+                if (preview != null)
+                {
+                    if (pictureBoxPBRPreview.InvokeRequired)
+                    {
+                        pictureBoxPBRPreview.Invoke(new Action(() =>
+                        {
+                            if (pictureBoxPBRPreview.Image != null)
+                            {
+                                pictureBoxPBRPreview.Image.Dispose();
+                            }
+                            pictureBoxPBRPreview.Image = preview;
+                        }));
+                    }
+                    else
+                    {
+                        if (pictureBoxPBRPreview.Image != null)
+                        {
+                            pictureBoxPBRPreview.Image.Dispose();
+                        }
+                        pictureBoxPBRPreview.Image = preview;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fehler beim Aktualisieren der quadratischen PBR-Vorschau: {ex.Message}");
+            }
+        }
+
         private Bitmap RenderPBRSphere(int width, int height)
         {
             Bitmap result = new Bitmap(width, height);
@@ -1599,5 +1674,262 @@ namespace PBR_Material_Maker
                 return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
             }
         }
+
+        #region Real-time Parameter Update Event Handlers
+
+        // Initialize all TrackBar event handlers
+        private void InitializeTrackBarEventHandlers()
+        {
+            try
+            {
+                // Base Color Parameters
+                if (trackBarBaseColorStrength != null)
+                    trackBarBaseColorStrength.Scroll += TrackBarBaseColorStrength_Scroll;
+                if (trackBarContrast != null)
+                    trackBarContrast.Scroll += TrackBarContrast_Scroll;
+                if (trackBarBrightness != null)
+                    trackBarBrightness.Scroll += TrackBarBrightness_Scroll;
+                
+                // Metallic Parameters
+                if (trackBarMetallicStrength != null)
+                    trackBarMetallicStrength.Scroll += TrackBarMetallicStrength_Scroll;
+                if (trackBarMetallicThreshold != null)
+                    trackBarMetallicThreshold.Scroll += TrackBarMetallicThreshold_Scroll;
+                
+                // Roughness Parameters
+                if (trackBarRoughnessStrength != null)
+                    trackBarRoughnessStrength.Scroll += TrackBarRoughnessStrength_Scroll;
+                
+                // Normal Map Parameters
+                if (trackBarNormalStrength != null)
+                    trackBarNormalStrength.Scroll += TrackBarNormalStrength_Scroll;
+                if (trackBarNormalFlipY != null)
+                    trackBarNormalFlipY.Scroll += TrackBarNormalFlipY_Scroll;
+                
+                // Ambient Occlusion Parameters
+                if (trackBarOcclusionStrength != null)
+                    trackBarOcclusionStrength.Scroll += TrackBarOcclusionStrength_Scroll;
+                
+                // Emission Parameters
+                if (trackBarEmissionStrength != null)
+                    trackBarEmissionStrength.Scroll += TrackBarEmissionStrength_Scroll;
+                if (trackBarEmissionEdgeEnhance != null)
+                    trackBarEmissionEdgeEnhance.Scroll += TrackBarEmissionEdgeEnhance_Scroll;
+                if (trackBarEmissionEdgeStrength != null)
+                    trackBarEmissionEdgeStrength.Scroll += TrackBarEmissionEdgeStrength_Scroll;
+                
+                // Alpha Parameters
+                if (trackBarAlphaStrength != null)
+                    trackBarAlphaStrength.Scroll += TrackBarAlphaStrength_Scroll;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error initializing TrackBar event handlers: {ex.Message}");
+            }
+        }
+
+        // Base Color Parameter Events
+        private void TrackBarBaseColorStrength_Scroll(object sender, EventArgs e)
+        {
+            try
+            {
+                var value = trackBarBaseColorStrength.Value / 100.0f;
+                if (textBoxBaseColorStrength != null)
+                    textBoxBaseColorStrength.Text = value.ToString("F2");
+                UpdateMaterialConfigValue("BaseColorStrength", value);
+                UpdatePreviewInRealTime();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in TrackBarBaseColorStrength_Scroll: {ex.Message}");
+            }
+        }
+
+        private void TrackBarContrast_Scroll(object sender, EventArgs e)
+        {
+            try
+            {
+                var value = trackBarContrast.Value / 100.0f;
+                if (textBoxContrast != null)
+                    textBoxContrast.Text = value.ToString("F2");
+                UpdateMaterialConfigValue("Contrast", value);
+                UpdatePreviewInRealTime();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in TrackBarContrast_Scroll: {ex.Message}");
+            }
+        }
+
+        private void TrackBarBrightness_Scroll(object sender, EventArgs e)
+        {
+            try
+            {
+                var value = trackBarBrightness.Value / 100.0f;
+                if (textBoxBrightness != null)
+                    textBoxBrightness.Text = value.ToString("F2");
+                UpdateMaterialConfigValue("Brightness", value);
+                UpdatePreviewInRealTime();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error in TrackBarBrightness_Scroll: {ex.Message}");
+            }
+        }
+
+        // Metallic Parameter Events
+        private void TrackBarMetallicStrength_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarMetallicStrength.Value / 100.0f;
+            textBoxMetallicStrength.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("MetallicIntensity", value);
+            UpdatePreviewInRealTime();
+        }
+
+        private void TrackBarMetallicThreshold_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarMetallicThreshold.Value;
+            textBoxMetallicThreshold.Text = value.ToString();
+            UpdateMaterialConfigValue("MetallicThreshold", value);
+            UpdatePreviewInRealTime();
+        }
+
+        // Roughness Parameter Events
+        private void TrackBarRoughnessStrength_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarRoughnessStrength.Value / 100.0f;
+            textBoxRoughnessStrength.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("RoughnessStrength", value);
+            UpdatePreviewInRealTime();
+        }
+
+        // Normal Map Parameter Events
+        private void TrackBarNormalStrength_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarNormalStrength.Value / 100.0f;
+            textBoxNormalStrength.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("NormalStrength", value);
+            UpdatePreviewInRealTime();
+        }
+
+        private void TrackBarNormalFlipY_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarNormalFlipY.Value;
+            textBoxNormalFlipY.Text = value.ToString();
+            UpdateMaterialConfigValue("NormalFlipY", value > 0);
+            UpdatePreviewInRealTime();
+        }
+
+        // Ambient Occlusion Parameter Events
+        private void TrackBarOcclusionStrength_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarOcclusionStrength.Value / 100.0f;
+            textBoxOcclusionStrength.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("OcclusionStrength", value);
+            UpdatePreviewInRealTime();
+        }
+
+        // Emission Parameter Events
+        private void TrackBarEmissionStrength_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarEmissionStrength.Value / 100.0f;
+            textBoxEmissionStrength.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("EmissionStrength", value);
+            UpdatePreviewInRealTime();
+        }
+
+        private void TrackBarEmissionEdgeEnhance_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarEmissionEdgeEnhance.Value / 100.0f;
+            textBoxEmissionEdgeEnhance.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("EmissionEdgeEnhance", value);
+            UpdatePreviewInRealTime();
+        }
+
+        private void TrackBarEmissionEdgeStrength_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarEmissionEdgeStrength.Value / 100.0f;
+            textBoxEmissionEdgeStrength.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("EmissionEdgeStrength", value);
+            UpdatePreviewInRealTime();
+        }
+
+        // Alpha Parameter Events
+        private void TrackBarAlphaStrength_Scroll(object sender, EventArgs e)
+        {
+            var value = trackBarAlphaStrength.Value / 100.0f;
+            textBoxAlphaStrength.Text = value.ToString("F2");
+            UpdateMaterialConfigValue("AlphaStrength", value);
+            UpdatePreviewInRealTime();
+        }
+
+        // Helper method to update material config values
+        private void UpdateMaterialConfigValue(string propertyName, object value)
+        {
+            try
+            {
+                if (materialConfig != null)
+                {
+                    // Update the property using reflection or dynamic assignment
+                    var configType = materialConfig.GetType();
+                    var property = configType.GetProperty(propertyName);
+                    if (property != null && property.CanWrite)
+                    {
+                        property.SetValue(materialConfig, value);
+                    }
+                    else
+                    {
+                        // For dynamic objects, use indexer
+                        ((dynamic)materialConfig)[propertyName] = value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't stop the UI update
+                Debug.WriteLine($"Error updating material config property {propertyName}: {ex.Message}");
+            }
+        }
+
+        // Real-time preview update method
+        private void UpdatePreviewInRealTime()
+        {
+            // Throttle updates to prevent too frequent refreshes
+            if (previewUpdateTimer != null)
+            {
+                previewUpdateTimer.Stop();
+            }
+            
+            previewUpdateTimer = new System.Windows.Forms.Timer();
+            previewUpdateTimer.Interval = 100; // 100ms delay
+            previewUpdateTimer.Tick += (s, e) =>
+            {
+                previewUpdateTimer.Stop();
+                previewUpdateTimer.Dispose();
+                previewUpdateTimer = null;
+                
+                // Trigger preview update
+                try
+                {
+                    GeneratePreviewMaterial();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error updating preview: {ex.Message}");
+                }
+            };
+            previewUpdateTimer.Start();
+        }
+
+        private System.Windows.Forms.Timer previewUpdateTimer;
+
+        // Method to generate preview material
+        private void GeneratePreviewMaterial()
+        {
+            // Use the new square PBR preview method for real-time updates
+            UpdatePBRPreviewSquare();
+        }
+
+        #endregion
     }
 }
