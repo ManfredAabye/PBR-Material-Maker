@@ -998,6 +998,56 @@ namespace PBR_Material_Maker
         }
 
         /// <summary>
+        /// Überladene Version der Normal Map Generierung mit Strength-Parameter
+        /// </summary>
+        private Bitmap GenerateNormalMapFromBaseColor(Bitmap baseColor, float strength)
+        {
+            int width = baseColor.Width;
+            int height = baseColor.Height;
+            Bitmap result = new Bitmap(width, height);
+            
+            // Normale Normal Map Generierung basierend auf Luminanz-Gradienten mit Stärke-Faktor
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    // Hole benachbarte Pixel für Gradient-Berechnung
+                    Color center = baseColor.GetPixel(x, y);
+                    Color right = baseColor.GetPixel(Math.Min(x + 1, width - 1), y);
+                    Color bottom = baseColor.GetPixel(x, Math.Min(y + 1, height - 1));
+                    
+                    // Berechne Luminanz
+                    float centerLum = (center.R * 0.299f + center.G * 0.587f + center.B * 0.114f) / 255.0f;
+                    float rightLum = (right.R * 0.299f + right.G * 0.587f + right.B * 0.114f) / 255.0f;
+                    float bottomLum = (bottom.R * 0.299f + bottom.G * 0.587f + bottom.B * 0.114f) / 255.0f;
+                    
+                    // Berechne Gradienten mit Stärke-Faktor
+                    float dx = (rightLum - centerLum) * strength;
+                    float dy = (bottomLum - centerLum) * strength;
+                    float dz = 1.0f; // Standard Z-Komponente
+                    
+                    // Normalisiere den Vektor
+                    float length = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz);
+                    if (length > 0)
+                    {
+                        dx /= length;
+                        dy /= length;
+                        dz /= length;
+                    }
+                    
+                    // Konvertiere zu RGB (Normal Map Format: X, Y, Z -> R, G, B)
+                    int r = (int)((dx * 0.5f + 0.5f) * 255);
+                    int g = (int)((dy * 0.5f + 0.5f) * 255);
+                    int b = (int)((dz * 0.5f + 0.5f) * 255);
+                    
+                    result.SetPixel(x, y, Color.FromArgb(r, g, b));
+                }
+            }
+            
+            return result;
+        }
+
+        /// <summary>
         /// Wendet einen Farb-Tint auf das gegebene Bitmap an.
         /// </summary>
         /// <param name="bitmap">Das zu bearbeitende Bitmap.</param>
@@ -1152,45 +1202,60 @@ namespace PBR_Material_Maker
                 int texWidth = baseTexture.Width;
                 int texHeight = baseTexture.Height;
 
-                // Generiere fehlende Normal Map
+                // Aktuelle Parameter aus UI-Controls lesen
+                float normalStrength = GetTrackBarValue(trackBarNormalStrength, 0.20f);
+                float roughnessStrength = GetTrackBarValue(trackBarRoughnessStrength, 0.20f);
+                float occlusionStrength = GetTrackBarValue(trackBarOcclusionStrength, 1.0f);
+                float metallicThreshold = GetTrackBarValue(trackBarMetallicThreshold, 200f);
+                float metallicIntensity = GetTrackBarValue(trackBarMetallicStrength, 1.0f);
+                float alphaStrength = GetTrackBarValue(trackBarAlphaStrength, 1.0f);
+                bool roughnessInvert = false; // TODO: Aus UI lesen wenn verfügbar
+
+                // Generiere fehlende Normal Map mit aktuellen Parametern
                 if (pictureBoxNormal.Image == null && pictureBoxNormal.ImageLocation == null)
                 {
-                    Bitmap normalMap = GenerateNormalMapFromBaseColor(baseTexture);
+                    Bitmap normalMap = GenerateNormalMapFromBaseColor(baseTexture, normalStrength);
                     pictureBoxNormal.Image = normalMap;
-                    UpdatePBRPreview();
+                    UpdatePBRPreviewSquare(); // Verwende die neue quadratische Methode
                 }
 
-                // Generiere fehlende Roughness Map (aus Base Color Luminanz)
+                // Generiere fehlende Roughness Map mit aktuellen Parametern
                 if (pictureBoxRoughness.Image == null && pictureBoxRoughness.ImageLocation == null)
                 {
-                    Bitmap roughnessMap = GenerateRoughnessMap(baseTexture, 0.5f, false);
+                    Bitmap roughnessMap = GenerateRoughnessMap(baseTexture, roughnessStrength, roughnessInvert);
                     pictureBoxRoughness.Image = roughnessMap;
-                    UpdatePBRPreview();
+                    UpdatePBRPreviewSquare();
                 }
 
-                // Generiere fehlende Metallic Map (schwarz für nicht-metallische Materialien)
+                // Generiere fehlende Metallic Map mit aktuellen Parametern
                 if (pictureBoxMetallic.Image == null && pictureBoxMetallic.ImageLocation == null)
                 {
-                    Bitmap metallicMap = GenerateMetallicMap(baseTexture, 128, 0.1f);
+                    Bitmap metallicMap = GenerateMetallicMap(baseTexture, (int)metallicThreshold, metallicIntensity);
                     pictureBoxMetallic.Image = metallicMap;
-                    UpdatePBRPreview();
+                    UpdatePBRPreviewSquare();
                 }
 
-                // Generiere fehlende Occlusion Map (aus Base Color)
+                // Generiere fehlende Occlusion Map mit aktuellen Parametern
                 if (pictureBoxOcclusion.Image == null && pictureBoxOcclusion.ImageLocation == null)
                 {
-                    Bitmap occlusionMap = GenerateOcclusionMap(baseTexture, 0.7f);
+                    Bitmap occlusionMap = GenerateOcclusionMap(baseTexture, occlusionStrength);
                     pictureBoxOcclusion.Image = occlusionMap;
-                    UpdatePBRPreview();
+                    UpdatePBRPreviewSquare();
                 }
 
-                // Generiere Alpha Map falls benötigt
+                // Generiere Alpha Map mit aktuellen Parametern
                 if (pictureBoxAlpha.Image == null && pictureBoxAlpha.ImageLocation == null)
                 {
-                    Bitmap alphaMap = GenerateAlphaMap(baseTexture, 1.0f);
+                    Bitmap alphaMap = GenerateAlphaMap(baseTexture, alphaStrength);
                     pictureBoxAlpha.Image = alphaMap;
-                    UpdatePBRPreview();
+                    UpdatePBRPreviewSquare();
                 }
+
+                // Finale Vorschau-Aktualisierung
+                UpdatePBRPreviewSquare();
+
+                // Aktualisiere auch die TextBox-Werte für die aktuellen Parameter
+                UpdateParameterTextBoxes();
 
                 // MessageBox.Show("Fehlende Maps wurden erfolgreich generiert!", "Maps generiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -1200,6 +1265,86 @@ namespace PBR_Material_Maker
             {
                 MessageBox.Show($"Fehler beim Generieren der Maps: {ex.Message}", 
                                 "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Aktualisiert alle Parameter-TextBoxes mit den aktuellen TrackBar-Werten
+        /// </summary>
+        private void UpdateParameterTextBoxes()
+        {
+            try
+            {
+                // Base Color Parameter
+                if (trackBarBaseColorStrength != null && textBoxBaseColorStrength != null)
+                    textBoxBaseColorStrength.Text = (trackBarBaseColorStrength.Value / 100.0f).ToString("F2");
+                if (trackBarContrast != null && textBoxContrast != null)
+                    textBoxContrast.Text = (trackBarContrast.Value / 100.0f).ToString("F2");
+                if (trackBarBrightness != null && textBoxBrightness != null)
+                    textBoxBrightness.Text = (trackBarBrightness.Value / 100.0f).ToString("F2");
+
+                // Metallic Parameter
+                if (trackBarMetallicStrength != null && textBoxMetallicStrength != null)
+                    textBoxMetallicStrength.Text = (trackBarMetallicStrength.Value / 100.0f).ToString("F2");
+                if (trackBarMetallicThreshold != null && textBoxMetallicThreshold != null)
+                    textBoxMetallicThreshold.Text = trackBarMetallicThreshold.Value.ToString();
+
+                // Roughness Parameter
+                if (trackBarRoughnessStrength != null && textBoxRoughnessStrength != null)
+                    textBoxRoughnessStrength.Text = (trackBarRoughnessStrength.Value / 100.0f).ToString("F2");
+
+                // Normal Map Parameter
+                if (trackBarNormalStrength != null && textBoxNormalStrength != null)
+                    textBoxNormalStrength.Text = (trackBarNormalStrength.Value / 100.0f).ToString("F2");
+                if (trackBarNormalFlipY != null && textBoxNormalFlipY != null)
+                    textBoxNormalFlipY.Text = trackBarNormalFlipY.Value.ToString();
+
+                // Ambient Occlusion Parameter
+                if (trackBarOcclusionStrength != null && textBoxOcclusionStrength != null)
+                    textBoxOcclusionStrength.Text = (trackBarOcclusionStrength.Value / 100.0f).ToString("F2");
+
+                // Emission Parameter
+                if (trackBarEmissionStrength != null && textBoxEmissionStrength != null)
+                    textBoxEmissionStrength.Text = (trackBarEmissionStrength.Value / 100.0f).ToString("F2");
+                if (trackBarEmissionEdgeEnhance != null && textBoxEmissionEdgeEnhance != null)
+                    textBoxEmissionEdgeEnhance.Text = (trackBarEmissionEdgeEnhance.Value / 100.0f).ToString("F2");
+                if (trackBarEmissionEdgeStrength != null && textBoxEmissionEdgeStrength != null)
+                    textBoxEmissionEdgeStrength.Text = (trackBarEmissionEdgeStrength.Value / 100.0f).ToString("F2");
+
+                // Alpha Parameter
+                if (trackBarAlphaStrength != null && textBoxAlphaStrength != null)
+                    textBoxAlphaStrength.Text = (trackBarAlphaStrength.Value / 100.0f).ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fehler beim Aktualisieren der Parameter-TextBoxes: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Hilfsmethode zum Lesen von TrackBar-Werten mit Fallback
+        /// </summary>
+        private float GetTrackBarValue(TrackBar trackBar, float defaultValue)
+        {
+            try
+            {
+                if (trackBar != null)
+                {
+                    // Für die meisten TrackBars: Wert durch 100 teilen (0-200 -> 0.0-2.0)
+                    if (trackBar == trackBarMetallicThreshold)
+                    {
+                        return trackBar.Value; // Threshold ist 0-255, nicht durch 100 teilen
+                    }
+                    else
+                    {
+                        return trackBar.Value / 100.0f;
+                    }
+                }
+                return defaultValue;
+            }
+            catch
+            {
+                return defaultValue;
             }
         }
 
