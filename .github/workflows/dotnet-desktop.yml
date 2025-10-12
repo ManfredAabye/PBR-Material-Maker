@@ -8,10 +8,6 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-
     runs-on: windows-latest
 
     env:
@@ -23,19 +19,71 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Get build date
+      id: build_date
+      run: echo "date=$(Get-Date -Format 'yyyyMMdd-HHmmss')" >> $env:GITHUB_OUTPUT
+      shell: pwsh
+
+    - name: Get short SHA
+      id: short_sha
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $env:GITHUB_OUTPUT
+      shell: pwsh
+
     - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    - name: Build ${{ matrix.configuration }} Version
-      run: dotnet build $env:Solution_Name --configuration ${{ matrix.configuration }}
+    - name: Build Release Version
+      run: dotnet build $env:Solution_Name --configuration Release
 
-    # Upload Build-Artefakte
-    - name: Upload Build Output
+    - name: Create Release Package
+      id: package
+      run: |
+        $releaseDir = "PBR-Material-Maker-Release"
+        $buildDir = "PBR Material Maker/bin/Release/net8.0-windows"
+        
+        # Erstelle Release-Verzeichnis
+        New-Item -ItemType Directory -Path $releaseDir -Force
+        
+        # Kopiere alle Dateien aus dem Build-Verzeichnis
+        Copy-Item -Path "$buildDir/*" -Destination $releaseDir -Recurse -Force
+        
+        # Erstelle ZIP-Datei
+        $zipFile = "PBR-Material-Maker-v3.6.452-${{ steps.build_date.outputs.date }}-${{ steps.short_sha.outputs.sha_short }}.zip"
+        Compress-Archive -Path $releaseDir -DestinationPath $zipFile
+        
+        # Setze Output für nachfolgende Steps
+        echo "zipfile=$zipFile" >> $env:GITHUB_OUTPUT
+      shell: pwsh
+
+    - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: BuildOutput-${{ matrix.configuration }}
-        path: |
-          "PBR Material Maker/bin/${{ matrix.configuration }}/net8.0-windows/"
-          "PBR Material Maker/bin/${{ matrix.configuration }}/net8.0-windows/**/*"
+        name: PBR-Material-Maker-Release
+        path: ${{ steps.package.outputs.zipfile }}
+
+    - name: Create GitHub Release
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: "pbr-material-maker-v3.6.452-${{ steps.build_date.outputs.date }}-${{ steps.short_sha.outputs.sha_short }}"
+        name: "PBR Material Maker v3.6.452 (Build ${{ steps.build_date.outputs.date }}, Commit ${{ steps.short_sha.outputs.sha_short }})"
+        body: |
+          Automated build of PBR Material Maker
+          
+          **Build Information:**
+          - Version: 3.6.452
+          - Target Framework: .NET 8.0 Windows
+          - Build Date: ${{ steps.build_date.outputs.date }}
+          - Commit: ${{ steps.short_sha.outputs.sha_short }}
+          
+          **Features:**
+          - PBR Material creation and editing
+          - GLTF export functionality
+          - Material property configuration
+          
+          Download the ZIP file and extract it to use the application.
+        files: ${{ steps.package.outputs.zipfile }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
