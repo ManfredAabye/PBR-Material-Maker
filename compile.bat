@@ -41,7 +41,7 @@ if /i "%BUILD_TYPE%"=="debug" (
     dotnet build PBR_Material_Maker.sln --configuration Debug
     if !ERRORLEVEL! EQU 0 (
         echo ✅ Debug-Build erfolgreich erstellt.
-        echo 📁 Ausgabe: .\PBR Material Maker\bin\Debug\net10.0-windows\
+        echo 📁 Ausgabe: .\PBR Material Maker\bin\Debug\net8.0-windows\
     ) else (
         echo ❌ Fehler beim Debug-Build.
         ::pause
@@ -53,7 +53,7 @@ if /i "%BUILD_TYPE%"=="debug" (
     dotnet build PBR_Material_Maker.sln --configuration Release
     if !ERRORLEVEL! EQU 0 (
         echo ✅ Release-Build erfolgreich erstellt.
-        echo 📁 Ausgabe: .\PBR Material Maker\bin\Release\net10.0-windows\
+        echo 📁 Ausgabe: .\PBR Material Maker\bin\Release\net8.0-windows\
     ) else (
         echo ❌ Fehler beim Release-Build.
         ::pause
@@ -84,8 +84,8 @@ if /i "%BUILD_TYPE%"=="debug" (
     
     echo.
     echo 🎉 Beide Builds erfolgreich erstellt!
-    echo 📁 Debug:   .\PBR Material Maker\bin\Debug\net10.0-windows\
-    echo 📁 Release: .\PBR Material Maker\bin\Release\net10.0-windows\
+    echo 📁 Debug:   .\PBR Material Maker\bin\Debug\net8.0-windows\
+    echo 📁 Release: .\PBR Material Maker\bin\Release\net8.0-windows\
     
 ) else (
     echo ❌ Unbekannter Parameter: %BUILD_TYPE%
@@ -103,13 +103,13 @@ echo Kompilierung abgeschlossen!
 REM Zeige Dateigrößen und Datum
 echo.
 echo === Build-Informationen ===
-if exist ".\PBR Material Maker\bin\Debug\net10.0-windows\PBR Material Maker.exe" (
-    for %%F in (".\PBR Material Maker\bin\Debug\net10.0-windows\PBR Material Maker.exe") do (
+if exist ".\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.exe" (
+    for %%F in (".\PBR Material Maker\bin\Debug\net8.0-windows\PBR Material Maker.exe") do (
         echo Debug:   %%~nxF - %%~zF Bytes - %%~tF
     )
 )
-if exist ".\PBR Material Maker\bin\Release\net10.0-windows\PBR Material Maker.exe" (
-    for %%F in (".\PBR Material Maker\bin\Release\net10.0-windows\PBR Material Maker.exe") do (
+if exist ".\PBR Material Maker\bin\Release\net8.0-windows\PBR Material Maker.exe" (
+    for %%F in (".\PBR Material Maker\bin\Release\net8.0-windows\PBR Material Maker.exe") do (
         echo Release: %%~nxF - %%~zF Bytes - %%~tF
     )
 )
