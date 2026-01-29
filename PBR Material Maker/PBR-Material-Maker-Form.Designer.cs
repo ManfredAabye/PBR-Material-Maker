@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
-using System; // <--- Diese Zeile hinzugefügt
+using System;
 
 namespace PBR_Material_Maker
 {
@@ -33,6 +33,11 @@ namespace PBR_Material_Maker
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            // Fenstersymbol oben Links setzen (nur .ico-Dateien sind erlaubt)
+            // Stelle sicher, dass die Datei "PBR-Material-Maker.ico" im Ausgabeverzeichnis liegt!
+            //this.Icon = new Icon("PBR-Material-Maker.ico");
+
+
             
             // Controls erstellen
             toolTip1 = new ToolTip(components);
@@ -66,6 +71,34 @@ namespace PBR_Material_Maker
             buttonGenerateMaps = new Button();
             buttonSave = new Button();
             buttonClear = new Button();
+            batchButtonGenerateMaps = new Button();
+            buttonBatchSave = new Button();
+
+            // Batch Buttons (Preview Panel)
+            batchButtonGenerateMaps.BackColor = Color.FromArgb(0, 150, 90);
+            batchButtonGenerateMaps.FlatStyle = FlatStyle.Flat;
+            batchButtonGenerateMaps.ForeColor = Color.White;
+            batchButtonGenerateMaps.Location = new Point(20, 650);
+            batchButtonGenerateMaps.Name = "batchButtonGenerateMaps";
+            batchButtonGenerateMaps.Size = new Size(320, 35);
+            batchButtonGenerateMaps.TabIndex = 9;
+            batchButtonGenerateMaps.Text = "&Batch: Generiere Fehlende Maps";
+            batchButtonGenerateMaps.UseVisualStyleBackColor = false;
+            toolTip1.SetToolTip(batchButtonGenerateMaps, "Batch automatisch fehlende Texturen generieren");
+            batchButtonGenerateMaps.Click += BatchButtonGenerateMaps_Click;
+
+            // Batch Save Button (Preview Panel)
+            buttonBatchSave.BackColor = Color.Blue;
+            buttonBatchSave.FlatStyle = FlatStyle.Flat;
+            buttonBatchSave.ForeColor = Color.White;
+            buttonBatchSave.Location = new Point(20, 700);
+            buttonBatchSave.Name = "buttonBatchSave";
+            buttonBatchSave.Size = new Size(155, 35);
+            buttonBatchSave.TabIndex = 10;
+            buttonBatchSave.Text = "&Batch: Batch Speichern...";
+            buttonBatchSave.UseVisualStyleBackColor = false;
+            buttonBatchSave.Click += ButtonBatchSave_Click;
+            toolTip1.SetToolTip(buttonBatchSave, "Batch Material speichern und GLTF erstellen");
             
             // Base Color Parameter Controls
             labelBaseColorParams = new Label();
@@ -185,7 +218,7 @@ namespace PBR_Material_Maker
             mainTableLayoutPanel.Name = "mainTableLayoutPanel";
             mainTableLayoutPanel.RowCount = 1;
             mainTableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            mainTableLayoutPanel.Size = new Size(1200, 900);
+            mainTableLayoutPanel.Size = new Size(1000, 900);
             mainTableLayoutPanel.TabIndex = 0;
 
             // 
@@ -973,6 +1006,7 @@ namespace PBR_Material_Maker
             buttonBaseColorTint.Click += ButtonBaseColorTint_Click;
             toolTip1.SetToolTip(buttonBaseColorTint, "Base Color Tint-Farbe auswählen");
 
+            // Emission Color Picker Button
             buttonEmissionColor.BackColor = Color.FromArgb(0, 120, 215);
             buttonEmissionColor.FlatStyle = FlatStyle.Flat;
             buttonEmissionColor.ForeColor = Color.White;
@@ -986,7 +1020,7 @@ namespace PBR_Material_Maker
             toolTip1.SetToolTip(buttonEmissionColor, "Emission-Farbe auswählen");
 
             // Generate Maps Button (in Preview Panel)
-            buttonGenerateMaps.BackColor = Color.FromArgb(0, 150, 90);
+            buttonGenerateMaps.BackColor = Color.LightSlateGray;
             buttonGenerateMaps.FlatStyle = FlatStyle.Flat;
             buttonGenerateMaps.ForeColor = Color.White;
             buttonGenerateMaps.Location = new Point(20, 500);
@@ -997,8 +1031,10 @@ namespace PBR_Material_Maker
             buttonGenerateMaps.UseVisualStyleBackColor = false;
             toolTip1.SetToolTip(buttonGenerateMaps, "Automatisch fehlende Texturen basierend auf vorhandenen Maps generieren");
 
+            
+
             // Buttons (in Preview Panel)
-            buttonSave.BackColor = Color.FromArgb(0, 120, 215);
+            buttonSave.BackColor = Color.Olive;
             buttonSave.FlatStyle = FlatStyle.Flat;
             buttonSave.ForeColor = Color.White;
             buttonSave.Location = new Point(20, 550);
@@ -1010,7 +1046,61 @@ namespace PBR_Material_Maker
             buttonSave.Click += ButtonSave_Click;
             toolTip1.SetToolTip(buttonSave, "Material speichern und GLTF erstellen");
 
-            buttonClear.BackColor = Color.FromArgb(196, 43, 28);
+
+            // Label Überschrift Batch Funktionen
+            labelBatchFunctions = new Label();
+            labelBatchFunctions.AutoSize = true;
+            labelBatchFunctions.ForeColor = Color.White;
+            labelBatchFunctions.Location = new Point(20, 600);
+            labelBatchFunctions.Name = "labelBatchFunctions";
+            labelBatchFunctions.Size = new Size(160, 20);
+            labelBatchFunctions.TabIndex = 8;
+            labelBatchFunctions.Text = "Batch Funktionen:";            
+
+            // Button Batch Save (erste Reihe links)
+            buttonBatchSave.BackColor = Color.DarkGreen;
+            buttonBatchSave.FlatStyle = FlatStyle.Flat;
+            buttonBatchSave.ForeColor = Color.White;
+            // buttonBatchSave.Location = new Point(20, 625);
+            buttonBatchSave.Location = new Point(20, 675);
+            buttonBatchSave.Name = "buttonBatchSave";
+            buttonBatchSave.Size = new Size(155, 35);
+            buttonBatchSave.TabIndex = 7;
+            buttonBatchSave.Text = "&Batch Speichern...";
+            buttonBatchSave.UseVisualStyleBackColor = false;
+            buttonBatchSave.Click += ButtonBatchSave_Click;
+            toolTip1.SetToolTip(buttonBatchSave, "Batch Material speichern und GLTF erstellen");
+
+            // Button batchButtonGenerateMaps (erste Reihe rechts)
+            batchButtonGenerateMaps.BackColor = Color.CadetBlue;
+            batchButtonGenerateMaps.FlatStyle = FlatStyle.Flat;
+            batchButtonGenerateMaps.ForeColor = Color.White;
+            batchButtonGenerateMaps.Location = new Point(185, 625);
+            batchButtonGenerateMaps.Name = "batchButtonGenerateMaps";
+            batchButtonGenerateMaps.Size = new Size(155, 35);
+            batchButtonGenerateMaps.TabIndex = 9;
+            batchButtonGenerateMaps.Text = "&Batch Generiere Maps";
+            batchButtonGenerateMaps.UseVisualStyleBackColor = false;
+            batchButtonGenerateMaps.Click += BatchButtonGenerateMaps_Click;
+            toolTip1.SetToolTip(batchButtonGenerateMaps, "Batch automatisch fehlende Texturen basierend auf vorhandenen Maps generieren");
+
+            // Button Batch Copy (zweite Reihe, zentriert)
+            buttonBatchCopy = new Button();
+            buttonBatchCopy.BackColor = Color.DarkBlue;
+            buttonBatchCopy.FlatStyle = FlatStyle.Flat;
+            buttonBatchCopy.ForeColor = Color.White;
+            //buttonBatchCopy.Location = new Point(20, 675);
+            buttonBatchCopy.Location = new Point(20, 625);
+            buttonBatchCopy.Name = "buttonBatchCopy";
+            buttonBatchCopy.Size = new Size(155, 35);
+            buttonBatchCopy.TabIndex = 10;
+            buttonBatchCopy.Text = "&Batch Copy";
+            buttonBatchCopy.UseVisualStyleBackColor = false;
+            buttonBatchCopy.Click += ButtonBatchCopy_Click;
+            toolTip1.SetToolTip(buttonBatchCopy, "Batchweise Kopieren von Texturen in ein Zielverzeichnis");
+
+            // Buttons Clear (in Preview Panel)
+            buttonClear.BackColor = Color.DarkRed;
             buttonClear.FlatStyle = FlatStyle.Flat;
             buttonClear.ForeColor = Color.White;
             buttonClear.Location = new Point(185, 550);
@@ -1031,6 +1121,10 @@ namespace PBR_Material_Maker
             panelPreview.Controls.Add(textBoxMaterialName);
             panelPreview.Controls.Add(buttonGenerateMaps);
             panelPreview.Controls.Add(buttonSave);
+            panelPreview.Controls.Add(labelBatchFunctions);
+            panelPreview.Controls.Add(buttonBatchSave);
+            panelPreview.Controls.Add(batchButtonGenerateMaps);
+            panelPreview.Controls.Add(buttonBatchCopy);
             panelPreview.Controls.Add(buttonClear);
             panelPreview.Dock = DockStyle.Fill;
             panelPreview.Padding = new Padding(20);
@@ -1060,7 +1154,7 @@ namespace PBR_Material_Maker
             panelFooter.ForeColor = SystemColors.ControlDark;
             panelFooter.Location = new Point(0, 900);
             panelFooter.Name = "panelFooter";
-            panelFooter.Size = new Size(1200, 40);
+            panelFooter.Size = new Size(1000, 40);
             panelFooter.TabIndex = 1;
 
             labelVersion.AutoSize = true;
@@ -1076,11 +1170,11 @@ namespace PBR_Material_Maker
             checkBoxKeepOntop.CheckState = CheckState.Checked;
             checkBoxKeepOntop.FlatStyle = FlatStyle.Flat;
             checkBoxKeepOntop.ForeColor = Color.White;
-            checkBoxKeepOntop.Location = new Point(1120, 8);
+            checkBoxKeepOntop.Location = new Point(450, 8);
             checkBoxKeepOntop.Name = "checkBoxKeepOntop";
-            checkBoxKeepOntop.Size = new Size(70, 25);
+            checkBoxKeepOntop.Size = new Size(90, 25);
             checkBoxKeepOntop.TabIndex = 1;
-            checkBoxKeepOntop.Text = "Pin";
+            checkBoxKeepOntop.Text = "Vordergrund";
             checkBoxKeepOntop.UseVisualStyleBackColor = true;
             checkBoxKeepOntop.CheckedChanged += CheckBoxKeepOntop_CheckedChanged;
 
@@ -1091,7 +1185,7 @@ namespace PBR_Material_Maker
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(40, 40, 40);
-            ClientSize = new Size(1200, 940);
+            ClientSize = new Size(1000, 940);
             Controls.Add(mainTableLayoutPanel);
             Controls.Add(panelFooter);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -1228,6 +1322,9 @@ namespace PBR_Material_Maker
         private System.Windows.Forms.PictureBox pictureBoxEmission;
         private System.Windows.Forms.Button buttonGenerateMaps;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button batchButtonGenerateMaps;
+        private System.Windows.Forms.Button buttonBatchCopy;
+        private System.Windows.Forms.Button buttonBatchSave;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Panel panelFooter;
         private System.Windows.Forms.Label labelVersion;
@@ -1238,6 +1335,7 @@ namespace PBR_Material_Maker
         private System.Windows.Forms.ComboBox comboBoxMaterialSelect;
         private System.Windows.Forms.ComboBox comboBoxResolution;
         private System.Windows.Forms.PictureBox pictureBoxPBRPreview;
+        private System.Windows.Forms.Label labelBatchFunctions;
 
         private int GetNearestSmallerSquareSize(int width, int height)
         {
