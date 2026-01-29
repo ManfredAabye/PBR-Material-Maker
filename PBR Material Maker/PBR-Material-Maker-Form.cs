@@ -297,6 +297,26 @@ namespace PBR_Material_Maker
             buttonSave.Enabled = pictureBoxBaseColor.ImageLocation != null;
         }
 
+        // Erstellt eine ORM-Map (R=Occlusion, G=Roughness, B=Metallic)
+        private Bitmap GenerateORMMap(Bitmap occ, Bitmap rough, Bitmap metal)
+        {
+            int width = occ.Width;
+            int height = occ.Height;
+            Bitmap orm = new Bitmap(width, height);
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    Color cOcc = occ.GetPixel(x, y);
+                    Color cRough = rough.GetPixel(x, y);
+                    Color cMetal = metal.GetPixel(x, y);
+                    Color cORM = Color.FromArgb(cOcc.R, cRough.R, cMetal.R);
+                    orm.SetPixel(x, y, cORM);
+                }
+            }
+            return orm;
+        }
+
         private void Autofill_from_color(string mat_name, string dir, string extension)
         {
             // Suche alle Dateien mit der gewünschten Extension im Verzeichnis
@@ -349,10 +369,33 @@ namespace PBR_Material_Maker
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_emission)) { pictureBoxEmission.ImageLocation = file; continue; }
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_alpha)) { pictureBoxAlpha.ImageLocation = file; continue; }
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_height)) { /* Hier können Sie z.B. ein PictureBox für Height/Displacement zuweisen */ continue; }
-            }
+                // Kann man hier ORM Integrieren?
+            }            
             
+            // ORM-Map erzeugen, wenn alle Maps vorhanden sind
+            if (pictureBoxOcclusion.ImageLocation != null && pictureBoxRoughness.ImageLocation != null && pictureBoxMetallic.ImageLocation != null)
+            {
+                try
+                {
+                    using (Bitmap occ = new Bitmap(pictureBoxOcclusion.ImageLocation))
+                    using (Bitmap rough = new Bitmap(pictureBoxRoughness.ImageLocation))
+                    using (Bitmap metal = new Bitmap(pictureBoxMetallic.ImageLocation))
+                    {
+                        Bitmap orm = GenerateORMMap(occ, rough, metal);
+                        string ormPath = Path.Combine(dir, mat_name + "_orm.png");
+                        orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                        orm.Dispose();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Fehler beim Erzeugen der ORM-Map: " + ex.Message);
+                }
+            }
+
             // PBR-Vorschau nach Autofill aktualisieren
             UpdatePBRPreview();
+
         }
 
         private bool EndsWithAnyCaseInsensitive(string text, string[] endings)
@@ -512,7 +555,8 @@ namespace PBR_Material_Maker
                 colResized = ResizeImage(col, resizeX, resizeY);
             }
 
-            // Speichern
+
+            // Speichern der Einzelmaps
             nrmResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_nrm.png"), System.Drawing.Imaging.ImageFormat.Png);
             bOcclusionResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_occ.png"), System.Drawing.Imaging.ImageFormat.Png);
             bRoughnessResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_rough.png"), System.Drawing.Imaging.ImageFormat.Png);
@@ -520,6 +564,22 @@ namespace PBR_Material_Maker
             emissionResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_emission.png"), System.Drawing.Imaging.ImageFormat.Png);
             alphaResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_alpha.png"), System.Drawing.Imaging.ImageFormat.Png);
             colResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_col.png"), System.Drawing.Imaging.ImageFormat.Png);
+
+            // ORM-Map erzeugen und speichern, wenn alle Maps vorhanden sind
+            try
+            {
+                if (bOcclusionResized != null && bRoughnessResized != null && bMetallicResized != null)
+                {
+                    Bitmap orm = GenerateORMMap(bOcclusionResized, bRoughnessResized, bMetallicResized);
+                    string ormPath = Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_orm.png");
+                    orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                    orm.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler beim Erzeugen der ORM-Map (ButtonSave_Click): " + ex.Message);
+            }
 
             // Dispose der ggf. neu erzeugten Bitmaps
             if (resize)
@@ -828,7 +888,8 @@ namespace PBR_Material_Maker
                     colResized = ResizeImage(col, resizeX, resizeY);
                 }
 
-                // Speichern
+
+                // Speichern der Einzelmaps
                 nrmResized.Save(Path.Combine(gltf_output_dir, matName + "_nrm.png"), System.Drawing.Imaging.ImageFormat.Png);
                 bOcclusionResized.Save(Path.Combine(gltf_output_dir, matName + "_occ.png"), System.Drawing.Imaging.ImageFormat.Png);
                 bRoughnessResized.Save(Path.Combine(gltf_output_dir, matName + "_rough.png"), System.Drawing.Imaging.ImageFormat.Png);
@@ -836,6 +897,22 @@ namespace PBR_Material_Maker
                 emissionResized.Save(Path.Combine(gltf_output_dir, matName + "_emission.png"), System.Drawing.Imaging.ImageFormat.Png);
                 alphaResized.Save(Path.Combine(gltf_output_dir, matName + "_alpha.png"), System.Drawing.Imaging.ImageFormat.Png);
                 colResized.Save(Path.Combine(gltf_output_dir, matName + "_col.png"), System.Drawing.Imaging.ImageFormat.Png);
+
+                // ORM-Map erzeugen und speichern, wenn alle Maps vorhanden sind
+                try
+                {
+                    if (bOcclusionResized != null && bRoughnessResized != null && bMetallicResized != null)
+                    {
+                        Bitmap orm = GenerateORMMap(bOcclusionResized, bRoughnessResized, bMetallicResized);
+                        string ormPath = Path.Combine(gltf_output_dir, matName + "_orm.png");
+                        orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                        orm.Dispose();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Fehler beim Erzeugen der ORM-Map (BatchSave, {matName}): " + ex.Message);
+                }
 
                 if (resize)
                 {
@@ -1706,7 +1783,53 @@ namespace PBR_Material_Maker
                         }
                     }
                 }
+                // ORM-Map generieren, wenn occ, rough, metal vorhanden
+                try
+                {
+                    string occPath = Path.Combine(dir, matName + "_occ.png");
+                    string roughPath = Path.Combine(dir, matName + "_rough.png");
+                    string metalPath = Path.Combine(dir, matName + "_metal.png");
+                    string ormPath = Path.Combine(dir, matName + "_orm.png");
+                    if (File.Exists(occPath) && File.Exists(roughPath) && File.Exists(metalPath) && !File.Exists(ormPath))
+                    {
+                        using (var occ = new Bitmap(occPath))
+                        using (var rough = new Bitmap(roughPath))
+                        using (var metal = new Bitmap(metalPath))
+                        {
+                            Bitmap orm = GenerateORMMap(occ, rough, metal);
+                            orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                            orm.Dispose();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Fehler beim Generieren der ORM-Map für {matName}: {ex.Message}");
+                }
                 baseTexture.Dispose();
+                // ORM-Map generieren, wenn occ, rough, metal vorhanden
+                try
+                {
+                    string occPath = Path.Combine(dir, matName + "_occ.png");
+                    string roughPath = Path.Combine(dir, matName + "_rough.png");
+                    string metalPath = Path.Combine(dir, matName + "_metal.png");
+                    string ormPath = Path.Combine(dir, matName + "_orm.png");
+                    if (File.Exists(occPath) && File.Exists(roughPath) && File.Exists(metalPath) && !File.Exists(ormPath))
+                    {
+                        using (var occ = new Bitmap(occPath))
+                        using (var rough = new Bitmap(roughPath))
+                        using (var metal = new Bitmap(metalPath))
+                        {
+                            Bitmap orm = GenerateORMMap(occ, rough, metal);
+                            orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                            orm.Dispose();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Fehler beim Generieren der ORM-Map für {matName}: {ex.Message}");
+                }
             }
 
             MessageBox.Show("Batch-Generierung der fehlenden Maps abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
