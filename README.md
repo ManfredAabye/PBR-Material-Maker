@@ -4,6 +4,8 @@
 **Target:** .NET 10 (Windows Forms & WPF)  
 **Plattform:** Windows 7.0 und neuer
 
+<img src="https://raw.githubusercontent.com/ManfredAabye/PBR-Material-Maker/refs/heads/main/PBR-Material-Maker.png" alt="Project Badge" width="800">
+
 ## Beschreibung
 
 GLTF Packer ist ein Tool zum Packen von Texturen und Erstellen von GLTF-Dateien für PBR-Materialien.  
@@ -122,4 +124,5 @@ Nach dem Speichern der Änderungen die Anwendung neu starten, damit die neuen Ei
 Dieses Projekt steht unter der MIT-Lizenz.
 
 ---
+
 
