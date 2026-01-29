@@ -23,7 +23,7 @@ Tipp: Testen Sie, wie viele Materialien sich gleichzeitig hochladen lassen – b
 - Bildgrößenanpassung (Resize) mit verschiedenen Auflösungen
 - Export als GLTF 2.0 mit korrekten Texturpfaden
 - Emission, Alpha und weitere Spezialmaps werden unterstützt
-- Kompatibel mit SecondLife und anderen Plattformen
+- Kompatibel mit OpenSim, SecondLife und anderen Plattformen
 
 ## Systemvoraussetzungen
 
@@ -33,8 +33,8 @@ Tipp: Testen Sie, wie viele Materialien sich gleichzeitig hochladen lassen – b
 
 ## Installation
 
-1. Repository herunterladen oder Release aus den GitHub-Releases beziehen.
-2. Die Datei `GLTF Packer.exe` ausführen.
+1. Release herunterladen und entpacken.
+2. Die Datei `PBR Material Maker.exe` ausführen.
 
 ## Nutzung
 
@@ -129,6 +129,7 @@ Nach dem Speichern der Änderungen die Anwendung neu starten, damit die neuen Ei
 Dieses Projekt steht unter der MIT-Lizenz.
 
 ---
+
 
 
 
