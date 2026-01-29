@@ -214,6 +214,18 @@ namespace PBR_Material_Maker
             InitializeTrackBarEventHandlers();
         }
 
+        // Robustere Variante: Bindestrich/Unterstrich tolerant, Trimmen
+        private bool EndsWithAnyCaseInsensitiveFlexible(string text, string[] endings)
+        {
+            string normText = text.ToLower().Replace("-", "_").Trim('_', ' ');
+            foreach (var ending in endings)
+            {
+                string normEnding = ending.ToLower().Replace("-", "_").Trim('_', ' ');
+                if (normText.EndsWith(normEnding)) return true;
+            }
+            return false;
+        }
+
         private static void AllowAllPictureBoxDragDrop(IEnumerable controlCollection)
         {
             foreach (var control in controlCollection)
@@ -287,7 +299,8 @@ namespace PBR_Material_Maker
 
         private void Autofill_from_color(string mat_name, string dir, string extension)
         {
-            string search_pattern = mat_name + "*" + extension;
+            // Suche alle Dateien mit der gewünschten Extension im Verzeichnis
+            string search_pattern = "*" + extension;
             string[] files = Directory.GetFiles(dir, search_pattern);
 
             // Standard-Endungen aus verschiedenen Engines inkl. Ergänzungen
@@ -300,7 +313,7 @@ namespace PBR_Material_Maker
             string[] ext_occlusion = new string[] {
                 "_ambient", "_occlusion", "_ao", "_ambientocclusion", "_Occ", "_Occlusion", "_AO", "_aoTex", "_aoTexture",
                 "_ambient_occlusion", "_occlusionmap", "_occlusion_map",
-                "_1K-JPG_AmbientOcclusion", "_2K-JPG_AmbientOcclusion", "_1K-PNG_AmbientOcclusion", "_2K-PNG_AmbientOcclusion"
+                "_1K-JPG_AmbientOcclusion", "_2K-JPG_AmbientOcclusion", "_1K-PNG_AmbientOcclusion", "_2K-PNG_AmbientOcclusion", "_AmbientOcclusion"
             };
             string[] ext_metallic = new string[] {
                 "_metallic", "_metalness", "_mtl", "_metal", "_Metal", "_Metallic", "_metalTex", "_metalTexture",
@@ -329,13 +342,13 @@ namespace PBR_Material_Maker
 
             foreach (string file in files)
             {
-                if (EndsWithAnyCaseInsensitive(Path.GetFileNameWithoutExtension(file), ext_normals)) { pictureBoxNormal.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitive(Path.GetFileNameWithoutExtension(file), ext_occlusion)) { pictureBoxOcclusion.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitive(Path.GetFileNameWithoutExtension(file), ext_metallic)) { pictureBoxMetallic.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitive(Path.GetFileNameWithoutExtension(file), ext_roughness)) { pictureBoxRoughness.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitive(Path.GetFileNameWithoutExtension(file), ext_emission)) { pictureBoxEmission.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitive(Path.GetFileNameWithoutExtension(file), ext_alpha)) { pictureBoxAlpha.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitive(Path.GetFileNameWithoutExtension(file), ext_height)) { /* Hier können Sie z.B. ein PictureBox für Height/Displacement zuweisen */ continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_normals)) { pictureBoxNormal.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_occlusion)) { pictureBoxOcclusion.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_metallic)) { pictureBoxMetallic.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_roughness)) { pictureBoxRoughness.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_emission)) { pictureBoxEmission.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_alpha)) { pictureBoxAlpha.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_height)) { /* Hier können Sie z.B. ein PictureBox für Height/Displacement zuweisen */ continue; }
             }
             
             // PBR-Vorschau nach Autofill aktualisieren
