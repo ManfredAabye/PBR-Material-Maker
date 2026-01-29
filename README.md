@@ -1,6 +1,7 @@
-﻿# GLTF Packer
+﻿# PBR Material Maker
+ PBR Material Maker basiert auf dem GLTF Packer 2.2.64 von Ai (extrude.ragu) der stark erweitert wurde.
 
-**Version:** 2.2.64  
+**Version:** 3.7.575.0 
 **Target:** .NET 10 (Windows Forms & WPF)  
 **Plattform:** Windows 7.0 und neuer
 
@@ -8,8 +9,11 @@
 
 ## Beschreibung
 
-GLTF Packer ist ein Tool zum Packen von Texturen und Erstellen von GLTF-Dateien für PBR-Materialien.  
-Es unterstützt das Laden, Bearbeiten und Exportieren von Texturen wie Base Color, Occlusion, Roughness, Metallic, Normal, Emission und Alpha.
+PBR Material Maker ist ein Tool zum Packen und Erstellen von GLTF-Dateien für PBR-Materialien. <br>
+Es unterstützt das Laden, Bearbeiten und Exportieren von Texturen wie Base Color, Occlusion, Roughness, Metallic, Normal, Emission und Alpha.  <br>
+Neu ist die Batch-Funktion: Ganze Verzeichnisse (auch mit Unterordnern) können in ein Zielverzeichnis ohne Unterverzeichnisse kopiert werden.  <br>
+Anschließend lassen sich fehlende Material-Maps automatisch generieren. Zum Schluss können alle Materialien als SL- und OpenSim-kompatible Materialien exportiert und direkt hochgeladen werden.  <br>
+Tipp: Testen Sie, wie viele Materialien sich gleichzeitig hochladen lassen – bei mir sind es etwa 10. <br>
 
 ## Features
 
@@ -124,5 +128,6 @@ Nach dem Speichern der Änderungen die Anwendung neu starten, damit die neuen Ei
 Dieses Projekt steht unter der MIT-Lizenz.
 
 ---
+
 
 
