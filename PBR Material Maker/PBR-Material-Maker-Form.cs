@@ -25,8 +25,9 @@ namespace PBR_Material_Maker
         private dynamic materialConfig;
         private TextBox textBoxMaterialName;
 
+        #region Konstruktor & Initialisierung
         public MainForm()
-        {
+        {          
             InitializeComponent();
             TopMost = true; // Fenster immer im Vordergrund
 
@@ -98,97 +99,138 @@ namespace PBR_Material_Maker
             }
 
             // ToolTips für alle relevanten Controls setzen
+            toolTip1.SetToolTip(labelORM_AORadius,
+                GetTooltip(
+                    "AO radius/strength for ORM map. Affects shadow softness.",
+                    "Radius/Stärke der AO für die ORM-Map. Beeinflusst die Weichheit der Schatten.",
+                    "Rayon/force AO pour la carte ORM. Influence la douceur des ombres.",
+                    "Radio/intensidad AO para el mapa ORM. Afecta la suavidad de las sombras."));
+            toolTip1.SetToolTip(trackBarORM_AORadius,
+                GetTooltip(
+                    "AO radius/strength for ORM map. 0 = soft, 1 = hard.",
+                    "Radius/Stärke der AO für die ORM-Map. 0 = weich, 1 = hart.",
+                    "Rayon/force AO pour la carte ORM. 0 = doux, 1 = dur.",
+                    "Radio/intensidad AO para el mapa ORM. 0 = suave, 1 = duro."));
+            toolTip1.SetToolTip(textBoxORM_AORadius,
+                GetTooltip(
+                    "Numeric value for AO radius/strength (0.0 - 1.0).",
+                    "Numerischer Wert für AO-Radius/Stärke (0.0 - 1.0).",
+                    "Valeur numérique pour le rayon/la force AO (0.0 - 1.0).",
+                    "Valor numérico para radio/intensidad AO (0.0 - 1.0)."));
+            toolTip1.SetToolTip(labelORM_AOContrast,
+                GetTooltip(
+                    "AO contrast for ORM map. 1 = standard, >1 = harder, <1 = softer.",
+                    "Kontrast der AO für die ORM-Map. 1 = Standard, >1 = härter, <1 = weicher.",
+                    "Contraste AO pour la carte ORM. 1 = standard, >1 = plus dur, <1 = plus doux.",
+                    "Contraste AO para el mapa ORM. 1 = estándar, >1 = más duro, <1 = más suave."));
+            toolTip1.SetToolTip(trackBarORM_AOContrast,
+                GetTooltip(
+                    "AO contrast for ORM map. 0 = very soft, 2 = very hard.",
+                    "Kontrast der AO für die ORM-Map. 0 = sehr weich, 2 = sehr hart.",
+                    "Contraste AO pour la carte ORM. 0 = très doux, 2 = très dur.",
+                    "Contraste AO para el mapa ORM. 0 = muy suave, 2 = muy duro."));
+            toolTip1.SetToolTip(textBoxORM_AOContrast,
+                GetTooltip(
+                    "Numeric value for AO contrast (0.0 - 2.0).",
+                    "Numerischer Wert für AO-Kontrast (0.0 - 2.0).",
+                    "Valeur numérique pour le contraste AO (0.0 - 2.0).",
+                    "Valor numérico para contraste AO (0.0 - 2.0)."));
+            toolTip1.SetToolTip(labelORM_Blend,
+                GetTooltip(
+                    "Blending between AO and roughness for ORM map.",
+                    "Blending zwischen AO und Roughness für die ORM-Map.",
+                    "Fusion entre AO et rugosité pour la carte ORM.",
+                    "Mezcla entre AO y rugosidad para el mapa ORM."));
+            toolTip1.SetToolTip(trackBarORM_Blend,
+                GetTooltip(
+                    "Blending between AO and roughness. 0 = only AO, 1 = only roughness.",
+                    "Blending zwischen AO und Roughness. 0 = nur AO, 1 = nur Roughness.",
+                    "Fusion entre AO et rugosité. 0 = seulement AO, 1 = seulement rugosité.",
+                    "Mezcla entre AO y rugosidad. 0 = solo AO, 1 = solo rugosidad."));
+            toolTip1.SetToolTip(textBoxORM_Blend,
+                GetTooltip(
+                    "Numeric value for blending (0.0 - 1.0).",
+                    "Numerischer Wert für Blending (0.0 - 1.0).",
+                    "Valeur numérique pour la fusion (0.0 - 1.0).",
+                    "Valor numérico para mezcla (0.0 - 1.0)."));
             toolTip1.SetToolTip(comboBoxMaterialSelect,
                 GetTooltip(
                     "Select a material preset.",
                     "Wähle ein Material-Preset aus.",
                     "Sélectionnez un préréglage de matériau.",
                     "Selecciona un preajuste de material."));
-
             toolTip1.SetToolTip(textBoxMaterialName,
                 GetTooltip(
                     "Material name for textures and GLTF file.",
                     "Materialname für die Texturen und GLTF-Datei.",
                     "Nom du matériau pour les textures et le fichier GLTF.",
                     "Nombre del material para las texturas y el archivo GLTF."));
-
             toolTip1.SetToolTip(comboBoxResolution,
                 GetTooltip(
                     "Select the target resolution for textures.",
                     "Wähle die Zielauflösung für die Texturen.",
                     "Sélectionnez la résolution cible pour les textures.",
                     "Selecciona la resolución objetivo para las texturas."));
-
             toolTip1.SetToolTip(buttonSave,
                 GetTooltip(
                     "Packs images and creates a GLTF file.",
                     "Packt Bilder und erstellt eine GLTF-Datei.",
                     "Emballe les images et crée un fichier GLTF.",
                     "Empaqueta imágenes y crea un archivo GLTF."));
-
             toolTip1.SetToolTip(buttonClear,
                 GetTooltip(
                     "Clear all images.",
                     "Alle Bilder löschen.",
                     "Effacer toutes les images.",
                     "Borrar todas las imágenes."));
-
             toolTip1.SetToolTip(pictureBoxBaseColor,
                 GetTooltip(
                     "The RGB data of base color. Any alpha in this image will be stripped.",
                     "Die RGB-Daten der Basisfarbe. Jegliches Alpha in diesem Bild wird entfernt.",
                     "Les données RVB de la couleur de base. Toute transparence sera supprimée.",
                     "Los datos RGB del color base. Cualquier canal alfa será eliminado."));
-
             toolTip1.SetToolTip(pictureBoxAlpha,
                 GetTooltip(
                     "Alpha data will be packed into base color. Pass a greyscale image. Alpha will be extracted from the red channel. Leave blank for no alpha channel.",
                     "Alphadaten werden in die Basisfarbe gepackt. Übergeben Sie ein Graustufenbild. Alpha wird aus dem Rotkanal extrahiert. Leer lassen für keinen Alphakanal.",
                     "Les données alpha seront intégrées à la couleur de base. Utilisez une image en niveaux de gris. L'alpha sera extrait du canal rouge. Laissez vide pour aucun canal alpha.",
                     "Los datos alfa se empaquetarán en el color base. Usa una imagen en escala de grises. El alfa se extraerá del canal rojo. Déjalo vacío para no tener canal alfa."));
-
             toolTip1.SetToolTip(pictureBoxOcclusion,
                 GetTooltip(
                     "Occlusion data for ORM map. Can be left blank.",
                     "Okklusionsdaten für die ORM-Karte. Kann leer gelassen werden.",
                     "Données d'occlusion pour la carte ORM. Peut être laissé vide.",
                     "Datos de oclusión para el mapa ORM. Puede dejarse en blanco."));
-
             toolTip1.SetToolTip(pictureBoxRoughness,
                 GetTooltip(
                     "Roughness data for ORM map. Can be left blank.",
                     "Rauheitsdaten für die ORM-Karte. Kann leer gelassen werden.",
                     "Données de rugosité pour la carte ORM. Peut être laissé vide.",
                     "Datos de rugosidad para el mapa ORM. Puede dejarse en blanco."));
-
             toolTip1.SetToolTip(pictureBoxMetallic,
                 GetTooltip(
                     "Metalness data for ORM map. Can be left blank.",
                     "Metallizitätsdaten für die ORM-Karte. Kann leer gelassen werden.",
                     "Données de métallicité pour la carte ORM. Peut être laissé vide.",
                     "Datos de metalicidad para el mapa ORM. Puede dejarse en blanco."));
-
             toolTip1.SetToolTip(pictureBoxNormal,
                 GetTooltip(
                     "Normal map. Can be left blank.",
                     "Normalenkarte. Kann leer gelassen werden.",
                     "Carte des normales. Peut être laissé vide.",
                     "Mapa de normales. Puede dejarse en blanco."));
-
             toolTip1.SetToolTip(pictureBoxEmission,
                 GetTooltip(
                     "Emission map. Can be left blank.",
                     "Emissionskarte. Kann leer gelassen werden.",
                     "Carte d'émission. Peut être laissé vide.",
                     "Mapa de emisión. Puede dejarse en blanco."));
-
             toolTip1.SetToolTip(checkBoxKeepOntop,
                 GetTooltip(
                     "Keep window on top.",
                     "Fenster immer im Vordergrund halten.",
                     "Garder la fenêtre au-dessus.",
                     "Mantener la ventana siempre encima."));
-
             toolTip1.SetToolTip(labelVersion,
                 GetTooltip(
                     $"Programmversion: {appVersion.Major}.{appVersion.Minor}.{appVersion.Build}",
@@ -214,18 +256,9 @@ namespace PBR_Material_Maker
             InitializeTrackBarEventHandlers();
         }
 
-        // Robustere Variante: Bindestrich/Unterstrich tolerant, Trimmen
-        private bool EndsWithAnyCaseInsensitiveFlexible(string text, string[] endings)
-        {
-            string normText = text.ToLower().Replace("-", "_").Trim('_', ' ');
-            foreach (var ending in endings)
-            {
-                string normEnding = ending.ToLower().Replace("-", "_").Trim('_', ' ');
-                if (normText.EndsWith(normEnding)) return true;
-            }
-            return false;
-        }
-
+        /// <summary>
+        /// Recursively allow drag and drop on all PictureBox controls within the given control collection.
+        /// </summary>
         private static void AllowAllPictureBoxDragDrop(IEnumerable controlCollection)
         {
             foreach (var control in controlCollection)
@@ -242,181 +275,18 @@ namespace PBR_Material_Maker
         }
 
         /// <summary>
-        /// When the user is dragging a file or folder over any picturebox.
+        /// Event handler for the Keep On Top checkbox.
+        /// Toggles the TopMost property of the form.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PictureBoxDragEnter(object sender, DragEventArgs e)
+        private void CheckBoxKeepOntop_CheckedChanged(object sender, EventArgs e)
         {
-            try
-            {
-                Debug.WriteLine("DragEnter");
-                Array data = e.Data.GetData("FileDrop") as Array;
-                dropFilename = ((string[])data)[0];
-
-                string ext = Path.GetExtension(dropFilename).ToLower();
-                if ((ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".bmp") || (ext == ".tif") || (ext == ".tiff") || (ext == ".tga") || (ext == ".exr") || (ext == ".hdr"))
-                {
-                    e.Effect = DragDropEffects.Copy;
-                    dropValid = true;
-                    return;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Exception during drag enter: " + ex.ToString());
-            }
-            e.Effect = DragDropEffects.None;
-            dropValid = false;
+            TopMost = checkBoxKeepOntop.Checked;
         }
 
-        private void PictureBoxDragDrop(object sender, DragEventArgs e)
-        {
-            if (dropValid)
-            {
-                ((PictureBox)sender).ImageLocation = dropFilename;
-                if (sender == pictureBoxBaseColor)
-                {
-                    string fileName = Path.GetFileNameWithoutExtension(dropFilename);
-                    string[] ext_base_col = new string[] { "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor" };
-                    int i = ext_base_col.Length;
-                    while (i-- > 0)
-                    {
-                        if (fileName.ToLower().EndsWith(ext_base_col[i]))
-                        {
-                            fileName = fileName.Substring(0, fileName.Length - ext_base_col[i].Length);
-                        }
-                    }
-                    textBoxMaterialName.Text = fileName;
-                    Autofill_from_color(textBoxMaterialName.Text, Path.GetDirectoryName(dropFilename), Path.GetExtension(dropFilename).ToLower());
-                }
-                
-                // PBR-Vorschau aktualisieren
-                UpdatePBRPreview();
-            }
-            buttonSave.Enabled = pictureBoxBaseColor.ImageLocation != null;
-        }
-
-        // Erstellt eine ORM-Map (R=Occlusion, G=Roughness, B=Metallic)
-        private Bitmap GenerateORMMap(Bitmap occ, Bitmap rough, Bitmap metal)
-        {
-            int width = occ.Width;
-            int height = occ.Height;
-            Bitmap orm = new Bitmap(width, height);
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    Color cOcc = occ.GetPixel(x, y);
-                    Color cRough = rough.GetPixel(x, y);
-                    Color cMetal = metal.GetPixel(x, y);
-                    Color cORM = Color.FromArgb(cOcc.R, cRough.R, cMetal.R);
-                    orm.SetPixel(x, y, cORM);
-                }
-            }
-            return orm;
-        }
-
-        private void Autofill_from_color(string mat_name, string dir, string extension)
-        {
-            // Suche alle Dateien mit der gewünschten Extension im Verzeichnis
-            string search_pattern = "*" + extension;
-            string[] files = Directory.GetFiles(dir, search_pattern);
-
-            // Standard-Endungen aus verschiedenen Engines inkl. Ergänzungen
-            string[] ext_normals = new string[] {
-                "_normal", "_norm", "_nrml", "_nrm", "_nor", "_n", "_normalmap", "_nm",
-                "_Normals", "_NormalMap", "_nor", "_normals", "_normal_map", "_nmap", "_nml", "_nmlmap",
-                "_nrmTex", "_nrmTexture", "_normal-ogl",
-                "_1K-JPG_NormalGL", "_2K-JPG_NormalGL", "_1K-PNG_NormalGL", "_2K-PNG_NormalGL"
-            };
-            string[] ext_occlusion = new string[] {
-                "_ambient", "_occlusion", "_ao", "_ambientocclusion", "_Occ", "_Occlusion", "_AO", "_aoTex", "_aoTexture",
-                "_ambient_occlusion", "_occlusionmap", "_occlusion_map",
-                "_1K-JPG_AmbientOcclusion", "_2K-JPG_AmbientOcclusion", "_1K-PNG_AmbientOcclusion", "_2K-PNG_AmbientOcclusion", "_AmbientOcclusion"
-            };
-            string[] ext_metallic = new string[] {
-                "_metallic", "_metalness", "_mtl", "_metal", "_Metal", "_Metallic", "_metalTex", "_metalTexture",
-                "_metal_map", "_metallicmap", "_metallic_map",
-                "_1K-JPG_Metallic", "_2K-JPG_Metallic", "_1K-PNG_Metallic", "_2K-PNG_Metallic"
-            };
-            string[] ext_roughness = new string[] {
-                "_roughness", "_rough", "_roug", "_rgh", "_Rough", "_Roughness", "_roughTex", "_roughTexture",
-                "_rough_map", "_roughnessmap", "_roughness_map",
-                "_1K-JPG_Roughness", "_2K-JPG_Roughness", "_1K-PNG_Roughness", "_2K-PNG_Roughness"
-            };
-            string[] ext_emission = new string[] {
-                "_emission", "_emiss", "_emit", "_Emissive", "_Emiss", "_emissiveTex", "_emissiveTexture",
-                "_emissive_map", "_emissionmap", "_emission_map", "_Glow", "_glow", "_illum", "_illumination",
-                "_1K-JPG_Emission", "_2K-JPG_Emission", "_1K-PNG_Emission", "_2K-PNG_Emission"
-            };
-            string[] ext_alpha = new string[] {
-                "_alpha", "_transparency", "_Opacity", "_opacity", "_mask", "_Mask", "_transTex", "_transTexture",
-                "_alpha_map", "_alphamap", "_alphaMap",
-                "_1K-JPG_Alpha", "_2K-JPG_Alpha", "_1K-PNG_Alpha", "_2K-PNG_Alpha"
-            };
-            string[] ext_height = new string[] {
-                "_height", "_Height", "_disp", "_displacement", "_bump", "_bumpmap",
-                "_1K-JPG_Opacity", "_2K-JPG_Opacity", "_1K-PNG_Opacity", "_2K-PNG_Opacity"
-            };
-
-            foreach (string file in files)
-            {
-                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_normals)) { pictureBoxNormal.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_occlusion)) { pictureBoxOcclusion.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_metallic)) { pictureBoxMetallic.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_roughness)) { pictureBoxRoughness.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_emission)) { pictureBoxEmission.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_alpha)) { pictureBoxAlpha.ImageLocation = file; continue; }
-                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_height)) { /* Hier können Sie z.B. ein PictureBox für Height/Displacement zuweisen */ continue; }
-                // Kann man hier ORM Integrieren?
-            }            
-            
-            // ORM-Map erzeugen, wenn alle Maps vorhanden sind
-            if (pictureBoxOcclusion.ImageLocation != null && pictureBoxRoughness.ImageLocation != null && pictureBoxMetallic.ImageLocation != null)
-            {
-                try
-                {
-                    using (Bitmap occ = new Bitmap(pictureBoxOcclusion.ImageLocation))
-                    using (Bitmap rough = new Bitmap(pictureBoxRoughness.ImageLocation))
-                    using (Bitmap metal = new Bitmap(pictureBoxMetallic.ImageLocation))
-                    {
-                        Bitmap orm = GenerateORMMap(occ, rough, metal);
-                        string ormPath = Path.Combine(dir, mat_name + "_orm.png");
-                        orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
-                        orm.Dispose();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine("Fehler beim Erzeugen der ORM-Map: " + ex.Message);
-                }
-            }
-
-            // PBR-Vorschau nach Autofill aktualisieren
-            UpdatePBRPreview();
-
-        }
-
-        private bool EndsWithAnyCaseInsensitive(string text, string[] endings)
-        {
-            text = text.ToLower();
-            foreach (var ending in endings)
-            {
-                if (text.EndsWith(ending.ToLower())) return true;
-            }
-            return false;
-        }
-
-        private void ButtonClear_Click(object sender, EventArgs e)
-        {
-            ClearAllPictureBoxes(this.Controls);
-            buttonSave.Enabled = pictureBoxBaseColor.ImageLocation != null;
-            
-            // PBR-Vorschau nach Clear aktualisieren
-            UpdatePBRPreview();
-        }
-
+        /// <summary>
+        /// Recursively clears all PictureBox controls within the given control collection.
+        /// Disposes of any images to free resources.
+        /// </summary>
         private void ClearAllPictureBoxes(Control.ControlCollection controls)
         {
             foreach (Control control in controls)
@@ -438,13 +308,53 @@ namespace PBR_Material_Maker
             }
         }
 
+        /// <summary>
+        /// Checks if the given text ends with any of the specified endings, ignoring case and certain character differences.
+        /// </summary>
+        private bool EndsWithAnyCaseInsensitiveFlexible(string text, string[] endings)
+        {
+            string normText = text.ToLower().Replace("-", "_").Trim('_', ' ');
+            foreach (var ending in endings)
+            {
+                string normEnding = ending.ToLower().Replace("-", "_").Trim('_', ' ');
+                if (normText.EndsWith(normEnding)) return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks if the given text ends with any of the specified endings, ignoring case.
+        /// </summary>
+        private bool EndsWithAnyCaseInsensitive(string text, string[] endings)
+        {
+            text = text.ToLower();
+            foreach (var ending in endings)
+            {
+                if (text.EndsWith(ending.ToLower())) return true;
+            }
+            return false;
+        }
+
+        // Konstruktor & Initialisierung ende
+        #endregion Konstruktor & Initialisierung
+
+        #region UI- und Event-Handler
+
+        /// <summary>
+        /// Event handler for the Save button.
+        /// Handles saving the material with optional resizing.
+        /// </summary>
         private async void ButtonSave_Click(object sender, EventArgs e)
         {
             if (pictureBoxBaseColor.ImageLocation == null)
             {
+                this.UseWaitCursor = false;
                 MessageBox.Show("Base Color Required");
                 return;
             }
+
+            this.UseWaitCursor = true;
+
             #region Get/Parse resize parameter
             bool resize = false;
             int resizeX = 1024;
@@ -458,14 +368,15 @@ namespace PBR_Material_Maker
                 {
                     strRes = comboBoxResolution.Items[comboBoxResolution.SelectedIndex].ToString();
                 }
+                this.UseWaitCursor = false;
                 MessageBox.Show("strRes " + strRes);
                 if (strRes.Contains("*"))
                 {
                     string[] tmp = strRes.Split('*');
                     if (tmp.Length != 2)
                     {
+                        this.UseWaitCursor = false;
                         MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
                     }
                     else
                     {
@@ -476,6 +387,7 @@ namespace PBR_Material_Maker
                         }
                         catch (Exception)
                         {
+                            this.UseWaitCursor = false;
                             MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
@@ -483,6 +395,7 @@ namespace PBR_Material_Maker
                 }
                 else
                 {
+                    this.UseWaitCursor = false;
                     MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -730,16 +643,25 @@ namespace PBR_Material_Maker
             await Task.Delay(3000);
             Enabled = true;
             buttonSave.Text = txtBefore;
+
+            this.UseWaitCursor = false;
         }
 
+        /// <summary>
+        /// Event handler for the Batch Save button.
+        /// </summary>
         private async void ButtonBatchSave_Click(object sender, EventArgs e)
         {
             // Verzeichnis und Suffixe für BaseColor-Texturen bestimmen
             if (pictureBoxBaseColor.ImageLocation == null)
             {
+                this.UseWaitCursor = false;
                 MessageBox.Show("Base Color Required");
                 return;
             }
+
+            this.UseWaitCursor = true;
+
             string baseDir = Path.GetDirectoryName(pictureBoxBaseColor.ImageLocation);
             string[] baseColorSuffixes = new string[] { "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor" };
             string[] imageExtensions = new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".tga", ".exr", ".hdr" };
@@ -755,6 +677,7 @@ namespace PBR_Material_Maker
             ).ToList();
             if (baseColorFiles.Count == 0)
             {
+                this.UseWaitCursor = false;
                 MessageBox.Show("Keine BaseColor-Texturen im Verzeichnis gefunden.");
                 return;
             }
@@ -783,18 +706,21 @@ namespace PBR_Material_Maker
                         }
                         catch (Exception)
                         {
+                            this.UseWaitCursor = false;
                             MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
                     }
                     else
                     {
+                        this.UseWaitCursor = false;
                         MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }
                 else
                 {
+                    this.UseWaitCursor = false;
                     MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -995,61 +921,25 @@ namespace PBR_Material_Maker
             await Task.Delay(3000);
             Enabled = true;
             buttonSave.Text = txtBefore;
-        }
 
-
-        private void CopyAllImagesFlat(string sourceDir, string targetDir)
-        {
-            if (!Directory.Exists(targetDir))
-                Directory.CreateDirectory(targetDir);
-
-            // Materialdateien wie in Autofill_from_color suchen und kopieren
-            var materialEndings = new[] {
-                "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor", "_1K-JPG_Color", "_2K-JPG_Color",
-                "_normal", "_norm", "_nrml", "_nrm", "_nor", "_n", "_normalmap", "_nm", "_Normals", "_NormalMap", "_nor", "_normals", "_normal_map", "_nmap", "_nml", "_nmlmap", "_nrmTex", "_nrmTexture", "_normal-ogl", "_1K-JPG_NormalGL", "_2K-JPG_NormalGL",
-                "_ambient", "_occlusion", "_ao", "_ambientocclusion", "_Occ", "_Occlusion", "_AO", "_aoTex", "_aoTexture", "_ambient_occlusion", "_occlusionmap", "_occlusion_map", "_1K-JPG_AmbientOcclusion", "_2K-JPG_AmbientOcclusion",
-                "_metallic", "_metalness", "_mtl", "_metal", "_Metal", "_Metallic", "_metalTex", "_metalTexture", "_metal_map", "_metallicmap", "_metallic_map", "_1K-JPG_Metallic", "_2K-JPG_Metallic",
-                "_roughness", "_rough", "_roug", "_rgh", "_Rough", "_Roughness", "_roughTex", "_roughTexture", "_rough_map", "_roughnessmap", "_roughness_map", "_1K-JPG_Roughness", "_2K-JPG_Roughness",
-                "_emission", "_emiss", "_emit", "_Emissive", "_Emiss", "_emissiveTex", "_emissiveTexture", "_emissive_map", "_emissionmap", "_emission_map", "_Glow", "_glow", "_illum", "_illumination", "_1K-JPG_Emission", "_2K-JPG_Emission",
-                "_alpha", "_transparency", "_Opacity", "_opacity", "_mask", "_Mask", "_transTex", "_transTexture", "_alpha_map", "_alphamap", "_alphaMap", "_1K-JPG_Alpha", "_2K-JPG_Alpha",
-                "_height", "_Height", "_disp", "_displacement", "_bump", "_bumpmap" +"_1K-JPG_Opacity", "_2K-JPG_Opacity"
-            };
-
-            var files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories)
-                .Where(f => {
-                    string name = Path.GetFileNameWithoutExtension(f).ToLower();
-                    string ext = Path.GetExtension(f).ToLower();
-                    // Nur .png und .jpg
-                    if (!(ext == ".png" || ext == ".jpg")) return false;
-                    // Nur Materialdateien laut Endungen
-                    return materialEndings.Any(ending => name.EndsWith(ending.ToLower()));
-                });
-
-            foreach (var file in files)
-            {
-                string fileName = Path.GetFileName(file);
-                string destFile = Path.Combine(targetDir, fileName);
-
-                // Falls Datei schon existiert, umbenennen
-                int count = 1;
-                string nameOnly = Path.GetFileNameWithoutExtension(fileName);
-                string ext = Path.GetExtension(fileName);
-                while (File.Exists(destFile))
-                {
-                    destFile = Path.Combine(targetDir, $"{nameOnly}({count}){ext}");
-                    count++;
-                }
-
-                File.Copy(file, destFile);
-            }
+            this.UseWaitCursor = false;
         }
 
         /// <summary>
-        /// Required designer variable.
+        /// Event handler for the Clear button.
         /// </summary>
-        //private System.ComponentModel.IContainer components = null;
+        private void ButtonClear_Click(object sender, EventArgs e)
+        {
+            ClearAllPictureBoxes(this.Controls);
+            buttonSave.Enabled = pictureBoxBaseColor.ImageLocation != null;
+            
+            // PBR-Vorschau nach Clear aktualisieren
+            UpdatePBRPreview();
+        }
 
-        // Event handler for Batch Copy button
+        /// <summary>
+        /// Event handler for the Batch Copy button.
+        /// </summary>
         private void ButtonBatchCopy_Click(object sender, EventArgs e)
         {
             using (var sourceDialog = new FolderBrowserDialog())
@@ -1068,10 +958,12 @@ namespace PBR_Material_Maker
                         try
                         {
                             CopyAllImagesFlat(sourcePath, targetPath);
+                            this.UseWaitCursor = false;
                             MessageBox.Show("Batch Copy abgeschlossen!", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         catch (Exception ex)
                         {
+                            this.UseWaitCursor = false;
                             MessageBox.Show("Fehler beim Kopieren: " + ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
@@ -1079,70 +971,75 @@ namespace PBR_Material_Maker
             }
         } 
 
-        // SO 1922040
         /// <summary>
-        /// Resize the image to the specified width and height.
+        /// When the user is dragging a file or folder over any picturebox.
         /// </summary>
-        /// <param name="image">The image to resize.</param>
-        /// <param name="width">The width to resize to.</param>
-        /// <param name="height">The height to resize to.</param>
-        /// <returns>The resized image.</returns>
-        public static Bitmap ResizeImage(Image image, int width, int height)
+        private void PictureBoxDragEnter(object sender, DragEventArgs e)
         {
-            var destRect = new Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
-
-            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
-
-            using (var graphics = Graphics.FromImage(destImage))
+            try
             {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                Debug.WriteLine("DragEnter");
+                Array data = e.Data.GetData("FileDrop") as Array;
+                dropFilename = ((string[])data)[0];
 
-                using (var wrapMode = new ImageAttributes())
+                string ext = Path.GetExtension(dropFilename).ToLower();
+                if ((ext == ".jpg") || (ext == ".jpeg") || (ext == ".png") || (ext == ".bmp") || (ext == ".tif") || (ext == ".tiff") || (ext == ".tga") || (ext == ".exr") || (ext == ".hdr"))
                 {
-                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                    e.Effect = DragDropEffects.Copy;
+                    dropValid = true;
+                    return;
                 }
             }
-
-            return destImage;
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Exception during drag enter: " + ex.ToString());
+            }
+            e.Effect = DragDropEffects.None;
+            dropValid = false;
         }
 
-        private void CheckBoxKeepOntop_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// When the user drops a file or folder onto any picturebox.
+        /// </summary>
+        private void PictureBoxDragDrop(object sender, DragEventArgs e)
         {
-            TopMost = checkBoxKeepOntop.Checked;
-        }
-
-        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            ProcessStartInfo sInfo = new ProcessStartInfo("https://aiaicapta.in/gltf-packer/");
-            Process.Start(sInfo);
-        }
-
-        private void PictureBoxMouseDown(object sender, MouseEventArgs e)
-        {
-            PictureBox picBox = (PictureBox)sender;
-            picBox.ImageLocation = null;
+            if (dropValid)
+            {
+                ((PictureBox)sender).ImageLocation = dropFilename;
+                if (sender == pictureBoxBaseColor)
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(dropFilename);
+                    string[] ext_base_col = new string[] { "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor" };
+                    int i = ext_base_col.Length;
+                    while (i-- > 0)
+                    {
+                        if (fileName.ToLower().EndsWith(ext_base_col[i]))
+                        {
+                            fileName = fileName.Substring(0, fileName.Length - ext_base_col[i].Length);
+                        }
+                    }
+                    textBoxMaterialName.Text = fileName;
+                    Autofill_from_color(textBoxMaterialName.Text, Path.GetDirectoryName(dropFilename), Path.GetExtension(dropFilename).ToLower());
+                }
+                
+                // PBR-Vorschau aktualisieren
+                UpdatePBRPreview();
+            }
             buttonSave.Enabled = pictureBoxBaseColor.ImageLocation != null;
         }
 
-        private void Ensure_width()
-        {
-            // Neue 3-Spalten Layout Größenbeschränkungen
-            this.MinimumSize = new Size(1000, 700);
-            this.MaximumSize = new Size(2560, 1440); // Unterstützt große Monitore
-        }
-
+        /// <summary>
+        /// Ensures that the form width is at least minWidth.
+        /// </summary>
         private void Form1_Shown(object sender, EventArgs e)
         {
             Ensure_width();
             comboBoxResolution.SelectedIndex = 0;
         }
 
+        /// <summary>
+        /// When the form loads.
+        /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadMaterialPresets();
@@ -1157,11 +1054,17 @@ namespace PBR_Material_Maker
             UpdatePBRPreview();
         }
 
+        /// <summary>
+        /// When the form is closing.
+        /// </summary>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Program.SaveProgramConfig();
         }
-
+        
+        /// <summary>
+        /// When the form resizing ends.
+        /// </summary>
         private void Form1_ResizeEnd(object sender, EventArgs e)
         {
             Ensure_width();
@@ -1169,6 +1072,9 @@ namespace PBR_Material_Maker
             Program.ProgramConfig.WindowWidth = Width;
         }
 
+        /// <summary>
+        /// When the selected index in the resolution combobox changes.
+        /// </summary>
         private void ComboBoxResolution_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxResolution.SelectedIndex == (comboBoxResolution.Items.Count - 1))
@@ -1184,41 +1090,175 @@ namespace PBR_Material_Maker
                 comboBoxResolution.DropDownStyle = ComboBoxStyle.DropDownList;
             }
         }
+        
+        #endregion UI- und Event-Handler
 
-        private Bitmap GenerateSolidColor(byte r, byte g, byte b, int width, int height)
+        #region Material- und Bildverarbeitung
+
+        /// <summary>
+        /// Autofill texture slots based on the base color texture name.
+        /// </summary>
+        private void Autofill_from_color(string mat_name, string dir, string extension)
         {
-            Bitmap bmp = new Bitmap(width, height);
-            using (Graphics gfx = Graphics.FromImage(bmp))
+            this.UseWaitCursor = true;
+
+            // Suche alle Dateien mit der gewünschten Extension im Verzeichnis
+            string search_pattern = "*" + extension;
+            string[] files = Directory.GetFiles(dir, search_pattern);
+
+            // Standard-Endungen aus verschiedenen Engines inkl. Ergänzungen
+            string[] ext_normals = new string[] {
+                "_normal", "_norm", "_nrml", "_nrm", "_nor", "_n", "_normalmap", "_nm",
+                "_Normals", "_NormalMap", "_nor", "_normals", "_normal_map", "_nmap", "_nml", "_nmlmap",
+                "_nrmTex", "_nrmTexture", "_normal-ogl",
+                "_1K-JPG_NormalGL", "_2K-JPG_NormalGL", "_1K-PNG_NormalGL", "_2K-PNG_NormalGL"
+            };
+            string[] ext_occlusion = new string[] {
+                "_ambient", "_occlusion", "_ao", "_ambientocclusion", "_Occ", "_Occlusion", "_AO", "_aoTex", "_aoTexture",
+                "_ambient_occlusion", "_occlusionmap", "_occlusion_map",
+                "_1K-JPG_AmbientOcclusion", "_2K-JPG_AmbientOcclusion", "_1K-PNG_AmbientOcclusion", "_2K-PNG_AmbientOcclusion", "_AmbientOcclusion"
+            };
+            string[] ext_metallic = new string[] {
+                "_metallic", "_metalness", "_mtl", "_metal", "_Metal", "_Metallic", "_metalTex", "_metalTexture",
+                "_metal_map", "_metallicmap", "_metallic_map",
+                "_1K-JPG_Metallic", "_2K-JPG_Metallic", "_1K-PNG_Metallic", "_2K-PNG_Metallic"
+            };
+            string[] ext_roughness = new string[] {
+                "_roughness", "_rough", "_roug", "_rgh", "_Rough", "_Roughness", "_roughTex", "_roughTexture",
+                "_rough_map", "_roughnessmap", "_roughness_map",
+                "_1K-JPG_Roughness", "_2K-JPG_Roughness", "_1K-PNG_Roughness", "_2K-PNG_Roughness"
+            };
+            string[] ext_emission = new string[] {
+                "_emission", "_emiss", "_emit", "_Emissive", "_Emiss", "_emissiveTex", "_emissiveTexture",
+                "_emissive_map", "_emissionmap", "_emission_map", "_Glow", "_glow", "_illum", "_illumination",
+                "_1K-JPG_Emission", "_2K-JPG_Emission", "_1K-PNG_Emission", "_2K-PNG_Emission"
+            };
+            string[] ext_alpha = new string[] {
+                "_alpha", "_transparency", "_Opacity", "_opacity", "_mask", "_Mask", "_transTex", "_transTexture",
+                "_alpha_map", "_alphamap", "_alphaMap",
+                "_1K-JPG_Alpha", "_2K-JPG_Alpha", "_1K-PNG_Alpha", "_2K-PNG_Alpha"
+            };
+            string[] ext_height = new string[] {
+                "_height", "_Height", "_disp", "_displacement", "_bump", "_bumpmap",
+                "_1K-JPG_Opacity", "_2K-JPG_Opacity", "_1K-PNG_Opacity", "_2K-PNG_Opacity"
+            };
+
+            foreach (string file in files)
             {
-                gfx.Clear(Color.FromArgb(r, g, b));
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_normals)) { pictureBoxNormal.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_occlusion)) { pictureBoxOcclusion.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_metallic)) { pictureBoxMetallic.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_roughness)) { pictureBoxRoughness.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_emission)) { pictureBoxEmission.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_alpha)) { pictureBoxAlpha.ImageLocation = file; continue; }
+                if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_height)) { /* Hier können Sie z.B. ein PictureBox für Height/Displacement zuweisen */ continue; }
+                // Kann man hier ORM Integrieren?
+            }            
+            
+            // ORM-Map erzeugen, wenn alle Maps vorhanden sind
+            if (pictureBoxOcclusion.ImageLocation != null && pictureBoxRoughness.ImageLocation != null && pictureBoxMetallic.ImageLocation != null)
+            {
+                try
+                {
+                    using (Bitmap occ = new Bitmap(pictureBoxOcclusion.ImageLocation))
+                    using (Bitmap rough = new Bitmap(pictureBoxRoughness.ImageLocation))
+                    using (Bitmap metal = new Bitmap(pictureBoxMetallic.ImageLocation))
+                    {
+                        Bitmap orm = GenerateORMMap(occ, rough, metal);
+                        string ormPath = Path.Combine(dir, mat_name + "_orm.png");
+                        orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                        orm.Dispose();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Fehler beim Erzeugen der ORM-Map: " + ex.Message);
+                }
             }
-            return bmp;
+
+            // PBR-Vorschau nach Autofill aktualisieren
+            UpdatePBRPreview();
+
+            this.UseWaitCursor = false;
+
         }
 
-        private Bitmap GenerateFlatNormal(int width, int height)
+        /// <summary>
+        /// Generates an ORM map from the given Occlusion, Roughness, and Metallic maps.
+        /// </summary>
+        /// <param name="occ">Occlusion Bitmap</param>
+        /// <param name="rough">Roughness Bitmap</param>
+        /// <param name="metal">Metallic Bitmap</param>
+        /// <returns>Bitmap representing the combined ORM map</returns>
+        private Bitmap GenerateORMMap(Bitmap occ, Bitmap rough, Bitmap metal)
         {
-            Bitmap bmp = new Bitmap(width, height);
-            using (Graphics gfx = Graphics.FromImage(bmp))
+            int width = occ.Width;
+            int height = occ.Height;
+            Bitmap orm = new Bitmap(width, height);
+
+            // ORM-Parameter robust auslesen (Fallback auf Standardwerte)
+            float aoRadius = 1.0f, aoContrast = 1.0f, blend = 0.0f;
+            try { aoRadius = trackBarORM_AORadius != null ? trackBarORM_AORadius.Value / 100.0f : 1.0f; } catch { aoRadius = 1.0f; }
+            try { aoContrast = trackBarORM_AOContrast != null ? trackBarORM_AOContrast.Value / 100.0f : 1.0f; } catch { aoContrast = 1.0f; }
+            try { blend = trackBarORM_Blend != null ? trackBarORM_Blend.Value / 100.0f : 0.0f; } catch { blend = 0.0f; }
+
+            for (int y = 0; y < height; y++)
             {
-                // Ein flaches Normal-Map-Bild: RGB(128,128,255) = Vektor (0,0,1)
-                gfx.Clear(Color.FromArgb(128, 128, 255));
+                for (int x = 0; x < width; x++)
+                {
+                    Color cOcc = occ.GetPixel(x, y);
+                    Color cRough = rough.GetPixel(x, y);
+                    Color cMetal = metal.GetPixel(x, y);
+
+                    // AO-Radius/Strength anwenden (Skalierung)
+                    float ao = cOcc.R / 255.0f;
+                    ao = (float)Math.Pow(ao, 1.0f / Math.Max(aoRadius, 0.01f));
+
+                    // AO-Kontrast anwenden
+                    ao = (float)Math.Pow(ao, aoContrast);
+
+                    // Blending zwischen AO und Roughness
+                    float roughVal = cRough.R / 255.0f;
+                    float aoBlended = ao * (1.0f - blend) + roughVal * blend;
+                    int aoByte = (int)(Math.Max(0, Math.Min(1, aoBlended)) * 255);
+
+                    // ORM: R = AO, G = Roughness, B = Metal
+                    Color cORM = Color.FromArgb(aoByte, cRough.R, cMetal.R);
+                    orm.SetPixel(x, y, cORM);
+                }
             }
-            return bmp;
+            return orm;
         }
 
-        private Bitmap GenerateBlack(int width, int height)
+        /// <summary>
+        /// Applies a color tint to the base color bitmap.
+        /// </summary>
+        /// <param name="bitmap">The base color bitmap to tint.</param>
+        /// <param name="tint">An array of three floats representing the RGB tint factors.</param>
+        private void ApplyBaseColorTint(Bitmap bitmap, float[] tint)
         {
-            Bitmap bmp = new Bitmap(width, height);
-            using (Graphics gfx = Graphics.FromImage(bmp))
+            if (tint == null || tint.Length != 3) return;
+            int width = bitmap.Width;
+            int height = bitmap.Height;
+            for (int y = 0; y < height; y++)
             {
-                gfx.Clear(Color.Black);
+                for (int x = 0; x < width; x++)
+                {
+                    Color c = bitmap.GetPixel(x, y);
+                    int r = Math.Min(255, (int)(c.R * tint[0]));
+                    int g = Math.Min(255, (int)(c.G * tint[1]));
+                    int b = Math.Min(255, (int)(c.B * tint[2]));
+                    bitmap.SetPixel(x, y, Color.FromArgb(r, g, b));
+                }
             }
-            return bmp;
         }
 
-        // --- Hilfsfunktionen für PBR-Generierung aus Albedo ---
-
-        // Normalmap aus Albedo (bereits vorhanden)
+        /// <summary>
+        /// Generates a normal map using the Sobel operator from the given albedo bitmap.
+        /// </summary>
+        /// <param name="albedo">The albedo bitmap to generate the normal map from.</param>
+        /// <param name="embossStrength">The strength of the emboss effect.</param>
+        /// <returns>A bitmap representing the generated normal map.</returns>
         private Bitmap GenerateNormalMap(Bitmap albedo, float embossStrength = 0.05f)
         {
             int width = albedo.Width;
@@ -1284,23 +1324,30 @@ namespace PBR_Material_Maker
             return normalMap;
         }
 
-        // Occlusion aus Albedo (Helligkeit, invertiert für Schatten)
-        private Bitmap GenerateOcclusionMap(Bitmap albedo, float strength = 1.0f)
+        /// <summary>
+        /// Generates a flat normal map (all normals pointing up).
+        /// </summary>
+        /// <param name="width">The width of the normal map.</param>
+        /// <param name="height">The height of the normal map.</param>
+        /// <returns>A bitmap representing the generated flat normal map.</returns>
+        private Bitmap GenerateFlatNormal(int width, int height)
         {
-            int width = albedo.Width;
-            int height = albedo.Height;
-            Bitmap occ = new Bitmap(width, height);
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++)
-                {
-                    Color c = albedo.GetPixel(x, y);
-                    int gray = 255 - (int)((c.R + c.G + c.B) / 3);
-                    occ.SetPixel(x, y, Color.FromArgb(gray, gray, gray));
-                }
-            return occ;
+            Bitmap bmp = new Bitmap(width, height);
+            using (Graphics gfx = Graphics.FromImage(bmp))
+            {
+                // Ein flaches Normal-Map-Bild: RGB(128,128,255) = Vektor (0,0,1)
+                gfx.Clear(Color.FromArgb(128, 128, 255));
+            }
+            return bmp;
         }
 
-        // Roughness aus Albedo (Helligkeit, invertiert für rauere Flächen)
+        /// <summary>
+        /// Generates a metallic map from the given albedo bitmap.
+        /// </summary>
+        /// <param name="albedo">The source albedo bitmap.</param>
+        /// <param name="effectStrength">The strength of the effect to apply.</param>
+        /// <param name="invert">Whether to invert the resulting map.</param>
+        /// <returns>A bitmap representing the generated metallic map.</returns>
         private Bitmap GenerateRoughnessMap(Bitmap albedo, float effectStrength, bool invert)
         {
             int width = albedo.Width;
@@ -1317,7 +1364,13 @@ namespace PBR_Material_Maker
             return rough;
         }
 
-        // Metallic aus Albedo (Helligkeit, optional Schwellenwert)
+        /// <summary>
+        /// Generates a metallic map from the given albedo bitmap.
+        /// </summary>
+        /// <param name="albedo">The source albedo bitmap.</param>
+        /// <param name="threshold">The threshold for metallic effect.</param>
+        /// <param name="intensity">The intensity of the metallic effect.</param>
+        /// <returns>A bitmap representing the generated metallic map.</returns>
         private Bitmap GenerateMetallicMap(Bitmap albedo, int threshold, float intensity)
         {
             int width = albedo.Width;
@@ -1334,7 +1387,13 @@ namespace PBR_Material_Maker
             return metal;
         }
 
-        // Emission aus Albedo (optional: Helligkeit, hier einfach übernommen)
+        /// <summary>
+        /// Generates an emission map from the given albedo bitmap.
+        /// </summary>
+        /// <param name="albedo">The source albedo bitmap.</param>
+        /// <param name="strength">The strength of the emission effect.</param>
+        /// <param name="emissionColor">The color of the emission as an array of three floats (RGB).</param>
+        /// <returns>A bitmap representing the generated emission map.</returns>
         private Bitmap GenerateEmissionMap(Bitmap albedo, float strength, float[] emissionColor)
         {
             int width = albedo.Width;
@@ -1352,7 +1411,13 @@ namespace PBR_Material_Maker
             return emission;
         }
 
-        // Alpha aus Albedo (optional: Helligkeit, hier voll transparent)
+
+        /// <summary>
+        /// Generates an alpha map from the given albedo bitmap.
+        /// </summary>
+        /// <param name="albedo">The source albedo bitmap.</param>
+        /// <param name="strength">The strength of the alpha effect.</param>
+        /// <returns>A bitmap representing the generated alpha map.</returns>
         private Bitmap GenerateAlphaMap(Bitmap albedo, float strength = 1.0f)
         {
             int width = albedo.Width;
@@ -1366,6 +1431,774 @@ namespace PBR_Material_Maker
                     alpha.SetPixel(x, y, Color.FromArgb(a, c.R, c.G, c.B));
                 }
             return alpha;
+        }
+
+        /// <summary>
+        /// Generates an occlusion map from the given albedo bitmap.
+        /// </summary>
+        /// <param name="albedo">The source albedo bitmap.</param>
+        /// <param name="strength">The strength of the occlusion effect.</param>
+        /// <returns>A bitmap representing the generated occlusion map.</returns>
+        private Bitmap GenerateOcclusionMap(Bitmap albedo, float strength = 1.0f)
+        {
+            int width = albedo.Width;
+            int height = albedo.Height;
+            Bitmap occ = new Bitmap(width, height);
+            for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++)
+                {
+                    Color c = albedo.GetPixel(x, y);
+                    int gray = 255 - (int)((c.R + c.G + c.B) / 3);
+                    occ.SetPixel(x, y, Color.FromArgb(gray, gray, gray));
+                }
+            return occ;
+        }
+
+        /// <summary>
+        /// Resize the image to the specified width and height.
+        /// </summary>
+        /// <param name="image">The source image to resize.</param>
+        /// <param name="width">The desired width of the resized image.</param>
+        /// <param name="height">The desired height of the resized image.</param>
+        /// <returns>A new Bitmap object with the specified dimensions.</returns>
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        /// <summary>
+        /// Copies all relevant material images from the source directory to the target directory in a flat structure
+        /// (ignoring subdirectories) and renaming files if necessary to avoid name conflicts.
+        /// </summary>
+        private void CopyAllImagesFlat(string sourceDir, string targetDir)
+        {
+            if (!Directory.Exists(targetDir))
+                Directory.CreateDirectory(targetDir);
+
+            this.UseWaitCursor = true;
+
+            // Materialdateien wie in Autofill_from_color suchen und kopieren
+            var materialEndings = new[] {
+                "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor", "_1K-JPG_Color", "_2K-JPG_Color",
+                "_normal", "_norm", "_nrml", "_nrm", "_nor", "_n", "_normalmap", "_nm", "_Normals", "_NormalMap", "_nor", "_normals", "_normal_map", "_nmap", "_nml", "_nmlmap", "_nrmTex", "_nrmTexture", "_normal-ogl", "_1K-JPG_NormalGL", "_2K-JPG_NormalGL",
+                "_ambient", "_occlusion", "_ao", "_ambientocclusion", "_Occ", "_Occlusion", "_AO", "_aoTex", "_aoTexture", "_ambient_occlusion", "_occlusionmap", "_occlusion_map", "_1K-JPG_AmbientOcclusion", "_2K-JPG_AmbientOcclusion",
+                "_metallic", "_metalness", "_mtl", "_metal", "_Metal", "_Metallic", "_metalTex", "_metalTexture", "_metal_map", "_metallicmap", "_metallic_map", "_1K-JPG_Metallic", "_2K-JPG_Metallic",
+                "_roughness", "_rough", "_roug", "_rgh", "_Rough", "_Roughness", "_roughTex", "_roughTexture", "_rough_map", "_roughnessmap", "_roughness_map", "_1K-JPG_Roughness", "_2K-JPG_Roughness",
+                "_emission", "_emiss", "_emit", "_Emissive", "_Emiss", "_emissiveTex", "_emissiveTexture", "_emissive_map", "_emissionmap", "_emission_map", "_Glow", "_glow", "_illum", "_illumination", "_1K-JPG_Emission", "_2K-JPG_Emission",
+                "_alpha", "_transparency", "_Opacity", "_opacity", "_mask", "_Mask", "_transTex", "_transTexture", "_alpha_map", "_alphamap", "_alphaMap", "_1K-JPG_Alpha", "_2K-JPG_Alpha",
+                "_height", "_Height", "_disp", "_displacement", "_bump", "_bumpmap" +"_1K-JPG_Opacity", "_2K-JPG_Opacity"
+            };
+
+            var files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories)
+                .Where(f => {
+                    string name = Path.GetFileNameWithoutExtension(f).ToLower();
+                    string ext = Path.GetExtension(f).ToLower();
+                    // Nur .png und .jpg
+                    if (!(ext == ".png" || ext == ".jpg")) return false;
+                    // Nur Materialdateien laut Endungen
+                    return materialEndings.Any(ending => name.EndsWith(ending.ToLower()));
+                });
+
+            foreach (var file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                string destFile = Path.Combine(targetDir, fileName);
+
+                // Falls Datei schon existiert, umbenennen
+                int count = 1;
+                string nameOnly = Path.GetFileNameWithoutExtension(fileName);
+                string ext = Path.GetExtension(fileName);
+                while (File.Exists(destFile))
+                {
+                    destFile = Path.Combine(targetDir, $"{nameOnly}({count}){ext}");
+                    count++;
+                }
+
+                File.Copy(file, destFile);
+            }
+
+            this.UseWaitCursor = false;
+        }
+
+        #endregion Material- und Bildverarbeitung
+
+        #region PBR-Vorschau & Rendering
+
+        /// <summary>
+        /// Updates the PBR preview by rendering a sphere with the current material settings.
+        /// </summary>
+        private void UpdatePBRPreview()
+        {
+            try
+            {
+                // Nur aktualisieren wenn Form geladen ist
+                if (!this.IsHandleCreated || this.IsDisposed) return;
+                
+                // 512x512 PBR-Vorschau auf Sphere rendern
+                Bitmap preview = RenderPBRSphere(512, 512);
+                
+                // UI-Thread-sicher aktualisieren
+                if (this.InvokeRequired)
+                {
+                    this.BeginInvoke(new Action(() => {
+                        if (pictureBoxPBRPreview.Image != null)
+                        {
+                            pictureBoxPBRPreview.Image.Dispose();
+                        }
+                        pictureBoxPBRPreview.Image = preview;
+                    }));
+                }
+                else
+                {
+                    if (pictureBoxPBRPreview.Image != null)
+                    {
+                        pictureBoxPBRPreview.Image.Dispose();
+                    }
+                    pictureBoxPBRPreview.Image = preview;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fehler beim Aktualisieren der PBR-Vorschau: {ex.Message}");
+                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// Updates the PBR preview with a square aspect ratio by rendering a sphere with the current material settings.
+        /// </summary>
+        private void UpdatePBRPreviewSquare()
+        {
+            try
+            {
+                // Quadratische 400x400 PBR-Vorschau auf Sphere rendern
+                var preview = RenderPBRSphere(400, 400); // Quadratisch statt 520x400
+                
+                if (preview != null)
+                {
+                    if (pictureBoxPBRPreview.InvokeRequired)
+                    {
+                        pictureBoxPBRPreview.Invoke(new Action(() =>
+                        {
+                            if (pictureBoxPBRPreview.Image != null)
+                            {
+                                pictureBoxPBRPreview.Image.Dispose();
+                            }
+                            pictureBoxPBRPreview.Image = preview;
+                        }));
+                    }
+                    else
+                    {
+                        if (pictureBoxPBRPreview.Image != null)
+                        {
+                            pictureBoxPBRPreview.Image.Dispose();
+                        }
+                        pictureBoxPBRPreview.Image = preview;
+                    }
+                }
+            }
+            
+
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fehler beim Aktualisieren der quadratischen PBR-Vorschau: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Renders a PBR sphere with the current material settings.
+        /// </summary>
+        private Bitmap RenderPBRSphere(int width, int height)
+        {
+            this.UseWaitCursor = true;
+
+            Bitmap result = new Bitmap(width, height);
+            
+            using (Graphics g = Graphics.FromImage(result))
+            {
+                // Schwarzer Hintergrund für bessere PBR-Darstellung
+                g.Clear(Color.Black);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                
+                // Sphere-Parameter
+                int centerX = width / 2;
+                int centerY = height / 2;
+                int radius = Math.Min(width, height) / 2 - 10;
+                
+                // Basis-Texturen laden
+                Bitmap baseColorTexture = LoadTextureFromPictureBox(pictureBoxBaseColor);
+                Bitmap normalTexture = LoadTextureFromPictureBox(pictureBoxNormal);
+                Bitmap roughnessTexture = LoadTextureFromPictureBox(pictureBoxRoughness);
+                Bitmap metallicTexture = LoadTextureFromPictureBox(pictureBoxMetallic);
+                Bitmap occlusionTexture = LoadTextureFromPictureBox(pictureBoxOcclusion);
+                Bitmap emissionTexture = LoadTextureFromPictureBox(pictureBoxEmission);
+                
+                // Mehrere Lichtquellen für besseren PBR-Effekt
+                Vector3 mainLight = Vector3.Normalize(new Vector3(1.0f, 1.0f, 0.8f));
+                Vector3 fillLight = Vector3.Normalize(new Vector3(-0.5f, 0.3f, 0.5f));
+                Vector3 rimLight = Vector3.Normalize(new Vector3(0.0f, -0.8f, 0.6f));
+                
+                // Umgebungslicht
+                float ambientStrength = 0.1f;
+                
+                // Sphere rendern mit sicherer SetPixel-Methode
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        // Prüfen ob Punkt in der Sphere ist
+                        float dx = x - centerX;
+                        float dy = y - centerY;
+                        float distSq = dx * dx + dy * dy;
+                        
+                        if (distSq <= radius * radius)
+                        {
+                            // Berechne Sphere-Normale
+                            float z = (float)Math.Sqrt(radius * radius - distSq);
+                            Vector3 normal = Vector3.Normalize(new Vector3(dx / radius, dy / radius, z / radius));
+                            
+                            // UV-Koordinaten für Sphere mapping (verbessert)
+                            float u = (float)(0.5 + Math.Atan2(normal.X, normal.Z) / (2 * Math.PI));
+                            float v = (float)(0.5 - Math.Asin(normal.Y) / Math.PI);
+                            
+                            // Sample Texturen
+                            Color baseColor = SampleTexture(baseColorTexture, u, v, Color.FromArgb(180, 180, 180));
+                            Color roughness = SampleTexture(roughnessTexture, u, v, Color.FromArgb(128, 128, 128));
+                            Color metallic = SampleTexture(metallicTexture, u, v, Color.Black);
+                            Color emission = SampleTexture(emissionTexture, u, v, Color.Black);
+                            Color occlusion = SampleTexture(occlusionTexture, u, v, Color.White);
+                            
+                            // Verbessertes PBR-Shading
+                            Color finalColor = CalculateEnhancedPBRColor(
+                                baseColor, normal, mainLight, fillLight, rimLight, 
+                                roughness, metallic, emission, occlusion, ambientStrength);
+                            
+                            result.SetPixel(x, y, finalColor);
+                        }
+                    }
+                }
+                
+                // Cleanup
+                baseColorTexture?.Dispose();
+                normalTexture?.Dispose();
+                roughnessTexture?.Dispose();
+                metallicTexture?.Dispose();
+                occlusionTexture?.Dispose();
+                emissionTexture?.Dispose();
+            }
+
+            this.UseWaitCursor = false;
+            
+            return result;
+        }
+
+        /// <summary>
+        /// Samples a texture at given UV coordinates, returning a default color if the texture is null
+        /// or coordinates are out of bounds.
+        /// </summary>
+        private Color SampleTexture(Bitmap texture, float u, float v, Color defaultColor)
+        {
+            if (texture == null) return defaultColor;
+            
+            int x = Math.Max(0, Math.Min(texture.Width - 1, (int)(u * texture.Width)));
+            int y = Math.Max(0, Math.Min(texture.Height - 1, (int)(v * texture.Height)));
+            
+            return texture.GetPixel(x, y);
+        }
+
+        /// <summary>
+        /// Calculates the final PBR color using multiple light sources and occlusion.
+        /// </summary>
+        private Color CalculatePBRColor(Color baseColor, Vector3 normal, Vector3 lightDir, Color roughness, Color metallic, Color emission)
+        {
+            // Einfaches Lambertsches Diffuse-Shading
+            float NdotL = Math.Max(0, Vector3.Dot(normal, lightDir));
+            
+            // Metallicity
+            float metallicValue = metallic.R / 255.0f;
+            
+            // Roughness
+            float roughnessValue = roughness.R / 255.0f;
+            
+            // Diffuse-Komponente
+            float diffuse = NdotL * (1.0f - metallicValue);
+            
+            // Einfache Specular-Komponente
+            Vector3 viewDir = new Vector3(0, 0, 1); // Kamera schaut direkt auf Sphere
+            Vector3 halfDir = Vector3.Normalize(lightDir + viewDir);
+            float NdotH = Math.Max(0, Vector3.Dot(normal, halfDir));
+            float specular = (float)Math.Pow(NdotH, (1.0f - roughnessValue) * 64.0f) * metallicValue;
+            
+            // Farbe berechnen
+            float r = Math.Min(255, baseColor.R * diffuse + specular * 255 + emission.R);
+            float g = Math.Min(255, baseColor.G * diffuse + specular * 255 + emission.G);
+            float b = Math.Min(255, baseColor.B * diffuse + specular * 255 + emission.B);
+            
+            return Color.FromArgb((int)r, (int)g, (int)b);
+        }
+
+        /// <summary>
+        /// Calculates the final PBR color using multiple light sources, rim lighting, occlusion, and emission.
+        /// </summary>
+        private Color CalculateEnhancedPBRColor(Color baseColor, Vector3 normal, Vector3 mainLight, Vector3 fillLight, Vector3 rimLight, Color roughness, Color metallic, Color emission, Color occlusion, float ambientStrength)
+        {
+            // Material-Eigenschaften
+            float metallicValue = metallic.R / 255.0f;
+            float roughnessValue = Math.Max(0.04f, roughness.R / 255.0f); // Mindest-Roughness
+            float occlusionValue = occlusion.R / 255.0f;
+            
+            // Fresnel-Effekt für realistischere Reflexionen
+            Vector3 viewDir = new Vector3(0, 0, 1);
+            float VdotN = Math.Max(0, Vector3.Dot(viewDir, normal));
+            float fresnel = 1.0f - VdotN;
+            fresnel = fresnel * fresnel * fresnel; // Kubischer Fresnel
+            
+            // Hauptlicht-Berechnung
+            float mainNdotL = Math.Max(0, Vector3.Dot(normal, mainLight));
+            Vector3 mainHalf = Vector3.Normalize(mainLight + viewDir);
+            float mainNdotH = Math.Max(0, Vector3.Dot(normal, mainHalf));
+            float mainSpecular = (float)Math.Pow(mainNdotH, (1.0f - roughnessValue) * 128.0f) * (1.0f + metallicValue * 2.0f);
+            
+            // Fülllicht
+            float fillNdotL = Math.Max(0, Vector3.Dot(normal, fillLight)) * 0.3f;
+            
+            // Rim-Light für Kantenhighlights
+            float rimNdotL = Math.Max(0, Vector3.Dot(normal, rimLight));
+            float rimEffect = (float)Math.Pow(1.0f - VdotN, 3.0f) * rimNdotL * 0.5f;
+            
+            // Diffuse-Beleuchtung
+            float totalDiffuse = (mainNdotL + fillNdotL + ambientStrength) * (1.0f - metallicValue * 0.8f);
+            
+            // Specular-Highlight mit Fresnel
+            float totalSpecular = mainSpecular * (fresnel * 0.5f + 0.5f) + rimEffect;
+            
+            // Occlusion anwenden
+            totalDiffuse *= occlusionValue;
+            totalSpecular *= occlusionValue;
+            
+            // Endfarben-Berechnung
+            float r = Math.Min(255, (baseColor.R * totalDiffuse + totalSpecular * 255 * (1.0f + metallicValue)) + emission.R * 2.0f);
+            float g = Math.Min(255, (baseColor.G * totalDiffuse + totalSpecular * 255 * (1.0f + metallicValue)) + emission.G * 2.0f);
+            float b = Math.Min(255, (baseColor.B * totalDiffuse + totalSpecular * 255 * (1.0f + metallicValue)) + emission.B * 2.0f);
+            
+            // Gamma-Korrektur für realistischere Darstellung
+            r = (float)Math.Pow(r / 255.0f, 1.0f / 2.2f) * 255.0f;
+            g = (float)Math.Pow(g / 255.0f, 1.0f / 2.2f) * 255.0f;
+            b = (float)Math.Pow(b / 255.0f, 1.0f / 2.2f) * 255.0f;
+            
+            return Color.FromArgb(Math.Max(0, Math.Min(255, (int)r)), 
+                                  Math.Max(0, Math.Min(255, (int)g)), 
+                                  Math.Max(0, Math.Min(255, (int)b)));
+        }
+
+        /// <summary>
+        /// Determines a contrasting color (black or white) based on the brightness of the input color
+        /// </summary>
+        private Color GetContrastColor(Color color)
+        {
+            // Berechne Helligkeit und wähle kontrastierende Textfarbe
+            double brightness = (color.R * 0.299 + color.G * 0.587 + color.B * 0.114);
+            return brightness > 128 ? Color.Black : Color.White;
+        }
+
+        #endregion PBR-Vorschau & Rendering
+
+        #region Parameter- und UI-Updates
+
+        /// <summary>
+        /// Updates the UI controls based on the current material configuration.
+        /// </summary>
+        private void UpdateUIFromMaterialConfig()
+        {
+            // Normal Strength: 0.0-2.0 -> TrackBar 0-200
+            if (materialConfig.NormalStrength != null)
+            {
+                trackBarNormalStrength.Value = (int)(materialConfig.NormalStrength * 100);
+                textBoxNormalStrength.Text = materialConfig.NormalStrength.ToString("0.0");
+            }
+
+            // Roughness Strength: 0.0-2.0 -> TrackBar 0-200
+            if (materialConfig.RoughnessStrength != null)
+            {
+                trackBarRoughnessStrength.Value = (int)(materialConfig.RoughnessStrength * 100);
+                textBoxRoughnessStrength.Text = materialConfig.RoughnessStrength.ToString("0.0");
+            }
+
+            // Occlusion Strength: 0.0-2.0 -> TrackBar 0-200
+            if (materialConfig.OcclusionStrength != null)
+            {
+                trackBarOcclusionStrength.Value = (int)(materialConfig.OcclusionStrength * 100);
+                textBoxOcclusionStrength.Text = materialConfig.OcclusionStrength.ToString("0.0");
+            }
+
+            // Metallic Intensity (entspricht MetallicStrength)
+            if (materialConfig.MetallicIntensity != null)
+            {
+                trackBarMetallicStrength.Value = (int)(materialConfig.MetallicIntensity * 100);
+                textBoxMetallicStrength.Text = materialConfig.MetallicIntensity.ToString("0.0");
+            }
+
+            // Metallic Threshold: 0-255 -> TrackBar 0-255
+            if (materialConfig.MetallicThreshold != null)
+            {
+                trackBarMetallicThreshold.Value = (int)materialConfig.MetallicThreshold;
+                textBoxMetallicThreshold.Text = materialConfig.MetallicThreshold.ToString();
+            }
+
+            // Emission Strength: 0.0-2.0 -> TrackBar 0-200
+            if (materialConfig.EmissionStrength != null)
+            {
+                trackBarEmissionStrength.Value = (int)(materialConfig.EmissionStrength * 100);
+                textBoxEmissionStrength.Text = materialConfig.EmissionStrength.ToString("0.0");
+            }
+
+            // Alpha Strength: 0.0-2.0 -> TrackBar 0-200
+            if (materialConfig.AlphaStrength != null)
+            {
+                trackBarAlphaStrength.Value = (int)(materialConfig.AlphaStrength * 100);
+                textBoxAlphaStrength.Text = materialConfig.AlphaStrength.ToString("0.0");
+            }
+
+            // Normal Flip Y (Boolean) - RoughnessInvert ist hier etwas verwirrend benannt
+            if (materialConfig.RoughnessInvert != null)
+                textBoxNormalFlipY.Text = (bool)materialConfig.RoughnessInvert ? "1" : "0";
+
+            // Color Picker Button-Farben aktualisieren
+            if (materialConfig.BaseColorTint != null && materialConfig.BaseColorTint.Count >= 3)
+            {
+                int r = (int)(materialConfig.BaseColorTint[0] * 255);
+                int g = (int)(materialConfig.BaseColorTint[1] * 255);
+                int b = (int)(materialConfig.BaseColorTint[2] * 255);
+                Color baseColor = Color.FromArgb(r, g, b);
+                buttonBaseColorTint.BackColor = baseColor;
+                buttonBaseColorTint.ForeColor = GetContrastColor(baseColor);
+            }
+
+            if (materialConfig.EmissionColor != null && materialConfig.EmissionColor.Count >= 3)
+            {
+                int r = (int)(materialConfig.EmissionColor[0] * 255);
+                int g = (int)(materialConfig.EmissionColor[1] * 255);
+                int b = (int)(materialConfig.EmissionColor[2] * 255);
+                Color emissionColor = Color.FromArgb(r, g, b);
+                buttonEmissionColor.BackColor = emissionColor;
+                buttonEmissionColor.ForeColor = GetContrastColor(emissionColor);
+            }
+
+            // Sicherstellen, dass alle Controls sichtbar sind
+            foreach (Control control in panelControls.Controls)
+            {
+                control.Visible = true;
+            }
+        }
+
+        /// <summary>
+        /// Updates a specific property in the material configuration object.
+        /// </summary>
+        private void UpdateMaterialConfigValue(string propertyName, object value)
+        {
+            try
+            {
+                if (materialConfig != null)
+                {
+                    // Update the property using reflection or dynamic assignment
+                    var configType = materialConfig.GetType();
+                    var property = configType.GetProperty(propertyName);
+                    if (property != null && property.CanWrite)
+                    {
+                        property.SetValue(materialConfig, value);
+                    }
+                    else
+                    {
+                        // For dynamic objects, use indexer
+                        ((dynamic)materialConfig)[propertyName] = value;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log error but don't stop the UI update
+                Debug.WriteLine($"Error updating material config property {propertyName}: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Updates the preview material in real-time as parameters change.
+        /// </summary>
+        private void UpdatePreviewInRealTime()
+        {
+            // Throttle updates to prevent too frequent refreshes
+            if (previewUpdateTimer != null)
+            {
+                previewUpdateTimer.Stop();
+            }
+            
+            previewUpdateTimer = new System.Windows.Forms.Timer();
+            previewUpdateTimer.Interval = 100; // 100ms delay
+            previewUpdateTimer.Tick += (s, e) =>
+            {
+                previewUpdateTimer.Stop();
+                previewUpdateTimer.Dispose();
+                previewUpdateTimer = null;
+                
+                // Trigger preview update
+                try
+                {
+                    GeneratePreviewMaterial();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Error updating preview: {ex.Message}");
+                }
+            };
+            previewUpdateTimer.Start();
+        }
+
+        /// <summary>
+        /// Generates the preview material for real-time updates.
+        /// </summary>
+        private void GeneratePreviewMaterial()
+        {
+            // Use the new square PBR preview method for real-time updates
+            UpdatePBRPreviewSquare();
+        }
+
+        /// <summary>
+        /// Updates the parameter TextBoxes based on the current TrackBar values.
+        /// </summary>
+        private void UpdateParameterTextBoxes()
+        {
+            try
+            {
+                // Base Color Parameter
+                if (trackBarBaseColorStrength != null && textBoxBaseColorStrength != null)
+                    textBoxBaseColorStrength.Text = (trackBarBaseColorStrength.Value / 100.0f).ToString("F2");
+                if (trackBarContrast != null && textBoxContrast != null)
+                    textBoxContrast.Text = (trackBarContrast.Value / 100.0f).ToString("F2");
+                if (trackBarBrightness != null && textBoxBrightness != null)
+                    textBoxBrightness.Text = (trackBarBrightness.Value / 100.0f).ToString("F2");
+
+                // Metallic Parameter
+                if (trackBarMetallicStrength != null && textBoxMetallicStrength != null)
+                    textBoxMetallicStrength.Text = (trackBarMetallicStrength.Value / 100.0f).ToString("F2");
+                if (trackBarMetallicThreshold != null && textBoxMetallicThreshold != null)
+                    textBoxMetallicThreshold.Text = trackBarMetallicThreshold.Value.ToString();
+
+                // Roughness Parameter
+                if (trackBarRoughnessStrength != null && textBoxRoughnessStrength != null)
+                    textBoxRoughnessStrength.Text = (trackBarRoughnessStrength.Value / 100.0f).ToString("F2");
+
+                // Normal Map Parameter
+                if (trackBarNormalStrength != null && textBoxNormalStrength != null)
+                    textBoxNormalStrength.Text = (trackBarNormalStrength.Value / 100.0f).ToString("F2");
+                if (trackBarNormalFlipY != null && textBoxNormalFlipY != null)
+                    textBoxNormalFlipY.Text = trackBarNormalFlipY.Value.ToString();
+
+                // Ambient Occlusion Parameter
+                if (trackBarOcclusionStrength != null && textBoxOcclusionStrength != null)
+                    textBoxOcclusionStrength.Text = (trackBarOcclusionStrength.Value / 100.0f).ToString("F2");
+
+                // Emission Parameter
+                if (trackBarEmissionStrength != null && textBoxEmissionStrength != null)
+                    textBoxEmissionStrength.Text = (trackBarEmissionStrength.Value / 100.0f).ToString("F2");
+                if (trackBarEmissionEdgeEnhance != null && textBoxEmissionEdgeEnhance != null)
+                    textBoxEmissionEdgeEnhance.Text = (trackBarEmissionEdgeEnhance.Value / 100.0f).ToString("F2");
+                if (trackBarEmissionEdgeStrength != null && textBoxEmissionEdgeStrength != null)
+                    textBoxEmissionEdgeStrength.Text = (trackBarEmissionEdgeStrength.Value / 100.0f).ToString("F2");
+
+                // Alpha Parameter
+                if (trackBarAlphaStrength != null && textBoxAlphaStrength != null)
+                    textBoxAlphaStrength.Text = (trackBarAlphaStrength.Value / 100.0f).ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Fehler beim Aktualisieren der Parameter-TextBoxes: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the float value from a TrackBar, applying necessary scaling.
+        /// </summary>
+        private float GetTrackBarValue(TrackBar trackBar, float defaultValue)
+        {
+            try
+            {
+                if (trackBar != null)
+                {
+                    // Für die meisten TrackBars: Wert durch 100 teilen (0-200 -> 0.0-2.0)
+                    if (trackBar == trackBarMetallicThreshold)
+                    {
+                        return trackBar.Value; // Threshold ist 0-255, nicht durch 100 teilen
+                    }
+                    else
+                    {
+                        return trackBar.Value / 100.0f;
+                    }
+                }
+                return defaultValue;
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// Loads material presets from a JSON configuration file and populates the ComboBox.
+        /// </summary>
+        private void LoadMaterialPresets()
+        {
+            string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "material.json");
+            if (!File.Exists(jsonPath))
+                return;
+
+            string json = File.ReadAllText(jsonPath);
+            dynamic config = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+            comboBoxMaterialSelect.Items.Clear();
+            if (config.Materials != null)
+            {
+                foreach (var mat in config.Materials)
+                {
+                    comboBoxMaterialSelect.Items.Add((string)mat.MaterialName);
+                }
+                
+                // StandardPBR automatisch auswählen falls vorhanden
+                if (comboBoxMaterialSelect.Items.Count > 0)
+                {
+                    int standardIdx = comboBoxMaterialSelect.Items.IndexOf("StandardPBR");
+                    if (standardIdx >= 0)
+                    {
+                        comboBoxMaterialSelect.SelectedIndex = standardIdx;
+                    }
+                    else
+                    {
+                        comboBoxMaterialSelect.SelectedIndex = 0;
+                    }
+                    
+                    // ComboBox-Text explizit setzen
+                    comboBoxMaterialSelect.Text = comboBoxMaterialSelect.SelectedItem?.ToString();
+                }
+            }
+        }
+
+        #endregion Parameter- und UI-Updates
+
+        #region Hilfsfunktionen & Utility
+
+        /// <summary>
+        /// Returns the tooltip text based on the current UI culture.
+        /// </summary>
+        private string GetTooltip(string en, string de, string fr, string es)
+        {
+            var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+            switch (culture)
+            {
+                case "de": return de;
+                case "fr": return fr;
+                case "es": return es;
+                default: return en;
+            }
+        }
+
+        /// <summary>
+        /// Simple 3D Vector struct for basic vector operations.
+        /// </summary>
+        public struct Vector3
+        {
+            public float X, Y, Z;
+            
+            public Vector3(float x, float y, float z)
+            {
+                X = x;
+                Y = y;
+                Z = z;
+            }
+            
+            public static Vector3 Normalize(Vector3 v)
+            {
+                float length = (float)Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+                if (length > 0)
+                {
+                    return new Vector3(v.X / length, v.Y / length, v.Z / length);
+                }
+                return new Vector3(0, 0, 1);
+            }
+            
+            public static float Dot(Vector3 a, Vector3 b)
+            {
+                return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
+            }
+            
+            public static Vector3 operator +(Vector3 a, Vector3 b)
+            {
+                return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
+            }
+        }
+
+
+        #endregion Hilfsfunktionen & Utility
+
+        #region Event Handler
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ProcessStartInfo sInfo = new ProcessStartInfo("https://aiaicapta.in/gltf-packer/");
+            Process.Start(sInfo);
+        }
+
+        private void PictureBoxMouseDown(object sender, MouseEventArgs e)
+        {
+            PictureBox picBox = (PictureBox)sender;
+            picBox.ImageLocation = null;
+            buttonSave.Enabled = pictureBoxBaseColor.ImageLocation != null;
+        }
+
+        private void Ensure_width()
+        {
+            // Neue 3-Spalten Layout Größenbeschränkungen Fenstergrößen
+            // Mindestbreite = 1000, Mindesthöhe = 750
+            this.MinimumSize = new Size(940, 975); // 
+            this.MaximumSize = new Size(940, 975); // Unterstützt große Monitore
+        }
+
+
+        private Bitmap GenerateSolidColor(byte r, byte g, byte b, int width, int height)
+        {
+            Bitmap bmp = new Bitmap(width, height);
+            using (Graphics gfx = Graphics.FromImage(bmp))
+            {
+                gfx.Clear(Color.FromArgb(r, g, b));
+            }
+            return bmp;
+        }
+
+        private Bitmap GenerateBlack(int width, int height)
+        {
+            Bitmap bmp = new Bitmap(width, height);
+            using (Graphics gfx = Graphics.FromImage(bmp))
+            {
+                gfx.Clear(Color.Black);
+            }
+            return bmp;
         }
 
         private Bitmap GenerateNormalMapFromBaseColor(Bitmap baseColor)
@@ -1470,23 +2303,6 @@ namespace PBR_Material_Maker
         /// </summary>
         /// <param name="bitmap">Das zu bearbeitende Bitmap.</param>
         /// <param name="tint">Ein Array mit drei float-Werten für R, G, B (z.B. {1.0f, 1.0f, 1.0f}).</param>
-        private void ApplyBaseColorTint(Bitmap bitmap, float[] tint)
-        {
-            if (tint == null || tint.Length != 3) return;
-            int width = bitmap.Width;
-            int height = bitmap.Height;
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
-                {
-                    Color c = bitmap.GetPixel(x, y);
-                    int r = Math.Min(255, (int)(c.R * tint[0]));
-                    int g = Math.Min(255, (int)(c.G * tint[1]));
-                    int b = Math.Min(255, (int)(c.B * tint[2]));
-                    bitmap.SetPixel(x, y, Color.FromArgb(r, g, b));
-                }
-            }
-        }
 
         private void ComboBoxMaterialSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1515,89 +2331,6 @@ namespace PBR_Material_Maker
             }
         }
 
-        private void UpdateUIFromMaterialConfig()
-        {
-            // Normal Strength: 0.0-2.0 -> TrackBar 0-200
-            if (materialConfig.NormalStrength != null)
-            {
-                trackBarNormalStrength.Value = (int)(materialConfig.NormalStrength * 100);
-                textBoxNormalStrength.Text = materialConfig.NormalStrength.ToString("0.0");
-            }
-
-            // Roughness Strength: 0.0-2.0 -> TrackBar 0-200
-            if (materialConfig.RoughnessStrength != null)
-            {
-                trackBarRoughnessStrength.Value = (int)(materialConfig.RoughnessStrength * 100);
-                textBoxRoughnessStrength.Text = materialConfig.RoughnessStrength.ToString("0.0");
-            }
-
-            // Occlusion Strength: 0.0-2.0 -> TrackBar 0-200
-            if (materialConfig.OcclusionStrength != null)
-            {
-                trackBarOcclusionStrength.Value = (int)(materialConfig.OcclusionStrength * 100);
-                textBoxOcclusionStrength.Text = materialConfig.OcclusionStrength.ToString("0.0");
-            }
-
-            // Metallic Intensity (entspricht MetallicStrength)
-            if (materialConfig.MetallicIntensity != null)
-            {
-                trackBarMetallicStrength.Value = (int)(materialConfig.MetallicIntensity * 100);
-                textBoxMetallicStrength.Text = materialConfig.MetallicIntensity.ToString("0.0");
-            }
-
-            // Metallic Threshold: 0-255 -> TrackBar 0-255
-            if (materialConfig.MetallicThreshold != null)
-            {
-                trackBarMetallicThreshold.Value = (int)materialConfig.MetallicThreshold;
-                textBoxMetallicThreshold.Text = materialConfig.MetallicThreshold.ToString();
-            }
-
-            // Emission Strength: 0.0-2.0 -> TrackBar 0-200
-            if (materialConfig.EmissionStrength != null)
-            {
-                trackBarEmissionStrength.Value = (int)(materialConfig.EmissionStrength * 100);
-                textBoxEmissionStrength.Text = materialConfig.EmissionStrength.ToString("0.0");
-            }
-
-            // Alpha Strength: 0.0-2.0 -> TrackBar 0-200
-            if (materialConfig.AlphaStrength != null)
-            {
-                trackBarAlphaStrength.Value = (int)(materialConfig.AlphaStrength * 100);
-                textBoxAlphaStrength.Text = materialConfig.AlphaStrength.ToString("0.0");
-            }
-
-            // Normal Flip Y (Boolean) - RoughnessInvert ist hier etwas verwirrend benannt
-            if (materialConfig.RoughnessInvert != null)
-                textBoxNormalFlipY.Text = (bool)materialConfig.RoughnessInvert ? "1" : "0";
-
-            // Color Picker Button-Farben aktualisieren
-            if (materialConfig.BaseColorTint != null && materialConfig.BaseColorTint.Count >= 3)
-            {
-                int r = (int)(materialConfig.BaseColorTint[0] * 255);
-                int g = (int)(materialConfig.BaseColorTint[1] * 255);
-                int b = (int)(materialConfig.BaseColorTint[2] * 255);
-                Color baseColor = Color.FromArgb(r, g, b);
-                buttonBaseColorTint.BackColor = baseColor;
-                buttonBaseColorTint.ForeColor = GetContrastColor(baseColor);
-            }
-
-            if (materialConfig.EmissionColor != null && materialConfig.EmissionColor.Count >= 3)
-            {
-                int r = (int)(materialConfig.EmissionColor[0] * 255);
-                int g = (int)(materialConfig.EmissionColor[1] * 255);
-                int b = (int)(materialConfig.EmissionColor[2] * 255);
-                Color emissionColor = Color.FromArgb(r, g, b);
-                buttonEmissionColor.BackColor = emissionColor;
-                buttonEmissionColor.ForeColor = GetContrastColor(emissionColor);
-            }
-
-            // Sicherstellen, dass alle Controls sichtbar sind
-            foreach (Control control in panelControls.Controls)
-            {
-                control.Visible = true;
-            }
-        }
-
         private void ButtonGenerateMaps_Click(object sender, EventArgs e)
         {
             GenerateMissingMaps();
@@ -1605,6 +2338,7 @@ namespace PBR_Material_Maker
 
         private void GenerateMissingMaps()
         {
+            this.UseWaitCursor = true;
             try
             {
                 // Prüfe welche Basis-Textur vorhanden ist oder lade Fallback
@@ -1617,6 +2351,7 @@ namespace PBR_Material_Maker
                     
                     if (baseTexture == null)
                     {
+                        this.UseWaitCursor = false;
                         MessageBox.Show("Keine Base Color Textur vorhanden und Fallback-Textur (fallback.jpg) nicht gefunden!\n\n" +
                                         "Bitte laden Sie eine Base Color Textur oder stellen Sie sicher, dass 'fallback.jpg' im Resources-Verzeichnis vorhanden ist.", 
                                         "Keine Basis-Textur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1691,26 +2426,34 @@ namespace PBR_Material_Maker
                 // Aktualisiere auch die TextBox-Werte für die aktuellen Parameter
                 UpdateParameterTextBoxes();
 
-                // MessageBox.Show("Fehlende Maps wurden erfolgreich generiert!", "Maps generiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.UseWaitCursor = false;
+                MessageBox.Show("Fehlende Maps wurden erfolgreich generiert!", "Maps generiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 baseTexture?.Dispose();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Generieren der Maps: {ex.Message}", 
-                                "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.UseWaitCursor = false;
+                MessageBox.Show($"Fehler beim Generieren der Maps: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                this.UseWaitCursor = false;
             }
         }
-
 
         private void BatchButtonGenerateMaps_Click(object sender, EventArgs e)
         {
             // Verzeichnis und Suffixe für BaseColor-Texturen bestimmen
             if (pictureBoxBaseColor.ImageLocation == null)
             {
+                this.UseWaitCursor = false;
                 MessageBox.Show("Base Color Required");
                 return;
             }
+
+            this.UseWaitCursor = true;
+
             string baseDir = Path.GetDirectoryName(pictureBoxBaseColor.ImageLocation);
             string[] baseColorSuffixes = new string[] { "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor" };
             string[] imageExtensions = new string[] { ".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".tga", ".exr", ".hdr" };
@@ -1726,6 +2469,7 @@ namespace PBR_Material_Maker
             ).ToList();
             if (baseColorFiles.Count == 0)
             {
+                this.UseWaitCursor = false;
                 MessageBox.Show("Keine BaseColor-Texturen im Verzeichnis gefunden.");
                 return;
             }
@@ -1831,15 +2575,19 @@ namespace PBR_Material_Maker
                     Debug.WriteLine($"Fehler beim Generieren der ORM-Map für {matName}: {ex.Message}");
                 }
             }
-
+            
+            this.UseWaitCursor = false;
             MessageBox.Show("Batch-Generierung der fehlenden Maps abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void BatchGenerateMissingMaps()
         {
-            // todo: Dies soll alle Materialien im ausgewähltem Verzeichnis verarbeiten.
+            // Dies soll alle Materialien im ausgewähltem Verzeichnis verarbeiten.
             // Wird die erste Base Color Textur gefunden wird das ganze Verzeichnis verarbeitet.
             // Fehlende Maps werden generiert und gespeichert.
+
+            this.UseWaitCursor = true;
+
             try
             {
                 // Prüfe welche Basis-Textur vorhanden ist oder lade Fallback
@@ -1852,6 +2600,7 @@ namespace PBR_Material_Maker
                     
                     if (baseTexture == null)
                     {
+                        this.UseWaitCursor = false;
                         MessageBox.Show("Keine Base Color Textur vorhanden und Fallback-Textur (fallback.jpg) nicht gefunden!\n\n" +
                                         "Bitte laden Sie eine Base Color Textur oder stellen Sie sicher, dass 'fallback.jpg' im Resources-Verzeichnis vorhanden ist.", 
                                         "Keine Basis-Textur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1926,21 +2675,20 @@ namespace PBR_Material_Maker
                 // Aktualisiere auch die TextBox-Werte für die aktuellen Parameter
                 UpdateParameterTextBoxes();
 
-                // MessageBox.Show("Fehlende Maps wurden erfolgreich generiert!", "Maps generiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.UseWaitCursor = false;
+                MessageBox.Show("Fehlende Maps wurden erfolgreich generiert!", "Maps generiert", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 baseTexture?.Dispose();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Fehler beim Generieren der Maps: {ex.Message}", 
-                                "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.UseWaitCursor = false;
+                MessageBox.Show($"Fehler beim Generieren der Maps: {ex.Message}", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            this.UseWaitCursor = false;
         }
 
-
-        /// <summary>
-        /// Lädt die Fallback-Textur aus dem Resources-Verzeichnis
-        /// </summary>
         private Bitmap LoadFallbackTexture()
         {
             try
@@ -1974,129 +2722,9 @@ namespace PBR_Material_Maker
             }
         }
 
-        /// <summary>
-        /// Prüft ob eine PictureBox leer ist (keine Textur geladen oder gelöscht)
-        /// </summary>
         private bool IsTextureEmpty(PictureBox pictureBox)
         {
             return pictureBox.Image == null && string.IsNullOrEmpty(pictureBox.ImageLocation);
-        }
-
-        /// <summary>
-        /// Aktualisiert alle Parameter-TextBoxes mit den aktuellen TrackBar-Werten
-        /// </summary>
-        private void UpdateParameterTextBoxes()
-        {
-            try
-            {
-                // Base Color Parameter
-                if (trackBarBaseColorStrength != null && textBoxBaseColorStrength != null)
-                    textBoxBaseColorStrength.Text = (trackBarBaseColorStrength.Value / 100.0f).ToString("F2");
-                if (trackBarContrast != null && textBoxContrast != null)
-                    textBoxContrast.Text = (trackBarContrast.Value / 100.0f).ToString("F2");
-                if (trackBarBrightness != null && textBoxBrightness != null)
-                    textBoxBrightness.Text = (trackBarBrightness.Value / 100.0f).ToString("F2");
-
-                // Metallic Parameter
-                if (trackBarMetallicStrength != null && textBoxMetallicStrength != null)
-                    textBoxMetallicStrength.Text = (trackBarMetallicStrength.Value / 100.0f).ToString("F2");
-                if (trackBarMetallicThreshold != null && textBoxMetallicThreshold != null)
-                    textBoxMetallicThreshold.Text = trackBarMetallicThreshold.Value.ToString();
-
-                // Roughness Parameter
-                if (trackBarRoughnessStrength != null && textBoxRoughnessStrength != null)
-                    textBoxRoughnessStrength.Text = (trackBarRoughnessStrength.Value / 100.0f).ToString("F2");
-
-                // Normal Map Parameter
-                if (trackBarNormalStrength != null && textBoxNormalStrength != null)
-                    textBoxNormalStrength.Text = (trackBarNormalStrength.Value / 100.0f).ToString("F2");
-                if (trackBarNormalFlipY != null && textBoxNormalFlipY != null)
-                    textBoxNormalFlipY.Text = trackBarNormalFlipY.Value.ToString();
-
-                // Ambient Occlusion Parameter
-                if (trackBarOcclusionStrength != null && textBoxOcclusionStrength != null)
-                    textBoxOcclusionStrength.Text = (trackBarOcclusionStrength.Value / 100.0f).ToString("F2");
-
-                // Emission Parameter
-                if (trackBarEmissionStrength != null && textBoxEmissionStrength != null)
-                    textBoxEmissionStrength.Text = (trackBarEmissionStrength.Value / 100.0f).ToString("F2");
-                if (trackBarEmissionEdgeEnhance != null && textBoxEmissionEdgeEnhance != null)
-                    textBoxEmissionEdgeEnhance.Text = (trackBarEmissionEdgeEnhance.Value / 100.0f).ToString("F2");
-                if (trackBarEmissionEdgeStrength != null && textBoxEmissionEdgeStrength != null)
-                    textBoxEmissionEdgeStrength.Text = (trackBarEmissionEdgeStrength.Value / 100.0f).ToString("F2");
-
-                // Alpha Parameter
-                if (trackBarAlphaStrength != null && textBoxAlphaStrength != null)
-                    textBoxAlphaStrength.Text = (trackBarAlphaStrength.Value / 100.0f).ToString("F2");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Fehler beim Aktualisieren der Parameter-TextBoxes: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// Hilfsmethode zum Lesen von TrackBar-Werten mit Fallback
-        /// </summary>
-        private float GetTrackBarValue(TrackBar trackBar, float defaultValue)
-        {
-            try
-            {
-                if (trackBar != null)
-                {
-                    // Für die meisten TrackBars: Wert durch 100 teilen (0-200 -> 0.0-2.0)
-                    if (trackBar == trackBarMetallicThreshold)
-                    {
-                        return trackBar.Value; // Threshold ist 0-255, nicht durch 100 teilen
-                    }
-                    else
-                    {
-                        return trackBar.Value / 100.0f;
-                    }
-                }
-                return defaultValue;
-            }
-            catch
-            {
-                return defaultValue;
-            }
-        }
-
-        // Fügen Sie dies in MainForm ein, z.B. in Form1_Load oder einer passenden Initialisierungsmethode.
-        private void LoadMaterialPresets()
-        {
-            string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "material.json");
-            if (!File.Exists(jsonPath))
-                return;
-
-            string json = File.ReadAllText(jsonPath);
-            dynamic config = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
-
-            comboBoxMaterialSelect.Items.Clear();
-            if (config.Materials != null)
-            {
-                foreach (var mat in config.Materials)
-                {
-                    comboBoxMaterialSelect.Items.Add((string)mat.MaterialName);
-                }
-                
-                // StandardPBR automatisch auswählen falls vorhanden
-                if (comboBoxMaterialSelect.Items.Count > 0)
-                {
-                    int standardIdx = comboBoxMaterialSelect.Items.IndexOf("StandardPBR");
-                    if (standardIdx >= 0)
-                    {
-                        comboBoxMaterialSelect.SelectedIndex = standardIdx;
-                    }
-                    else
-                    {
-                        comboBoxMaterialSelect.SelectedIndex = 0;
-                    }
-                    
-                    // ComboBox-Text explizit setzen
-                    comboBoxMaterialSelect.Text = comboBoxMaterialSelect.SelectedItem?.ToString();
-                }
-            }
         }
 
         protected override void OnResize(EventArgs e)
@@ -2105,59 +2733,7 @@ namespace PBR_Material_Maker
             // Keine manuelle Positionierung mehr!
             // Das Layout wird durch das Panel und die Designer-Einstellungen gesteuert.
         }
-
-        private string GetTooltip(string en, string de, string fr, string es)
-        {
-            var culture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
-            switch (culture)
-            {
-                case "de": return de;
-                case "fr": return fr;
-                case "es": return es;
-                default: return en;
-            }
-        }
-
-        private void UpdatePBRPreview()
-        {
-            try
-            {
-                // Nur aktualisieren wenn Form geladen ist
-                if (!this.IsHandleCreated || this.IsDisposed) return;
-                
-                // 512x512 PBR-Vorschau auf Sphere rendern
-                Bitmap preview = RenderPBRSphere(512, 512);
-                
-                // UI-Thread-sicher aktualisieren
-                if (this.InvokeRequired)
-                {
-                    this.BeginInvoke(new Action(() => {
-                        if (pictureBoxPBRPreview.Image != null)
-                        {
-                            pictureBoxPBRPreview.Image.Dispose();
-                        }
-                        pictureBoxPBRPreview.Image = preview;
-                    }));
-                }
-                else
-                {
-                    if (pictureBoxPBRPreview.Image != null)
-                    {
-                        pictureBoxPBRPreview.Image.Dispose();
-                    }
-                    pictureBoxPBRPreview.Image = preview;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Fehler beim Aktualisieren der PBR-Vorschau: {ex.Message}");
-                Debug.WriteLine($"StackTrace: {ex.StackTrace}");
-            }
-        }
-
-        /// <summary>
-        /// Event-Handler für Klick auf PBR Vorschau - Manuelle Aktualisierung
-        /// </summary>
+ 
         private void PictureBoxPBRPreview_Click(object sender, EventArgs e)
         {
             try
@@ -2187,125 +2763,6 @@ namespace PBR_Material_Maker
             }
         }
 
-        /// <summary>
-        /// Aktualisiert die PBR-Vorschau in quadratischem Format
-        /// </summary>
-        private void UpdatePBRPreviewSquare()
-        {
-            try
-            {
-                // Quadratische 400x400 PBR-Vorschau auf Sphere rendern
-                var preview = RenderPBRSphere(400, 400); // Quadratisch statt 520x400
-                
-                if (preview != null)
-                {
-                    if (pictureBoxPBRPreview.InvokeRequired)
-                    {
-                        pictureBoxPBRPreview.Invoke(new Action(() =>
-                        {
-                            if (pictureBoxPBRPreview.Image != null)
-                            {
-                                pictureBoxPBRPreview.Image.Dispose();
-                            }
-                            pictureBoxPBRPreview.Image = preview;
-                        }));
-                    }
-                    else
-                    {
-                        if (pictureBoxPBRPreview.Image != null)
-                        {
-                            pictureBoxPBRPreview.Image.Dispose();
-                        }
-                        pictureBoxPBRPreview.Image = preview;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Fehler beim Aktualisieren der quadratischen PBR-Vorschau: {ex.Message}");
-            }
-        }
-
-        private Bitmap RenderPBRSphere(int width, int height)
-        {
-            Bitmap result = new Bitmap(width, height);
-            
-            using (Graphics g = Graphics.FromImage(result))
-            {
-                // Schwarzer Hintergrund für bessere PBR-Darstellung
-                g.Clear(Color.Black);
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                
-                // Sphere-Parameter
-                int centerX = width / 2;
-                int centerY = height / 2;
-                int radius = Math.Min(width, height) / 2 - 10;
-                
-                // Basis-Texturen laden
-                Bitmap baseColorTexture = LoadTextureFromPictureBox(pictureBoxBaseColor);
-                Bitmap normalTexture = LoadTextureFromPictureBox(pictureBoxNormal);
-                Bitmap roughnessTexture = LoadTextureFromPictureBox(pictureBoxRoughness);
-                Bitmap metallicTexture = LoadTextureFromPictureBox(pictureBoxMetallic);
-                Bitmap occlusionTexture = LoadTextureFromPictureBox(pictureBoxOcclusion);
-                Bitmap emissionTexture = LoadTextureFromPictureBox(pictureBoxEmission);
-                
-                // Mehrere Lichtquellen für besseren PBR-Effekt
-                Vector3 mainLight = Vector3.Normalize(new Vector3(1.0f, 1.0f, 0.8f));
-                Vector3 fillLight = Vector3.Normalize(new Vector3(-0.5f, 0.3f, 0.5f));
-                Vector3 rimLight = Vector3.Normalize(new Vector3(0.0f, -0.8f, 0.6f));
-                
-                // Umgebungslicht
-                float ambientStrength = 0.1f;
-                
-                // Sphere rendern mit sicherer SetPixel-Methode
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
-                        // Prüfen ob Punkt in der Sphere ist
-                        float dx = x - centerX;
-                        float dy = y - centerY;
-                        float distSq = dx * dx + dy * dy;
-                        
-                        if (distSq <= radius * radius)
-                        {
-                            // Berechne Sphere-Normale
-                            float z = (float)Math.Sqrt(radius * radius - distSq);
-                            Vector3 normal = Vector3.Normalize(new Vector3(dx / radius, dy / radius, z / radius));
-                            
-                            // UV-Koordinaten für Sphere mapping (verbessert)
-                            float u = (float)(0.5 + Math.Atan2(normal.X, normal.Z) / (2 * Math.PI));
-                            float v = (float)(0.5 - Math.Asin(normal.Y) / Math.PI);
-                            
-                            // Sample Texturen
-                            Color baseColor = SampleTexture(baseColorTexture, u, v, Color.FromArgb(180, 180, 180));
-                            Color roughness = SampleTexture(roughnessTexture, u, v, Color.FromArgb(128, 128, 128));
-                            Color metallic = SampleTexture(metallicTexture, u, v, Color.Black);
-                            Color emission = SampleTexture(emissionTexture, u, v, Color.Black);
-                            Color occlusion = SampleTexture(occlusionTexture, u, v, Color.White);
-                            
-                            // Verbessertes PBR-Shading
-                            Color finalColor = CalculateEnhancedPBRColor(
-                                baseColor, normal, mainLight, fillLight, rimLight, 
-                                roughness, metallic, emission, occlusion, ambientStrength);
-                            
-                            result.SetPixel(x, y, finalColor);
-                        }
-                    }
-                }
-                
-                // Cleanup
-                baseColorTexture?.Dispose();
-                normalTexture?.Dispose();
-                roughnessTexture?.Dispose();
-                metallicTexture?.Dispose();
-                occlusionTexture?.Dispose();
-                emissionTexture?.Dispose();
-            }
-            
-            return result;
-        }
-
         private Bitmap LoadTextureFromPictureBox(PictureBox pictureBox)
         {
             try
@@ -2327,45 +2784,6 @@ namespace PBR_Material_Maker
             return null;
         }
 
-        private Color SampleTexture(Bitmap texture, float u, float v, Color defaultColor)
-        {
-            if (texture == null) return defaultColor;
-            
-            int x = Math.Max(0, Math.Min(texture.Width - 1, (int)(u * texture.Width)));
-            int y = Math.Max(0, Math.Min(texture.Height - 1, (int)(v * texture.Height)));
-            
-            return texture.GetPixel(x, y);
-        }
-
-        private Color CalculatePBRColor(Color baseColor, Vector3 normal, Vector3 lightDir, Color roughness, Color metallic, Color emission)
-        {
-            // Einfaches Lambertsches Diffuse-Shading
-            float NdotL = Math.Max(0, Vector3.Dot(normal, lightDir));
-            
-            // Metallicity
-            float metallicValue = metallic.R / 255.0f;
-            
-            // Roughness
-            float roughnessValue = roughness.R / 255.0f;
-            
-            // Diffuse-Komponente
-            float diffuse = NdotL * (1.0f - metallicValue);
-            
-            // Einfache Specular-Komponente
-            Vector3 viewDir = new Vector3(0, 0, 1); // Kamera schaut direkt auf Sphere
-            Vector3 halfDir = Vector3.Normalize(lightDir + viewDir);
-            float NdotH = Math.Max(0, Vector3.Dot(normal, halfDir));
-            float specular = (float)Math.Pow(NdotH, (1.0f - roughnessValue) * 64.0f) * metallicValue;
-            
-            // Farbe berechnen
-            float r = Math.Min(255, baseColor.R * diffuse + specular * 255 + emission.R);
-            float g = Math.Min(255, baseColor.G * diffuse + specular * 255 + emission.G);
-            float b = Math.Min(255, baseColor.B * diffuse + specular * 255 + emission.B);
-            
-            return Color.FromArgb((int)r, (int)g, (int)b);
-        }
-
-        // Color Picker Event Handlers
         private void ButtonBaseColorTint_Click(object sender, EventArgs e)
         {
             using (ColorDialog colorDialog = new ColorDialog())
@@ -2441,102 +2859,10 @@ namespace PBR_Material_Maker
                 }
             }
         }
-
-        private Color GetContrastColor(Color color)
-        {
-            // Berechne Helligkeit und wähle kontrastierende Textfarbe
-            double brightness = (color.R * 0.299 + color.G * 0.587 + color.B * 0.114);
-            return brightness > 128 ? Color.Black : Color.White;
-        }
-
-        private Color CalculateEnhancedPBRColor(Color baseColor, Vector3 normal, Vector3 mainLight, Vector3 fillLight, Vector3 rimLight, 
-                                              Color roughness, Color metallic, Color emission, Color occlusion, float ambientStrength)
-        {
-            // Material-Eigenschaften
-            float metallicValue = metallic.R / 255.0f;
-            float roughnessValue = Math.Max(0.04f, roughness.R / 255.0f); // Mindest-Roughness
-            float occlusionValue = occlusion.R / 255.0f;
-            
-            // Fresnel-Effekt für realistischere Reflexionen
-            Vector3 viewDir = new Vector3(0, 0, 1);
-            float VdotN = Math.Max(0, Vector3.Dot(viewDir, normal));
-            float fresnel = 1.0f - VdotN;
-            fresnel = fresnel * fresnel * fresnel; // Kubischer Fresnel
-            
-            // Hauptlicht-Berechnung
-            float mainNdotL = Math.Max(0, Vector3.Dot(normal, mainLight));
-            Vector3 mainHalf = Vector3.Normalize(mainLight + viewDir);
-            float mainNdotH = Math.Max(0, Vector3.Dot(normal, mainHalf));
-            float mainSpecular = (float)Math.Pow(mainNdotH, (1.0f - roughnessValue) * 128.0f) * (1.0f + metallicValue * 2.0f);
-            
-            // Fülllicht
-            float fillNdotL = Math.Max(0, Vector3.Dot(normal, fillLight)) * 0.3f;
-            
-            // Rim-Light für Kantenhighlights
-            float rimNdotL = Math.Max(0, Vector3.Dot(normal, rimLight));
-            float rimEffect = (float)Math.Pow(1.0f - VdotN, 3.0f) * rimNdotL * 0.5f;
-            
-            // Diffuse-Beleuchtung
-            float totalDiffuse = (mainNdotL + fillNdotL + ambientStrength) * (1.0f - metallicValue * 0.8f);
-            
-            // Specular-Highlight mit Fresnel
-            float totalSpecular = mainSpecular * (fresnel * 0.5f + 0.5f) + rimEffect;
-            
-            // Occlusion anwenden
-            totalDiffuse *= occlusionValue;
-            totalSpecular *= occlusionValue;
-            
-            // Endfarben-Berechnung
-            float r = Math.Min(255, (baseColor.R * totalDiffuse + totalSpecular * 255 * (1.0f + metallicValue)) + emission.R * 2.0f);
-            float g = Math.Min(255, (baseColor.G * totalDiffuse + totalSpecular * 255 * (1.0f + metallicValue)) + emission.G * 2.0f);
-            float b = Math.Min(255, (baseColor.B * totalDiffuse + totalSpecular * 255 * (1.0f + metallicValue)) + emission.B * 2.0f);
-            
-            // Gamma-Korrektur für realistischere Darstellung
-            r = (float)Math.Pow(r / 255.0f, 1.0f / 2.2f) * 255.0f;
-            g = (float)Math.Pow(g / 255.0f, 1.0f / 2.2f) * 255.0f;
-            b = (float)Math.Pow(b / 255.0f, 1.0f / 2.2f) * 255.0f;
-            
-            return Color.FromArgb(Math.Max(0, Math.Min(255, (int)r)), 
-                                  Math.Max(0, Math.Min(255, (int)g)), 
-                                  Math.Max(0, Math.Min(255, (int)b)));
-        }
-
-        // Einfache Vector3-Struktur für Berechnungen
-        public struct Vector3
-        {
-            public float X, Y, Z;
-            
-            public Vector3(float x, float y, float z)
-            {
-                X = x;
-                Y = y;
-                Z = z;
-            }
-            
-            public static Vector3 Normalize(Vector3 v)
-            {
-                float length = (float)Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
-                if (length > 0)
-                {
-                    return new Vector3(v.X / length, v.Y / length, v.Z / length);
-                }
-                return new Vector3(0, 0, 1);
-            }
-            
-            public static float Dot(Vector3 a, Vector3 b)
-            {
-                return a.X * b.X + a.Y * b.Y + a.Z * b.Z;
-            }
-            
-            public static Vector3 operator +(Vector3 a, Vector3 b)
-            {
-                return new Vector3(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
-            }
-        }
+        #endregion  Event Handler
 
         #region Real-time Parameter Update Event Handlers
 
-        // Initialize all TrackBar event handlers
         private void InitializeTrackBarEventHandlers()
         {
             try
@@ -2587,7 +2913,6 @@ namespace PBR_Material_Maker
             }
         }
 
-        // Base Color Parameter Events
         private void TrackBarBaseColorStrength_Scroll(object sender, EventArgs e)
         {
             try
@@ -2636,7 +2961,6 @@ namespace PBR_Material_Maker
             }
         }
 
-        // Metallic Parameter Events
         private void TrackBarMetallicStrength_Scroll(object sender, EventArgs e)
         {
             var value = trackBarMetallicStrength.Value / 100.0f;
@@ -2653,7 +2977,6 @@ namespace PBR_Material_Maker
             UpdatePreviewInRealTime();
         }
 
-        // Roughness Parameter Events
         private void TrackBarRoughnessStrength_Scroll(object sender, EventArgs e)
         {
             var value = trackBarRoughnessStrength.Value / 100.0f;
@@ -2662,7 +2985,6 @@ namespace PBR_Material_Maker
             UpdatePreviewInRealTime();
         }
 
-        // Normal Map Parameter Events
         private void TrackBarNormalStrength_Scroll(object sender, EventArgs e)
         {
             var value = trackBarNormalStrength.Value / 100.0f;
@@ -2679,7 +3001,6 @@ namespace PBR_Material_Maker
             UpdatePreviewInRealTime();
         }
 
-        // Ambient Occlusion Parameter Events
         private void TrackBarOcclusionStrength_Scroll(object sender, EventArgs e)
         {
             var value = trackBarOcclusionStrength.Value / 100.0f;
@@ -2688,7 +3009,6 @@ namespace PBR_Material_Maker
             UpdatePreviewInRealTime();
         }
 
-        // Emission Parameter Events
         private void TrackBarEmissionStrength_Scroll(object sender, EventArgs e)
         {
             var value = trackBarEmissionStrength.Value / 100.0f;
@@ -2713,7 +3033,6 @@ namespace PBR_Material_Maker
             UpdatePreviewInRealTime();
         }
 
-        // Alpha Parameter Events
         private void TrackBarAlphaStrength_Scroll(object sender, EventArgs e)
         {
             var value = trackBarAlphaStrength.Value / 100.0f;
@@ -2722,73 +3041,9 @@ namespace PBR_Material_Maker
             UpdatePreviewInRealTime();
         }
 
-        // Helper method to update material config values
-        private void UpdateMaterialConfigValue(string propertyName, object value)
-        {
-            try
-            {
-                if (materialConfig != null)
-                {
-                    // Update the property using reflection or dynamic assignment
-                    var configType = materialConfig.GetType();
-                    var property = configType.GetProperty(propertyName);
-                    if (property != null && property.CanWrite)
-                    {
-                        property.SetValue(materialConfig, value);
-                    }
-                    else
-                    {
-                        // For dynamic objects, use indexer
-                        ((dynamic)materialConfig)[propertyName] = value;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Log error but don't stop the UI update
-                Debug.WriteLine($"Error updating material config property {propertyName}: {ex.Message}");
-            }
-        }
-
-        // Real-time preview update method
-        private void UpdatePreviewInRealTime()
-        {
-            // Throttle updates to prevent too frequent refreshes
-            if (previewUpdateTimer != null)
-            {
-                previewUpdateTimer.Stop();
-            }
-            
-            previewUpdateTimer = new System.Windows.Forms.Timer();
-            previewUpdateTimer.Interval = 100; // 100ms delay
-            previewUpdateTimer.Tick += (s, e) =>
-            {
-                previewUpdateTimer.Stop();
-                previewUpdateTimer.Dispose();
-                previewUpdateTimer = null;
-                
-                // Trigger preview update
-                try
-                {
-                    GeneratePreviewMaterial();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Error updating preview: {ex.Message}");
-                }
-            };
-            previewUpdateTimer.Start();
-        }
-
         private System.Windows.Forms.Timer previewUpdateTimer;
 
-        // Method to generate preview material
-        private void GeneratePreviewMaterial()
-        {
-            // Use the new square PBR preview method for real-time updates
-            UpdatePBRPreviewSquare();
-        }
 
-        #endregion
+        #endregion  Real-time Parameter Update Event Handlers
     }
 }

@@ -19,4 +19,10 @@
     1.0
   ],
   "AlphaMode": "opaque"
+  ,
+  "ORMMap": {
+    "AORadius": 5.0,
+    "AOContrast": 1.0,
+    "Blending": 0.5
+  }
 }

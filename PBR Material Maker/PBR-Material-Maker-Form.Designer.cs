@@ -159,6 +159,18 @@ namespace PBR_Material_Maker
             labelAlphaStrength = new Label();
             trackBarAlphaStrength = new TrackBar();
             textBoxAlphaStrength = new TextBox(); // statt comboBoxAlphaStrength
+
+            // ORMMap Parameter Controls
+            labelORMMapParams = new Label();
+            labelORM_AORadius = new Label();
+            trackBarORM_AORadius = new TrackBar();
+            textBoxORM_AORadius = new TextBox();
+            labelORM_AOContrast = new Label();
+            trackBarORM_AOContrast = new TrackBar();
+            textBoxORM_AOContrast = new TextBox();
+            labelORM_Blend = new Label();
+            trackBarORM_Blend = new TrackBar();
+            textBoxORM_Blend = new TextBox();
             
             // Color Picker Buttons
             buttonBaseColorTint = new Button();
@@ -476,6 +488,18 @@ namespace PBR_Material_Maker
             panelControls.Controls.Add(labelAlphaStrength);
             panelControls.Controls.Add(trackBarAlphaStrength);
             panelControls.Controls.Add(textBoxAlphaStrength);
+
+            // ORMMap Parameter Controls (direkt unter Alpha)
+            panelControls.Controls.Add(labelORMMapParams);
+            panelControls.Controls.Add(labelORM_AORadius);
+            panelControls.Controls.Add(trackBarORM_AORadius);
+            panelControls.Controls.Add(textBoxORM_AORadius);
+            panelControls.Controls.Add(labelORM_AOContrast);
+            panelControls.Controls.Add(trackBarORM_AOContrast);
+            panelControls.Controls.Add(textBoxORM_AOContrast);
+            panelControls.Controls.Add(labelORM_Blend);
+            panelControls.Controls.Add(trackBarORM_Blend);
+            panelControls.Controls.Add(textBoxORM_Blend);
             
             panelControls.Dock = DockStyle.Fill;
             panelControls.Padding = new Padding(10);
@@ -483,7 +507,7 @@ namespace PBR_Material_Maker
             panelControls.TabIndex = 1;
             panelControls.AutoScroll = true;
 
-            // Material Name (in Preview Panel)
+            
             labelMaterialName.AutoSize = true;
             labelMaterialName.ForeColor = Color.White;
             labelMaterialName.Location = new Point(20, 440);
@@ -973,6 +997,115 @@ namespace PBR_Material_Maker
             labelAlphaStrength.TabIndex = 49;
             labelAlphaStrength.Text = "Stärke";
 
+            // todo: Hier müssen noch einstellungen für ORM hinzugefügt werden.
+            // ORMMap Parameter Section
+            // ORMMap Parameter Section (direkt unter Alpha, Positionen angepasst)
+            int ormBaseY = 740; // Startpunkt unterhalb der Alpha-Parameter
+            int ormSpacing = 30;
+
+
+            // ORMMap Parameter Section (optisch und logisch gruppiert)
+            labelORMMapParams.AutoSize = true;
+            labelORMMapParams.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            labelORMMapParams.ForeColor = Color.FromArgb(100, 150, 255);
+            labelORMMapParams.Location = new Point(15, ormBaseY);
+            labelORMMapParams.Name = "labelORMMapParams";
+            labelORMMapParams.Size = new Size(120, 15);
+            labelORMMapParams.TabIndex = 100;
+            labelORMMapParams.Text = "ORM Map:";
+
+            // AO Radius
+            labelORM_AORadius.AutoSize = true;
+            labelORM_AORadius.ForeColor = Color.White;
+            labelORM_AORadius.Location = new Point(15, ormBaseY + ormSpacing);
+            labelORM_AORadius.Name = "labelORM_AORadius";
+            labelORM_AORadius.Size = new Size(120, 15);
+            labelORM_AORadius.TabIndex = 101;
+            labelORM_AORadius.Text = "AO-Radius (Einfluss)";
+
+            trackBarORM_AORadius.BackColor = Color.FromArgb(80, 80, 80);
+            trackBarORM_AORadius.Location = new Point(160, ormBaseY + ormSpacing - 5);
+            trackBarORM_AORadius.Maximum = 100;
+            trackBarORM_AORadius.Minimum = 0;
+            trackBarORM_AORadius.Name = "trackBarORM_AORadius";
+            trackBarORM_AORadius.Size = new Size(100, 25);
+            trackBarORM_AORadius.TabIndex = 102;
+            trackBarORM_AORadius.TickStyle = TickStyle.TopLeft;
+            trackBarORM_AORadius.TickFrequency = 10;
+            trackBarORM_AORadius.Value = 50;
+            toolTip1.SetToolTip(trackBarORM_AORadius, "AO-Radius: Bestimmt den Einflussbereich der Ambient Occlusion in der ORMMap.");
+
+            textBoxORM_AORadius.BackColor = Color.FromArgb(60, 60, 60);
+            textBoxORM_AORadius.ForeColor = Color.White;
+            textBoxORM_AORadius.Location = new Point(265, ormBaseY + ormSpacing - 3);
+            textBoxORM_AORadius.Name = "textBoxORM_AORadius";
+            textBoxORM_AORadius.Size = new Size(50, 23);
+            textBoxORM_AORadius.TabIndex = 103;
+            textBoxORM_AORadius.Text = "0.5";
+
+            // AO Kontrast
+            labelORM_AOContrast.AutoSize = true;
+            labelORM_AOContrast.ForeColor = Color.White;
+            labelORM_AOContrast.Location = new Point(15, ormBaseY + 2 * ormSpacing);
+            labelORM_AOContrast.Name = "labelORM_AOContrast";
+            labelORM_AOContrast.Size = new Size(120, 15);
+            labelORM_AOContrast.TabIndex = 104;
+            labelORM_AOContrast.Text = "AO-Kontrast (Intensität)";
+
+            trackBarORM_AOContrast.BackColor = Color.FromArgb(80, 80, 80);
+            trackBarORM_AOContrast.Location = new Point(160, ormBaseY + 2 * ormSpacing - 5);
+            trackBarORM_AOContrast.Maximum = 200;
+            trackBarORM_AOContrast.Minimum = 0;
+            trackBarORM_AOContrast.Name = "trackBarORM_AOContrast";
+            trackBarORM_AOContrast.Size = new Size(100, 25);
+            trackBarORM_AOContrast.TabIndex = 105;
+            trackBarORM_AOContrast.TickStyle = TickStyle.TopLeft;
+            trackBarORM_AOContrast.TickFrequency = 20;
+            trackBarORM_AOContrast.Value = 100;
+            toolTip1.SetToolTip(trackBarORM_AOContrast, "AO-Kontrast: Regelt die Schattierungsintensität der Ambient Occlusion in der ORMMap.");
+
+            textBoxORM_AOContrast.BackColor = Color.FromArgb(60, 60, 60);
+            textBoxORM_AOContrast.ForeColor = Color.White;
+            textBoxORM_AOContrast.Location = new Point(265, ormBaseY + 2 * ormSpacing - 3);
+            textBoxORM_AOContrast.Name = "textBoxORM_AOContrast";
+            textBoxORM_AOContrast.Size = new Size(50, 23);
+            textBoxORM_AOContrast.TabIndex = 106;
+            textBoxORM_AOContrast.Text = "1.0";
+
+            // Blending
+            labelORM_Blend.AutoSize = true;
+            labelORM_Blend.ForeColor = Color.White;
+            labelORM_Blend.Location = new Point(15, ormBaseY + 3 * ormSpacing);
+            labelORM_Blend.Name = "labelORM_Blend";
+            labelORM_Blend.Size = new Size(120, 15);
+            labelORM_Blend.TabIndex = 107;
+            labelORM_Blend.Text = "Blending (Mischung)";
+
+            trackBarORM_Blend.BackColor = Color.FromArgb(80, 80, 80);
+            trackBarORM_Blend.Location = new Point(160, ormBaseY + 3 * ormSpacing - 5);
+            trackBarORM_Blend.Maximum = 100;
+            trackBarORM_Blend.Minimum = 0;
+            trackBarORM_Blend.Name = "trackBarORM_Blend";
+            trackBarORM_Blend.Size = new Size(100, 25);
+            trackBarORM_Blend.TabIndex = 108;
+            trackBarORM_Blend.TickStyle = TickStyle.TopLeft;
+            trackBarORM_Blend.TickFrequency = 10;
+            trackBarORM_Blend.Value = 50;
+            toolTip1.SetToolTip(trackBarORM_Blend, "Blending: Mischanteil der AO mit anderen Maps in der ORMMap.");
+
+            textBoxORM_Blend.BackColor = Color.FromArgb(60, 60, 60);
+            textBoxORM_Blend.ForeColor = Color.White;
+            textBoxORM_Blend.Location = new Point(265, ormBaseY + 3 * ormSpacing - 3);
+            textBoxORM_Blend.Name = "textBoxORM_Blend";
+            textBoxORM_Blend.Size = new Size(50, 23);
+            textBoxORM_Blend.TabIndex = 109;
+            textBoxORM_Blend.Text = "0.5";
+
+
+
+
+
+
             trackBarAlphaStrength.BackColor = Color.FromArgb(80, 80, 80);
             trackBarAlphaStrength.Location = new Point(115, 700);
             trackBarAlphaStrength.Maximum = 200;
@@ -1302,6 +1435,18 @@ namespace PBR_Material_Maker
         private Label labelAlphaStrength;
         private TrackBar trackBarAlphaStrength;
         private TextBox textBoxAlphaStrength;
+
+        // ORMMap Parameter Controls
+        private Label labelORMMapParams;
+        private Label labelORM_AORadius;
+        private TrackBar trackBarORM_AORadius;
+        private TextBox textBoxORM_AORadius;
+        private Label labelORM_AOContrast;
+        private TrackBar trackBarORM_AOContrast;
+        private TextBox textBoxORM_AOContrast;
+        private Label labelORM_Blend;
+        private TrackBar trackBarORM_Blend;
+        private TextBox textBoxORM_Blend;
         
         // Color Picker Buttons
         private Button buttonBaseColorTint;
