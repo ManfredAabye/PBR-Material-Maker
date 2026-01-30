@@ -13,7 +13,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 8.0,
+                    "AOContrast": 0.8,
+                    "Blending": 0.7
+                }
         },
         {
             "MaterialName": "Blätter frisch",
@@ -28,7 +33,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "mask"
+            "AlphaMode": "mask",
+                "ORMMap": {
+                    "AORadius": 3.0,
+                    "AOContrast": 1.2,
+                    "Blending": 0.6
+                }
         },
         {
             "MaterialName": "Blätter trocken",
@@ -43,7 +53,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "mask"
+            "AlphaMode": "mask",
+                "ORMMap": {
+                    "AORadius": 6.0,
+                    "AOContrast": 1.5,
+                    "Blending": 0.8
+                }
         },
         {
             "MaterialName": "Blumenblätter frisch",
@@ -58,7 +73,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+                "ORMMap": {
+                    "AORadius": 2.0,
+                    "AOContrast": 0.9,
+                    "Blending": 0.4
+                }
         },
         {
             "MaterialName": "Bronze",
@@ -73,7 +93,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.85,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 4.0,
+                    "AOContrast": 1.8,
+                    "Blending": 0.6
+                }
         },
         {
             "MaterialName": "Denim",
@@ -88,7 +113,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 7.0,
+                    "AOContrast": 1.1,
+                    "Blending": 0.7
+                }
         },
         {
             "MaterialName": "Eisen poliert",
@@ -103,7 +133,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.95,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 3.0,
+                    "AOContrast": 2.0,
+                    "Blending": 0.3
+                }
         },
         {
             "MaterialName": "Eisen rostig",
@@ -118,7 +153,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.3,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 10.0,
+                    "AOContrast": 1.4,
+                    "Blending": 0.9
+                }
         },
         {
             "MaterialName": "Eis",
@@ -133,7 +173,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+                "ORMMap": {
+                    "AORadius": 2.0,
+                    "AOContrast": 0.7,
+                    "Blending": 0.2
+                }
         },
         {
             "MaterialName": "Elfenbein",
@@ -148,7 +193,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.08,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 6.0,
+                    "AOContrast": 1.1,
+                    "Blending": 0.5
+                }
         },
         {
             "MaterialName": "Erde",
@@ -163,7 +213,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.05,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 12.0,
+                    "AOContrast": 1.3,
+                    "Blending": 0.9
+                }
         },
         {
             "MaterialName": "Frischer Schnee",
@@ -178,7 +233,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.05,
             "EmissionColor": [ 0.9, 0.95, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+                "ORMMap": {
+                    "AORadius": 15.0,
+                    "AOContrast": 0.6,
+                    "Blending": 0.8
+                }
         },
         {
             "MaterialName": "Glas",
@@ -193,7 +253,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.01,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+                "ORMMap": {
+                    "AORadius": 1.5,
+                    "AOContrast": 0.8,
+                    "Blending": 0.1
+                }
         },
         {
             "MaterialName": "Glas klar",
@@ -208,7 +273,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Glas mattiert",
@@ -223,7 +293,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Glitzerstoff",
@@ -238,7 +313,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.4,
             "EmissionColor": [ 1.0, 0.7, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Glow-in-the-dark",
@@ -253,7 +333,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 0.5, 1.0, 0.5 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Gold",
@@ -268,7 +353,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 1.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Granit",
@@ -283,7 +373,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.2,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Gras",
@@ -298,7 +393,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "mask"
+            "AlphaMode": "mask",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Haut menschlich",
@@ -313,7 +413,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.05,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Holz geölt",
@@ -328,7 +433,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.08,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Holz glatt",
@@ -343,7 +453,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.05,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Holz lackiert",
@@ -358,7 +473,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.1,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Holz rau",
@@ -373,7 +493,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.02,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Kalkstein",
@@ -388,7 +513,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.1,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Kieselsteine",
@@ -403,7 +533,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.18,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Knochen",
@@ -418,7 +553,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.1,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Kristall",
@@ -433,7 +573,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Kupfer blank",
@@ -448,7 +593,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.9,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Kupfer oxidiert",
@@ -463,7 +613,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.4,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 8.0,
+                "AOContrast": 1.4,
+                "Blending": 0.7
+            }
         },
         {
             "MaterialName": "Kupfer Metall",
@@ -478,7 +633,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.95,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 4.0,
+                "AOContrast": 1.7,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Lackiertes Holz",
@@ -493,7 +653,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.08,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.2,
+                "Blending": 0.4
+            }
         },
         {
             "MaterialName": "Lava",
@@ -508,7 +673,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.4,
             "EmissionColor": [ 1.0, 0.5, 0.2 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 12.0,
+                "AOContrast": 1.5,
+                "Blending": 0.9
+            }
         },
         {
             "MaterialName": "LED weiß",
@@ -523,7 +693,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.2,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 1.0,
+                "AOContrast": 0.5,
+                "Blending": 0.1
+            }
         },
         {
             "MaterialName": "Leder",
@@ -538,7 +713,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.08,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 4.0,
+                "AOContrast": 1.0,
+                "Blending": 0.6
+            }
         },
         {
             "MaterialName": "Lehm",
@@ -553,7 +733,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.03,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 10.0,
+                "AOContrast": 1.2,
+                "Blending": 0.8
+            }
         },
         {
             "MaterialName": "Leuchtendes Pilz",
@@ -568,7 +753,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.01,
             "EmissionColor": [ 0.3, 1.0, 0.3 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+            "ORMMap": {
+                "AORadius": 2.0,
+                "AOContrast": 0.6,
+                "Blending": 0.3
+            }
         },
         {
             "MaterialName": "Marmor",
@@ -583,7 +773,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.15,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 7.0,
+                "AOContrast": 1.3,
+                "Blending": 0.7
+            }
         },
         {
             "MaterialName": "Messing",
@@ -598,7 +793,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.88,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 4.0,
+                "AOContrast": 1.7,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Metallisch",
@@ -613,7 +813,12 @@
             "RoughnessInvert": true,
             "MetallicIntensity": 1.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 3.0,
+                "AOContrast": 2.0,
+                "Blending": 0.2
+            }
         },
         {
             "MaterialName": "Moos",
@@ -628,7 +833,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 6.0,
+                "AOContrast": 1.2,
+                "Blending": 0.7
+            }
         },
         {
             "MaterialName": "Nasser Schlamm",
@@ -643,7 +853,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.02,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 11.0,
+                "AOContrast": 1.1,
+                "Blending": 0.9
+            }
         },
         {
             "MaterialName": "Neon rot",
@@ -658,7 +873,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.1,
             "EmissionColor": [ 1.0, 0.3, 0.3 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 1.0,
+                "AOContrast": 0.5,
+                "Blending": 0.1
+            }
         },
         {
             "MaterialName": "Netzstoff",
@@ -673,7 +893,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "masked"
+            "AlphaMode": "masked",
+            "ORMMap": {
+                "AORadius": 2.0,
+                "AOContrast": 0.8,
+                "Blending": 0.3
+            }
         },
         {
             "MaterialName": "Nylon",
@@ -688,7 +913,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.05,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 3.0,
+                "AOContrast": 0.9,
+                "Blending": 0.4
+            }
         },
         {
             "MaterialName": "Obsidian",
@@ -703,7 +933,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.85,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 2.0,
+                "AOContrast": 1.0,
+                "Blending": 0.2
+            }
         },
         {
             "MaterialName": "Pelz",
@@ -718,7 +953,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 7.0,
+                "AOContrast": 1.2,
+                "Blending": 0.8
+            }
         },
         {
             "MaterialName": "Polierter Granit",
@@ -733,7 +973,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.12,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 6.0,
+                "AOContrast": 1.5,
+                "Blending": 0.6
+            }
         },
         {
             "MaterialName": "Rinde Eiche",
@@ -748,7 +993,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.01,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 8.0,
+                "AOContrast": 1.4,
+                "Blending": 0.8
+            }
         },
         {
             "MaterialName": "Rostiges Eisen",
@@ -763,7 +1013,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.3,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 10.0,
+                "AOContrast": 1.4,
+                "Blending": 0.9
+            }
         },
         {
             "MaterialName": "Samt",
@@ -778,7 +1033,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 6.0,
+                "AOContrast": 1.1,
+                "Blending": 0.7
+            }
         },
         {
             "MaterialName": "Sand",
@@ -793,7 +1053,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.1,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 12.0,
+                "AOContrast": 1.2,
+                "Blending": 0.9
+            }
         },
         {
             "MaterialName": "Sandstein",
@@ -808,7 +1073,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.08,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 8.0,
+                "AOContrast": 1.3,
+                "Blending": 0.8
+            }
         },
         {
             "MaterialName": "Satin",
@@ -823,7 +1093,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.15,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 3.0,
+                "AOContrast": 1.0,
+                "Blending": 0.3
+            }
         },
         {
             "MaterialName": "Schiefer",
@@ -838,7 +1113,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.25,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 7.0,
+                "AOContrast": 1.2,
+                "Blending": 0.7
+            }
         },
         {
             "MaterialName": "Seide",
@@ -853,7 +1133,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.02,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 2.0,
+                "AOContrast": 0.8,
+                "Blending": 0.2
+            }
         },
         {
             "MaterialName": "Silber",
@@ -868,7 +1153,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.98,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 3.0,
+                "AOContrast": 2.0,
+                "Blending": 0.2
+            }
         },
         {
             "MaterialName": "StandardPBR",
@@ -883,7 +1173,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.8,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 5.0,
+                "AOContrast": 1.0,
+                "Blending": 0.5
+            }
         },
         {
             "MaterialName": "Wasser",
@@ -898,7 +1193,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "blend"
+            "AlphaMode": "blend",
+            "ORMMap": {
+                "AORadius": 1.0,
+                "AOContrast": 0.5,
+                "Blending": 0.05
+            }
         },
         {
             "MaterialName": "Wolle",
@@ -913,7 +1213,12 @@
             "RoughnessInvert": false,
             "MetallicIntensity": 0.0,
             "EmissionColor": [ 1.0, 1.0, 1.0 ],
-            "AlphaMode": "opaque"
+            "AlphaMode": "opaque",
+            "ORMMap": {
+                "AORadius": 9.0,
+                "AOContrast": 1.0,
+                "Blending": 0.8
+            }
         }
     ]
 }
