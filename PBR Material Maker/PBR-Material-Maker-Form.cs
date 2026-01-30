@@ -354,6 +354,11 @@ namespace PBR_Material_Maker
             }
 
             this.UseWaitCursor = true;
+            if (progressBarMain != null)
+            {
+                progressBarMain.Visible = true;
+                progressBarMain.Style = ProgressBarStyle.Marquee;
+            }
 
             #region Get/Parse resize parameter
             bool resize = false;
@@ -644,6 +649,10 @@ namespace PBR_Material_Maker
             Enabled = true;
             buttonSave.Text = txtBefore;
 
+            if (progressBarMain != null)
+            {
+                progressBarMain.Visible = false;
+            }
             this.UseWaitCursor = false;
         }
 
@@ -661,6 +670,11 @@ namespace PBR_Material_Maker
             }
 
             this.UseWaitCursor = true;
+            if (progressBarMain != null)
+            {
+                progressBarMain.Visible = true;
+                progressBarMain.Style = ProgressBarStyle.Marquee;
+            }
 
             string baseDir = Path.GetDirectoryName(pictureBoxBaseColor.ImageLocation);
             string[] baseColorSuffixes = new string[] { "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor" };
@@ -821,6 +835,11 @@ namespace PBR_Material_Maker
                 bRoughnessResized.Save(Path.Combine(gltf_output_dir, matName + "_rough.png"), System.Drawing.Imaging.ImageFormat.Png);
                 bMetallicResized.Save(Path.Combine(gltf_output_dir, matName + "_metal.png"), System.Drawing.Imaging.ImageFormat.Png);
                 emissionResized.Save(Path.Combine(gltf_output_dir, matName + "_emission.png"), System.Drawing.Imaging.ImageFormat.Png);
+                                // Zeige die zuletzt generierte Emission-Map in der UI an (nur für das aktuell geladene Bild)
+                                if (baseColorFile == pictureBoxBaseColor.ImageLocation)
+                                {
+                                    pictureBoxEmission.ImageLocation = Path.Combine(gltf_output_dir, matName + "_emission.png");
+                                }
                 alphaResized.Save(Path.Combine(gltf_output_dir, matName + "_alpha.png"), System.Drawing.Imaging.ImageFormat.Png);
                 colResized.Save(Path.Combine(gltf_output_dir, matName + "_col.png"), System.Drawing.Imaging.ImageFormat.Png);
 
@@ -832,6 +851,12 @@ namespace PBR_Material_Maker
                         Bitmap orm = GenerateORMMap(bOcclusionResized, bRoughnessResized, bMetallicResized);
                         string ormPath = Path.Combine(gltf_output_dir, matName + "_orm.png");
                         orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                        // Zeige die zuletzt generierte ORM-Map in der UI an (nur für den letzten Durchlauf relevant)
+                        if (baseColorFile == pictureBoxBaseColor.ImageLocation)
+                        {
+                            pictureBoxORM.ImageLocation = ormPath;
+                        }
+                        pictureBoxORM.ImageLocation = ormPath;
                         orm.Dispose();
                     }
                 }
@@ -922,6 +947,10 @@ namespace PBR_Material_Maker
             Enabled = true;
             buttonSave.Text = txtBefore;
 
+            if (progressBarMain != null)
+            {
+                progressBarMain.Visible = false;
+            }
             this.UseWaitCursor = false;
         }
 
@@ -1150,6 +1179,19 @@ namespace PBR_Material_Maker
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_metallic)) { pictureBoxMetallic.ImageLocation = file; continue; }
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_roughness)) { pictureBoxRoughness.ImageLocation = file; continue; }
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_emission)) { pictureBoxEmission.ImageLocation = file; continue; }
+                // Falls Emission gefunden, direkt anzeigen (wird oben schon gemacht)
+                // Zeige die generierte ORM-Map direkt an
+                string ormPath = Path.Combine(dir, mat_name + "_orm.png");
+                if (File.Exists(ormPath))
+                {
+                    pictureBoxORM.ImageLocation = ormPath;
+                }
+                // Zeige die generierte Emission-Map direkt an
+                string emissionPath = Path.Combine(dir, mat_name + "_emission.png");
+                if (File.Exists(emissionPath))
+                {
+                    pictureBoxEmission.ImageLocation = emissionPath;
+                }
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_alpha)) { pictureBoxAlpha.ImageLocation = file; continue; }
                 if (EndsWithAnyCaseInsensitiveFlexible(Path.GetFileNameWithoutExtension(file), ext_height)) { /* Hier können Sie z.B. ein PictureBox für Height/Displacement zuweisen */ continue; }
                 // Kann man hier ORM Integrieren?
@@ -1652,6 +1694,7 @@ namespace PBR_Material_Maker
                 Bitmap metallicTexture = LoadTextureFromPictureBox(pictureBoxMetallic);
                 Bitmap occlusionTexture = LoadTextureFromPictureBox(pictureBoxOcclusion);
                 Bitmap emissionTexture = LoadTextureFromPictureBox(pictureBoxEmission);
+                Bitmap ormTexture = LoadTextureFromPictureBox(pictureBoxORM);
                 
                 // Mehrere Lichtquellen für besseren PBR-Effekt
                 Vector3 mainLight = Vector3.Normalize(new Vector3(1.0f, 1.0f, 0.8f));
@@ -1705,6 +1748,7 @@ namespace PBR_Material_Maker
                 metallicTexture?.Dispose();
                 occlusionTexture?.Dispose();
                 emissionTexture?.Dispose();
+                ormTexture?.Dispose();
             }
 
             this.UseWaitCursor = false;

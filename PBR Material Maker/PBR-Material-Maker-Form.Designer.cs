@@ -35,11 +35,12 @@ namespace PBR_Material_Maker
             components = new System.ComponentModel.Container();
             // Fenstersymbol oben Links setzen (nur .ico-Dateien sind erlaubt)
             // Stelle sicher, dass die Datei "PBR-Material-Maker.ico" im Ausgabeverzeichnis liegt!
-            //this.Icon = new Icon("PBR-Material-Maker.ico");
-
-
+            //this.Icon = new Icon("PBR_Material_Maker.png");
+            this.Icon = new Icon("PBR_Material_Maker2.ico");
             
             // Controls erstellen
+            labelORM = new Label();
+            pictureBoxORM = new PictureBox();
             toolTip1 = new ToolTip(components);
             mainTableLayoutPanel = new TableLayoutPanel();
             
@@ -184,6 +185,7 @@ namespace PBR_Material_Maker
             panelFooter = new Panel();
             labelVersion = new Label();
             checkBoxKeepOntop = new CheckBox();
+            progressBarMain = new ProgressBar();
 
             // Initialisierung beginnen
             mainTableLayoutPanel.SuspendLayout();
@@ -251,6 +253,11 @@ namespace PBR_Material_Maker
             panelDragDrop.Controls.Add(pictureBoxNormal);
             panelDragDrop.Controls.Add(labelEmission);
             panelDragDrop.Controls.Add(pictureBoxEmission);
+
+            // Sichtbarkeit sicherstellen
+            labelMetallic.Visible = true;
+            pictureBoxMetallic.Visible = true;
+            labelNormal.Visible = true;
             
             panelDragDrop.Dock = DockStyle.Fill;
             panelDragDrop.Padding = new Padding(10);
@@ -349,6 +356,7 @@ namespace PBR_Material_Maker
             pictureBoxRoughness.DragEnter += PictureBoxDragEnter;
             pictureBoxRoughness.MouseDown += PictureBoxMouseDown;
 
+
             // Metallic
             labelMetallic.AutoSize = true;
             labelMetallic.ForeColor = Color.White;
@@ -377,6 +385,50 @@ namespace PBR_Material_Maker
             labelNormal.ForeColor = Color.White;
             labelNormal.Location = new Point(10, 560);
             labelNormal.Name = "labelNormal";
+            labelNormal.Size = new Size(47, 15);
+            labelNormal.TabIndex = 10;
+            labelNormal.Text = "&Normal";
+
+            // 
+            // Footer Panel
+            // 
+            panelFooter.BackColor = Color.FromArgb(40, 40, 40);
+            panelFooter.Controls.Add(progressBarMain);
+            panelFooter.Controls.Add(labelVersion);
+            panelFooter.Controls.Add(checkBoxKeepOntop);
+            panelFooter.Dock = DockStyle.Bottom;
+            panelFooter.Location = new Point(0, 900);
+            panelFooter.Name = "panelFooter";
+            panelFooter.Size = new Size(1000, 30);
+            panelFooter.TabIndex = 3;
+
+            // ProgressBar
+            //labelprogressBarMain.AutoSize = false;
+
+            progressBarMain.Dock = DockStyle.None;
+            progressBarMain.Size = new Size(120, 15);
+            progressBarMain.Location = new Point(labelVersion.Location.X + labelVersion.Size.Width + 20, 7);
+            progressBarMain.Name = "progressBarMain";
+            progressBarMain.Style = ProgressBarStyle.Marquee;
+            progressBarMain.Visible = false;
+            progressBarMain.MarqueeAnimationSpeed = 30;
+
+            labelVersion.AutoSize = true;
+            labelVersion.ForeColor = Color.White;
+            labelVersion.Location = new Point(10, 7);
+            labelVersion.Name = "labelVersion";
+            labelVersion.Size = new Size(80, 15);
+            labelVersion.TabIndex = 0;
+            labelVersion.Text = "Version 1.0.0";
+
+            checkBoxKeepOntop.AutoSize = true;
+            checkBoxKeepOntop.ForeColor = Color.White;
+            checkBoxKeepOntop.Location = new Point(900, 5);
+            checkBoxKeepOntop.Name = "checkBoxKeepOntop";
+            checkBoxKeepOntop.Size = new Size(90, 19);
+            checkBoxKeepOntop.TabIndex = 1;
+            checkBoxKeepOntop.Text = "Immer oben";
+            checkBoxKeepOntop.UseVisualStyleBackColor = true;
             labelNormal.Size = new Size(47, 15);
             labelNormal.TabIndex = 10;
             labelNormal.Text = "&Normal";
@@ -417,6 +469,32 @@ namespace PBR_Material_Maker
             pictureBoxEmission.DragDrop += PictureBoxDragDrop;
             pictureBoxEmission.DragEnter += PictureBoxDragEnter;
             pictureBoxEmission.MouseDown += PictureBoxMouseDown;
+
+            // ORM
+            labelORM.AutoSize = true;
+            labelORM.ForeColor = Color.White;
+            labelORM.Location = new Point(10, 780);
+            labelORM.Name = "labelORM";
+            labelORM.Size = new Size(60, 15);
+            labelORM.TabIndex = 14;
+            labelORM.Text = "&ORM Map";
+
+            pictureBoxORM.AllowDrop = true;
+            pictureBoxORM.BackColor = SystemColors.ControlLight;
+            pictureBoxORM.BorderStyle = BorderStyle.Fixed3D;
+            pictureBoxORM.Location = new Point(10, 798);
+            pictureBoxORM.Name = "pictureBoxORM";
+            pictureBoxORM.Size = new Size(80, 80);
+            pictureBoxORM.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxORM.TabIndex = 15;
+            pictureBoxORM.TabStop = false;
+            toolTip1.SetToolTip(pictureBoxORM, "ORM Map (Occlusion-Roughness-Metallic)");
+            pictureBoxORM.DragDrop += PictureBoxDragDrop;
+            pictureBoxORM.DragEnter += PictureBoxDragEnter;
+            pictureBoxORM.MouseDown += PictureBoxMouseDown;
+
+            panelDragDrop.Controls.Add(labelORM);
+            panelDragDrop.Controls.Add(pictureBoxORM);
 
             // 
             // PanelControls - Spalte 2: Parameter & Buttons
@@ -1021,7 +1099,7 @@ namespace PBR_Material_Maker
             labelORM_AORadius.Name = "labelORM_AORadius";
             labelORM_AORadius.Size = new Size(120, 15);
             labelORM_AORadius.TabIndex = 101;
-            labelORM_AORadius.Text = "AO-Radius (Einfluss)";
+            labelORM_AORadius.Text = "Radius (Einfluss)";
 
             trackBarORM_AORadius.BackColor = Color.FromArgb(80, 80, 80);
             trackBarORM_AORadius.Location = new Point(160, ormBaseY + ormSpacing - 5);
@@ -1033,7 +1111,7 @@ namespace PBR_Material_Maker
             trackBarORM_AORadius.TickStyle = TickStyle.TopLeft;
             trackBarORM_AORadius.TickFrequency = 10;
             trackBarORM_AORadius.Value = 50;
-            toolTip1.SetToolTip(trackBarORM_AORadius, "AO-Radius: Bestimmt den Einflussbereich der Ambient Occlusion in der ORMMap.");
+            toolTip1.SetToolTip(trackBarORM_AORadius, "Radius: Bestimmt den Einflussbereich der Ambient Occlusion in der ORMMap.");
 
             textBoxORM_AORadius.BackColor = Color.FromArgb(60, 60, 60);
             textBoxORM_AORadius.ForeColor = Color.White;
@@ -1050,7 +1128,7 @@ namespace PBR_Material_Maker
             labelORM_AOContrast.Name = "labelORM_AOContrast";
             labelORM_AOContrast.Size = new Size(120, 15);
             labelORM_AOContrast.TabIndex = 104;
-            labelORM_AOContrast.Text = "AO-Kontrast (Intensität)";
+            labelORM_AOContrast.Text = "Kontrast (Intensität)";
 
             trackBarORM_AOContrast.BackColor = Color.FromArgb(80, 80, 80);
             trackBarORM_AOContrast.Location = new Point(160, ormBaseY + 2 * ormSpacing - 5);
@@ -1062,7 +1140,7 @@ namespace PBR_Material_Maker
             trackBarORM_AOContrast.TickStyle = TickStyle.TopLeft;
             trackBarORM_AOContrast.TickFrequency = 20;
             trackBarORM_AOContrast.Value = 100;
-            toolTip1.SetToolTip(trackBarORM_AOContrast, "AO-Kontrast: Regelt die Schattierungsintensität der Ambient Occlusion in der ORMMap.");
+            toolTip1.SetToolTip(trackBarORM_AOContrast, "Kontrast: Regelt die Schattierungsintensität der Ambient Occlusion in der ORMMap.");
 
             textBoxORM_AOContrast.BackColor = Color.FromArgb(60, 60, 60);
             textBoxORM_AOContrast.ForeColor = Color.White;
@@ -1101,11 +1179,7 @@ namespace PBR_Material_Maker
             textBoxORM_Blend.TabIndex = 109;
             textBoxORM_Blend.Text = "0.5";
 
-
-
-
-
-
+            // Alpha Strength
             trackBarAlphaStrength.BackColor = Color.FromArgb(80, 80, 80);
             trackBarAlphaStrength.Location = new Point(115, 700);
             trackBarAlphaStrength.Maximum = 200;
@@ -1163,9 +1237,7 @@ namespace PBR_Material_Maker
             buttonGenerateMaps.Text = "&Generiere Fehlende Maps";
             buttonGenerateMaps.UseVisualStyleBackColor = false;
             toolTip1.SetToolTip(buttonGenerateMaps, "Automatisch fehlende Texturen basierend auf vorhandenen Maps generieren");
-
-            
-
+          
             // Buttons (in Preview Panel)
             buttonSave.BackColor = Color.Olive;
             buttonSave.FlatStyle = FlatStyle.Flat;
@@ -1178,7 +1250,6 @@ namespace PBR_Material_Maker
             buttonSave.UseVisualStyleBackColor = false;
             buttonSave.Click += ButtonSave_Click;
             toolTip1.SetToolTip(buttonSave, "Material speichern und GLTF erstellen");
-
 
             // Label Überschrift Batch Funktionen
             labelBatchFunctions = new Label();
@@ -1325,7 +1396,7 @@ namespace PBR_Material_Maker
             ForeColor = SystemColors.ControlLightLight;
             MinimumSize = new Size(1000, 700);
             Name = "MainForm";
-            ShowIcon = false;
+            ShowIcon = true;
             Text = "PBR Material Maker";
             FormClosing += Form1_FormClosing;
             Load += Form1_Load;
@@ -1465,6 +1536,8 @@ namespace PBR_Material_Maker
         private System.Windows.Forms.PictureBox pictureBoxNormal;
         private System.Windows.Forms.Label labelEmission;
         private System.Windows.Forms.PictureBox pictureBoxEmission;
+        private System.Windows.Forms.Label labelORM;
+        private System.Windows.Forms.PictureBox pictureBoxORM;
         private System.Windows.Forms.Button buttonGenerateMaps;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button batchButtonGenerateMaps;
@@ -1477,6 +1550,7 @@ namespace PBR_Material_Maker
         private System.Windows.Forms.Label labelAlpha;
         private System.Windows.Forms.PictureBox pictureBoxAlpha;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ProgressBar progressBarMain;
         private System.Windows.Forms.ComboBox comboBoxMaterialSelect;
         private System.Windows.Forms.ComboBox comboBoxResolution;
         private System.Windows.Forms.PictureBox pictureBoxPBRPreview;
