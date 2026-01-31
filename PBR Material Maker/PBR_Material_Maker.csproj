@@ -14,9 +14,9 @@
     <AssemblyDescription>Beschreibung des PBR Material Makers</AssemblyDescription>
     <AssemblyCompany>PBR Material Maker</AssemblyCompany>
     <AssemblyProduct>PBR Material Maker</AssemblyProduct>
-    <AssemblyVersion>3.8.602.0</AssemblyVersion>
-    <FileVersion>3.8.602.0</FileVersion>
-    <InformationalVersion>3.8.602</InformationalVersion>
+    <AssemblyVersion>3.8.603.0</AssemblyVersion>
+    <FileVersion>3.8.603.0</FileVersion>
+    <InformationalVersion>3.8.603</InformationalVersion>
     <TargetPlatform>Windows7.0</TargetPlatform>
     <SupportedOSPlatform>Windows7.0</SupportedOSPlatform>
   </PropertyGroup>
@@ -39,7 +39,10 @@
     <None Include="Resources\pavement_03_4k_TEST2.gltf" />
     <None Include="Resources\icons8-pin-24.png" />
     <None Include="Resources\icons8-pin-16.png" />
-    <None Include="Resources\material.json">
+    <None Include="Resources\material.json" />
+    <None Include="PBR_Material_Maker.ico" />
+    <None Include="PBR_Material_Maker2.ico" />
+    <None Include="PBR_Material_Maker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>material.json</TargetPath>
     </None>

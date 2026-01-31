@@ -39,7 +39,7 @@ namespace PBR_Material_Maker
             // Standard-Konfiguration
             var defaultConfig = new
             {
-                NormalStrength = 0.20,
+                NormalStrength = 0.4, // Standard-Tiefeneffekt der Normal Map von 0.2 erhöht
                 RoughnessStrength = 0.20,
                 OcclusionStrength = 1.0,
                 MetallicThreshold = 200,
@@ -1379,19 +1379,47 @@ namespace PBR_Material_Maker
         /// <param name="effectStrength">The strength of the effect to apply.</param>
         /// <param name="invert">Whether to invert the resulting map.</param>
         /// <returns>A bitmap representing the generated metallic map.</returns>
-        private Bitmap GenerateRoughnessMap(Bitmap albedo, float effectStrength, bool invert)
+        /// <summary>
+        /// Erzeugt eine Roughness-Map aus dem Albedo-Bild und optional einer Normal Map.
+        /// Je stärker die Abweichung der Z-Komponente der Normalen (also je tiefer der Eindruck), desto höher wird der Roughness-Wert (weniger Glanz).
+        /// </summary>
+        /// <param name="albedo">Albedo-Textur</param>
+        /// <param name="effectStrength">Stärke des Roughness-Effekts</param>
+        /// <param name="invert">Ob invertiert werden soll</param>
+        /// <param name="normalMap">Optional: Normal Map (gleiche Größe wie albedo)</param>
+        /// <returns>Bitmap der Roughness-Map</returns>
+        private Bitmap GenerateRoughnessMap(Bitmap albedo, float effectStrength, bool invert, Bitmap normalMap = null)
         {
             int width = albedo.Width;
             int height = albedo.Height;
             Bitmap rough = new Bitmap(width, height);
             for (int y = 0; y < height; y++)
+            {
                 for (int x = 0; x < width; x++)
                 {
                     Color c = albedo.GetPixel(x, y);
                     int gray = (int)(((c.R + c.G + c.B) / 3) * effectStrength);
+
+                    // Wenn Normal Map vorhanden: Z-Komponente auslesen und Glanz anpassen
+                    if (normalMap != null)
+                    {
+                        Color n = normalMap.GetPixel(x, y);
+                        // Z-Komponente aus RGB (OpenGL-Standard): nz = (b/255.0)*2-1
+                        float nz = (n.B / 255.0f) * 2.0f - 1.0f;
+                        // Je kleiner nz, desto "tiefer" die Normalenabweichung
+                        // Wir erhöhen die Rauheit (Roughness) bei starker Abweichung
+                        float depthEffect = 1.0f - Math.Max(0, nz); // 0 (flach) bis 1 (max. Senkrecht)
+                        // Stärke des Einflusses kann angepasst werden (z.B. 0.5)
+                        float influence = 0.5f;
+                        gray = (int)(gray + (255 - gray) * depthEffect * influence);
+                        if (gray > 255) gray = 255;
+                        if (gray < 0) gray = 0;
+                    }
+
                     if (invert) gray = 255 - gray;
                     rough.SetPixel(x, y, Color.FromArgb(gray, gray, gray));
                 }
+            }
             return rough;
         }
 
@@ -2620,7 +2648,7 @@ namespace PBR_Material_Maker
             {
                 progressBarMain.Visible = false;
             }
-            MessageBox.Show("Batch-Generierung der fehlenden Maps abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // MessageBox wird bereits in GenerateMissingMaps angezeigt, daher hier entfernen.
         }
 
         private void BatchGenerateMissingMaps()
