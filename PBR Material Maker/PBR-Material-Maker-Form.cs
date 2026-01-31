@@ -930,7 +930,6 @@ namespace PBR_Material_Maker
             }
 
             UseWaitCursor = false;
-            buttonSave.Text = "Batch Saved!";
             this.Refresh();
             await Task.Delay(3000);
             Enabled = true;
@@ -3117,4 +3116,5 @@ namespace PBR_Material_Maker
 
         #endregion  Real-time Parameter Update Event Handlers
     }
+
 }
