@@ -6,11 +6,14 @@ namespace PBR_Material_Maker
 {
     partial class MainForm
     {
+        #region Felder
         /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+        #endregion Felder
 
+        #region Dispose
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
@@ -23,8 +26,8 @@ namespace PBR_Material_Maker
             }
             base.Dispose(disposing);
         }
+        #endregion Dispose
 
-        #region Windows Form not Designer generated user code
 
         /// <summary>
         /// Required method for Designer support - do not modify
@@ -32,13 +35,15 @@ namespace PBR_Material_Maker
         /// </summary>
         private void InitializeComponent()
         {
+            #region Controls erstellen
             components = new System.ComponentModel.Container();
             // Fenstersymbol oben Links setzen (nur .ico-Dateien sind erlaubt)
             // Stelle sicher, dass die Datei "PBR-Material-Maker.ico" im Ausgabeverzeichnis liegt!
             //this.Icon = new Icon("PBR_Material_Maker.png");
             this.Icon = new Icon("PBR_Material_Maker2.ico");
-            
-            // Controls erstellen
+            #endregion Controls erstellen
+
+            #region Controls erstellen
             labelORM = new Label();
             pictureBoxORM = new PictureBox();
             checkBoxORM = new CheckBox();
@@ -50,8 +55,9 @@ namespace PBR_Material_Maker
             checkBoxAlpha = new CheckBox();
             toolTip1 = new ToolTip(components);
             mainTableLayoutPanel = new TableLayoutPanel();
-            
-            // Spalte 1: Drag & Drop Bereich
+            #endregion Controls erstellen
+
+            #region Panels & Layout
             panelDragDrop = new Panel();
             labelBaseColor = new Label();
             pictureBoxBaseColor = new PictureBox();
@@ -67,8 +73,9 @@ namespace PBR_Material_Maker
             pictureBoxNormal = new PictureBox();
             labelEmission = new Label();
             pictureBoxEmission = new PictureBox();
-            
-            // Spalte 2: Parameter & Buttons
+            #endregion Panels & Layout
+
+            #region Parameter & Buttons
             panelControls = new Panel();
             labelMaterialName = new Label();
             textBoxMaterialName = new TextBox();
@@ -119,8 +126,6 @@ namespace PBR_Material_Maker
             labelBrightness = new Label();
             trackBarBrightness = new TrackBar();
             textBoxBrightness = new TextBox();
-            
-            // Metallic Parameter Controls
             labelMetallicParams = new Label();
             labelMetallicStrength = new Label();
             trackBarMetallicStrength = new TrackBar();
@@ -128,14 +133,10 @@ namespace PBR_Material_Maker
             labelMetallicThreshold = new Label();
             trackBarMetallicThreshold = new TrackBar();
             textBoxMetallicThreshold = new TextBox();
-            
-            // Roughness Parameter Controls
             labelRoughnessParams = new Label();
             labelRoughnessStrength = new Label();
             trackBarRoughnessStrength = new TrackBar();
             textBoxRoughnessStrength = new TextBox();
-            
-            // Normal Map Parameter Controls
             labelNormalParams = new Label();
             labelNormalStrength = new Label();
             trackBarNormalStrength = new TrackBar();
@@ -143,14 +144,10 @@ namespace PBR_Material_Maker
             labelNormalFlipY = new Label();
             trackBarNormalFlipY = new TrackBar();
             textBoxNormalFlipY = new TextBox();
-            
-            // Ambient Occlusion Parameter Controls
             labelOcclusionParams = new Label();
             labelOcclusionStrength = new Label();
             trackBarOcclusionStrength = new TrackBar();
             textBoxOcclusionStrength = new TextBox();
-            
-            // Emission Parameter Controls
             labelEmissionParams = new Label();
             labelEmissionStrength = new Label();
             trackBarEmissionStrength = new TrackBar();
@@ -161,14 +158,10 @@ namespace PBR_Material_Maker
             labelEmissionEdgeStrength = new Label();
             trackBarEmissionEdgeStrength = new TrackBar();
             textBoxEmissionEdgeStrength = new TextBox();
-            
-            // Alpha Parameter Controls
             labelAlphaParams = new Label();
             labelAlphaStrength = new Label();
             trackBarAlphaStrength = new TrackBar();
-            textBoxAlphaStrength = new TextBox(); // statt comboBoxAlphaStrength
-
-            // ORMMap Parameter Controls
+            textBoxAlphaStrength = new TextBox();
             labelORMMapParams = new Label();
             labelORM_AORadius = new Label();
             trackBarORM_AORadius = new TrackBar();
@@ -179,22 +172,23 @@ namespace PBR_Material_Maker
             labelORM_Blend = new Label();
             trackBarORM_Blend = new TrackBar();
             textBoxORM_Blend = new TextBox();
-            
-            // Color Picker Buttons
+            #endregion Parameter & Buttons
+
+            #region Color Picker Buttons
             buttonBaseColorTint = new Button();
             buttonEmissionColor = new Button();
-            
-            // Spalte 3: Vorschau
+            #endregion Color Picker Buttons
+
+            #region Vorschau & Footer
             panelPreview = new Panel();
             pictureBoxPBRPreview = new PictureBox();
-            
-            // Footer
             panelFooter = new Panel();
             labelVersion = new Label();
             checkBoxKeepOntop = new CheckBox();
             progressBarMain = new ProgressBar();
+            #endregion Vorschau & Footer
 
-            // Initialisierung beginnen
+            #region  Initialisierung beginnen
             mainTableLayoutPanel.SuspendLayout();
             panelDragDrop.SuspendLayout();
             panelControls.SuspendLayout();
@@ -222,10 +216,9 @@ namespace PBR_Material_Maker
             ((System.ComponentModel.ISupportInitialize)trackBarEmissionEdgeStrength).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBarAlphaStrength).BeginInit();
             SuspendLayout();
+            #endregion  Initialisierung beginnen
 
-            // 
-            // MainTableLayoutPanel - 3-Spalten Layout
-            // 
+            #region MainTableLayoutPanel - 3-Spalten Layout
             mainTableLayoutPanel.ColumnCount = 3;
             mainTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
             mainTableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
@@ -242,9 +235,9 @@ namespace PBR_Material_Maker
             mainTableLayoutPanel.Size = new Size(1000, 900);
             mainTableLayoutPanel.TabIndex = 0;
 
-            // 
-            // PanelDragDrop - Spalte 1: Drag & Drop Texturen
-            // 
+            #endregion MainTableLayoutPanel - 3-Spalten Layout
+
+            #region PanelDragDrop - Spalte 1: Drag & Drop Texturen
             panelDragDrop.BackColor = Color.FromArgb(50, 50, 50);
             panelDragDrop.Controls.Add(labelBaseColor);
             panelDragDrop.Controls.Add(pictureBoxBaseColor);
@@ -274,7 +267,7 @@ namespace PBR_Material_Maker
             labelMetallic.Visible = true;
             pictureBoxMetallic.Visible = true;
             labelNormal.Visible = true;
-            
+            pictureBoxNormal.Visible = true;
             panelDragDrop.Dock = DockStyle.Fill;
             panelDragDrop.Padding = new Padding(10);
             panelDragDrop.Name = "panelDragDrop";
@@ -450,9 +443,9 @@ namespace PBR_Material_Maker
             labelNormal.TabIndex = 10;
             labelNormal.Text = "&Normal";
 
-            // 
-            // Footer Panel
-            // 
+            #endregion PanelDragDrop - Spalte 1: Drag & Drop Texturen
+
+            #region Footer Panel
             panelFooter.BackColor = Color.FromArgb(40, 40, 40);
             panelFooter.Controls.Add(progressBarMain);
             panelFooter.Controls.Add(labelVersion);
@@ -575,16 +568,18 @@ namespace PBR_Material_Maker
             panelDragDrop.Controls.Add(labelORM);
             panelDragDrop.Controls.Add(pictureBoxORM);
 
-            // 
-            // PanelControls - Spalte 2: Parameter & Buttons
-            // 
+            #endregion Footer Panel
+
+            #region PanelControls - Spalte 2: Parameter & Buttons
             panelControls.BackColor = Color.FromArgb(80, 80, 80);
             panelControls.Controls.Add(labelMaterialSelect);
             panelControls.Controls.Add(comboBoxMaterialSelect);
             panelControls.Controls.Add(labelResolution);
             panelControls.Controls.Add(comboBoxResolution);
             
-            // Base Color Parameter
+            #endregion PanelControls - Spalte 2: Parameter & Buttons
+
+            #region Base Color Parameter
             panelControls.Controls.Add(labelBaseColorParams);
             panelControls.Controls.Add(labelBaseColorStrength);
             panelControls.Controls.Add(trackBarBaseColorStrength);
@@ -597,7 +592,9 @@ namespace PBR_Material_Maker
             panelControls.Controls.Add(trackBarBrightness);
             panelControls.Controls.Add(textBoxBrightness); // statt comboBoxBrightness
             
-            // Metallic Parameter
+            #endregion Base Color Parameter
+
+            #region Metallic Parameter
             panelControls.Controls.Add(labelMetallicParams);
             panelControls.Controls.Add(labelMetallicStrength);
             panelControls.Controls.Add(trackBarMetallicStrength);
@@ -606,13 +603,17 @@ namespace PBR_Material_Maker
             panelControls.Controls.Add(trackBarMetallicThreshold);
             panelControls.Controls.Add(textBoxMetallicThreshold); // statt comboBoxMetallicThreshold
             
-            // Roughness Parameter
+            #endregion Metallic Parameter
+
+            #region Roughness Parameter
             panelControls.Controls.Add(labelRoughnessParams);
             panelControls.Controls.Add(labelRoughnessStrength);
             panelControls.Controls.Add(trackBarRoughnessStrength);
             panelControls.Controls.Add(textBoxRoughnessStrength); // statt comboBoxRoughnessStrength
             
-            // Normal Map Parameter
+            #endregion Roughness Parameter
+
+            #region Normal Map Parameter
             panelControls.Controls.Add(labelNormalParams);
             panelControls.Controls.Add(labelNormalStrength);
             panelControls.Controls.Add(trackBarNormalStrength);
@@ -621,13 +622,17 @@ namespace PBR_Material_Maker
             panelControls.Controls.Add(trackBarNormalFlipY);
             panelControls.Controls.Add(textBoxNormalFlipY); // statt comboBoxNormalFlipY
             
-            // Ambient Occlusion Parameter
+            #endregion Normal Map Parameter
+
+            #region Ambient Occlusion Parameter
             panelControls.Controls.Add(labelOcclusionParams);
             panelControls.Controls.Add(labelOcclusionStrength);
             panelControls.Controls.Add(trackBarOcclusionStrength);
             panelControls.Controls.Add(textBoxOcclusionStrength); // statt comboBoxOcclusionStrength
             
-            // Emission Parameter
+            #endregion Ambient Occlusion Parameter
+
+            #region Emission Parameter
             panelControls.Controls.Add(labelEmissionParams);
             panelControls.Controls.Add(labelEmissionStrength);
             panelControls.Controls.Add(trackBarEmissionStrength);
@@ -640,13 +645,17 @@ namespace PBR_Material_Maker
             panelControls.Controls.Add(trackBarEmissionEdgeStrength);
             panelControls.Controls.Add(textBoxEmissionEdgeStrength); // statt comboBoxEmissionEdgeStrength
             
-            // Alpha Parameter
+            #endregion Emission Parameter
+
+            #region Alpha Parameter
             panelControls.Controls.Add(labelAlphaParams);
             panelControls.Controls.Add(labelAlphaStrength);
             panelControls.Controls.Add(trackBarAlphaStrength);
             panelControls.Controls.Add(textBoxAlphaStrength);
 
-            // ORMMap Parameter Controls (direkt unter Alpha)
+            #endregion Alpha Parameter
+
+            #region ORMMap Parameter Controls (direkt unter Alpha)
             panelControls.Controls.Add(labelORMMapParams);
             panelControls.Controls.Add(labelORM_AORadius);
             panelControls.Controls.Add(trackBarORM_AORadius);
@@ -1279,7 +1288,9 @@ namespace PBR_Material_Maker
             textBoxAlphaStrength.TabIndex = 51;
             textBoxAlphaStrength.Text = "1.0";
 
-            // Color Picker Buttons (in Drag&Drop Panel)
+            #endregion Alpha Parameter
+
+            #region Color Picker Buttons (in Drag&Drop Panel)
             buttonBaseColorTint.BackColor = Color.FromArgb(0, 120, 215);
             buttonBaseColorTint.FlatStyle = FlatStyle.Flat;
             buttonBaseColorTint.ForeColor = Color.White;
@@ -1292,7 +1303,9 @@ namespace PBR_Material_Maker
             buttonBaseColorTint.Click += ButtonBaseColorTint_Click;
             toolTip1.SetToolTip(buttonBaseColorTint, "Base Color Tint-Farbe auswählen");
 
-            // Emission Color Picker Button
+            #endregion Base Color Tint Button
+
+            #region Emission Color Picker Button
             buttonEmissionColor.BackColor = Color.FromArgb(0, 120, 215);
             buttonEmissionColor.FlatStyle = FlatStyle.Flat;
             buttonEmissionColor.ForeColor = Color.White;
@@ -1305,7 +1318,9 @@ namespace PBR_Material_Maker
             buttonEmissionColor.Click += ButtonEmissionColor_Click;
             toolTip1.SetToolTip(buttonEmissionColor, "Emission-Farbe auswählen");
 
-            // Generate Maps Button (in Preview Panel)
+            #endregion Emission Color Picker Button
+
+            #region Generate Maps Button (in Preview Panel)
             buttonGenerateMaps.BackColor = Color.LightSlateGray;
             buttonGenerateMaps.FlatStyle = FlatStyle.Flat;
             buttonGenerateMaps.ForeColor = Color.White;
@@ -1317,7 +1332,9 @@ namespace PBR_Material_Maker
             buttonGenerateMaps.UseVisualStyleBackColor = false;
             toolTip1.SetToolTip(buttonGenerateMaps, "Automatisch fehlende Texturen basierend auf vorhandenen Maps generieren");
           
-            // Buttons (in Preview Panel)
+            #endregion Generate Maps Button
+
+            #region Buttons (in Preview Panel)
             buttonSave.BackColor = Color.Olive;
             buttonSave.FlatStyle = FlatStyle.Flat;
             buttonSave.ForeColor = Color.White;
@@ -1330,7 +1347,9 @@ namespace PBR_Material_Maker
             buttonSave.Click += ButtonSave_Click;
             toolTip1.SetToolTip(buttonSave, "Material speichern und GLTF erstellen");
 
-            // Label Überschrift Batch Funktionen
+            #endregion Buttons (in Preview Panel)
+
+            #region Label Überschrift Batch Funktionen
             labelBatchFunctions = new Label();
             labelBatchFunctions.AutoSize = true;
             labelBatchFunctions.ForeColor = Color.White;
@@ -1340,7 +1359,9 @@ namespace PBR_Material_Maker
             labelBatchFunctions.TabIndex = 8;
             labelBatchFunctions.Text = "Batch Funktionen:";            
 
-            // Button Batch Save (erste Reihe links)
+            #endregion Label Überschrift Batch Funktionen
+
+            #region Button Batch Save (erste Reihe links)
             buttonBatchSave.BackColor = Color.DarkGreen;
             buttonBatchSave.FlatStyle = FlatStyle.Flat;
             buttonBatchSave.ForeColor = Color.White;
@@ -1354,7 +1375,9 @@ namespace PBR_Material_Maker
             buttonBatchSave.Click += ButtonBatchSave_Click;
             toolTip1.SetToolTip(buttonBatchSave, "Batch Material speichern und GLTF erstellen");
 
-            // Button batchButtonGenerateMaps (erste Reihe rechts)
+            #endregion Button Batch Save (erste Reihe links)
+
+            #region Button batchButtonGenerateMaps (erste Reihe rechts)
             batchButtonGenerateMaps.BackColor = Color.CadetBlue;
             batchButtonGenerateMaps.FlatStyle = FlatStyle.Flat;
             batchButtonGenerateMaps.ForeColor = Color.White;
@@ -1367,7 +1390,9 @@ namespace PBR_Material_Maker
             batchButtonGenerateMaps.Click += BatchButtonGenerateMaps_Click;
             toolTip1.SetToolTip(batchButtonGenerateMaps, "Batch automatisch fehlende Texturen basierend auf vorhandenen Maps generieren");
 
-            // Button Batch Copy (zweite Reihe, zentriert)
+            #endregion Button batchButtonGenerateMaps (erste Reihe rechts)
+
+            #region Button Batch Copy (zweite Reihe, zentriert)
             buttonBatchCopy = new Button();
             buttonBatchCopy.BackColor = Color.DarkBlue;
             buttonBatchCopy.FlatStyle = FlatStyle.Flat;
@@ -1382,7 +1407,9 @@ namespace PBR_Material_Maker
             buttonBatchCopy.Click += ButtonBatchCopy_Click;
             toolTip1.SetToolTip(buttonBatchCopy, "Batchweise Kopieren von Texturen in ein Zielverzeichnis");
 
-            // Buttons Clear (in Preview Panel)
+            #endregion Button Batch Copy (zweite Reihe, zentriert)
+
+            #region Buttons Clear (in Preview Panel)
             buttonClear.BackColor = Color.DarkRed;
             buttonClear.FlatStyle = FlatStyle.Flat;
             buttonClear.ForeColor = Color.White;
@@ -1395,9 +1422,9 @@ namespace PBR_Material_Maker
             buttonClear.Click += ButtonClear_Click;
             toolTip1.SetToolTip(buttonClear, "Alle Texturen löschen");
 
-            // 
-            // PanelPreview - Spalte 3: PBR Vorschau
-            // 
+            #endregion Buttons Clear (in Preview Panel)
+
+            #region PanelPreview - Spalte 3: PBR Vorschau
             panelPreview.BackColor = Color.FromArgb(40, 40, 40);
             panelPreview.Controls.Add(pictureBoxPBRPreview);
             panelPreview.Controls.Add(labelMaterialName);
@@ -1427,9 +1454,9 @@ namespace PBR_Material_Maker
             pictureBoxPBRPreview.Click += PictureBoxPBRPreview_Click;  // Click-Event hinzufügen
             toolTip1.SetToolTip(pictureBoxPBRPreview, "PBR Material Vorschau in Echtzeit\nKlicken Sie hier, um die Vorschau manuell zu aktualisieren");
 
-            // 
-            // PanelFooter
-            // 
+            #endregion PanelPreview - Spalte 3: PBR Vorschau
+
+            #region PanelFooter
             panelFooter.BackColor = Color.Black;
             panelFooter.Controls.Add(labelVersion);
             panelFooter.Controls.Add(checkBoxKeepOntop);
@@ -1461,9 +1488,9 @@ namespace PBR_Material_Maker
             checkBoxKeepOntop.UseVisualStyleBackColor = true;
             checkBoxKeepOntop.CheckedChanged += CheckBoxKeepOntop_CheckedChanged;
 
-            // 
-            // MainForm
-            // 
+            #endregion PanelFooter
+
+            #region MainForm
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -1482,7 +1509,9 @@ namespace PBR_Material_Maker
             Shown += Form1_Shown;
             ResizeEnd += Form1_ResizeEnd;
 
-            // Layout beenden
+            #endregion MainForm
+
+            #region Layout beenden
             mainTableLayoutPanel.ResumeLayout(false);
             panelDragDrop.ResumeLayout(false);
             panelDragDrop.PerformLayout();
@@ -1513,10 +1542,10 @@ namespace PBR_Material_Maker
             ((System.ComponentModel.ISupportInitialize)trackBarEmissionEdgeStrength).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBarAlphaStrength).EndInit();
             ResumeLayout(false);
+            #endregion Layout beenden
         }
 
-        #endregion
-
+        #region Designer-Felder
         // Neue 3-Spalten Layout Controls
         private TableLayoutPanel mainTableLayoutPanel;
         private Panel panelDragDrop;
@@ -1642,6 +1671,9 @@ namespace PBR_Material_Maker
         private System.Windows.Forms.PictureBox pictureBoxPBRPreview;
         private System.Windows.Forms.Label labelBatchFunctions;
 
+        #endregion Designer-Felder
+
+        #region Hilfsmethoden
         private int GetNearestSmallerSquareSize(int width, int height)
         {
             int minSide = Math.Min(width, height);
@@ -1665,5 +1697,6 @@ namespace PBR_Material_Maker
             }
             return result;
         }
+        #endregion Designer-Felder
     }
 }
