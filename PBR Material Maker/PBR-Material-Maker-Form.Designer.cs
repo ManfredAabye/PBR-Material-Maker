@@ -41,6 +41,13 @@ namespace PBR_Material_Maker
             // Controls erstellen
             labelORM = new Label();
             pictureBoxORM = new PictureBox();
+            checkBoxORM = new CheckBox();
+            checkBoxEmission = new CheckBox();
+            checkBoxNormal = new CheckBox();
+            checkBoxMetallic = new CheckBox();
+            checkBoxRoughness = new CheckBox();
+            checkBoxOcclusion = new CheckBox();
+            checkBoxAlpha = new CheckBox();
             toolTip1 = new ToolTip(components);
             mainTableLayoutPanel = new TableLayoutPanel();
             
@@ -241,18 +248,27 @@ namespace PBR_Material_Maker
             panelDragDrop.BackColor = Color.FromArgb(50, 50, 50);
             panelDragDrop.Controls.Add(labelBaseColor);
             panelDragDrop.Controls.Add(pictureBoxBaseColor);
+            panelDragDrop.Controls.Add(checkBoxAlpha);
             panelDragDrop.Controls.Add(labelAlpha);
             panelDragDrop.Controls.Add(pictureBoxAlpha);
+            panelDragDrop.Controls.Add(checkBoxOcclusion);
             panelDragDrop.Controls.Add(labelOcclusion);
             panelDragDrop.Controls.Add(pictureBoxOcclusion);
+            panelDragDrop.Controls.Add(checkBoxRoughness);
             panelDragDrop.Controls.Add(labelRoughness);
             panelDragDrop.Controls.Add(pictureBoxRoughness);
+            panelDragDrop.Controls.Add(checkBoxMetallic);
             panelDragDrop.Controls.Add(labelMetallic);
             panelDragDrop.Controls.Add(pictureBoxMetallic);
+            panelDragDrop.Controls.Add(checkBoxNormal);
             panelDragDrop.Controls.Add(labelNormal);
             panelDragDrop.Controls.Add(pictureBoxNormal);
+            panelDragDrop.Controls.Add(checkBoxEmission);
             panelDragDrop.Controls.Add(labelEmission);
             panelDragDrop.Controls.Add(pictureBoxEmission);
+            panelDragDrop.Controls.Add(checkBoxORM);
+            panelDragDrop.Controls.Add(labelORM);
+            panelDragDrop.Controls.Add(pictureBoxORM);
 
             // Sichtbarkeit sicherstellen
             labelMetallic.Visible = true;
@@ -287,10 +303,19 @@ namespace PBR_Material_Maker
             pictureBoxBaseColor.DragEnter += PictureBoxDragEnter;
             pictureBoxBaseColor.MouseDown += PictureBoxMouseDown;
 
-            // Alpha
+            // Alpha Checkbox
+            checkBoxAlpha.AutoSize = true;
+            checkBoxAlpha.Location = new Point(10, 120);
+            checkBoxAlpha.Name = "checkBoxAlpha";
+            checkBoxAlpha.Size = new Size(15, 14);
+            checkBoxAlpha.TabIndex = 100;
+            checkBoxAlpha.UseVisualStyleBackColor = true;
+            checkBoxAlpha.Checked = true;
+            toolTip1.SetToolTip(checkBoxAlpha, "Alpha Map aktivieren/deaktivieren");
+            // Alpha Label
             labelAlpha.AutoSize = true;
             labelAlpha.ForeColor = Color.White;
-            labelAlpha.Location = new Point(10, 120);
+            labelAlpha.Location = new Point(22, 120);
             labelAlpha.Name = "labelAlpha";
             labelAlpha.Size = new Size(38, 15);
             labelAlpha.TabIndex = 2;
@@ -310,10 +335,19 @@ namespace PBR_Material_Maker
             pictureBoxAlpha.DragEnter += PictureBoxDragEnter;
             pictureBoxAlpha.MouseDown += PictureBoxMouseDown;
 
-            // Occlusion
+            // Occlusion Checkbox
+            checkBoxOcclusion.AutoSize = true;
+            checkBoxOcclusion.Location = new Point(10, 230);
+            checkBoxOcclusion.Name = "checkBoxOcclusion";
+            checkBoxOcclusion.Size = new Size(15, 14);
+            checkBoxOcclusion.TabIndex = 101;
+            checkBoxOcclusion.UseVisualStyleBackColor = true;
+            checkBoxOcclusion.Checked = true;
+            toolTip1.SetToolTip(checkBoxOcclusion, "Occlusion Map aktivieren/deaktivieren");
+            // Occlusion Label
             labelOcclusion.AutoSize = true;
             labelOcclusion.ForeColor = Color.White;
-            labelOcclusion.Location = new Point(10, 230);
+            labelOcclusion.Location = new Point(22, 230);
             labelOcclusion.Name = "labelOcclusion";
             labelOcclusion.Size = new Size(60, 15);
             labelOcclusion.TabIndex = 4;
@@ -333,10 +367,19 @@ namespace PBR_Material_Maker
             pictureBoxOcclusion.DragEnter += PictureBoxDragEnter;
             pictureBoxOcclusion.MouseDown += PictureBoxMouseDown;
 
-            // Roughness
+            // Roughness Checkbox
+            checkBoxRoughness.AutoSize = true;
+            checkBoxRoughness.Location = new Point(10, 340);
+            checkBoxRoughness.Name = "checkBoxRoughness";
+            checkBoxRoughness.Size = new Size(15, 14);
+            checkBoxRoughness.TabIndex = 102;
+            checkBoxRoughness.UseVisualStyleBackColor = true;
+            checkBoxRoughness.Checked = true;
+            toolTip1.SetToolTip(checkBoxRoughness, "Roughness Map aktivieren/deaktivieren");
+            // Roughness Label
             labelRoughness.AutoSize = true;
             labelRoughness.ForeColor = Color.White;
-            labelRoughness.Location = new Point(10, 340);
+            labelRoughness.Location = new Point(22, 340);
             labelRoughness.Name = "labelRoughness";
             labelRoughness.Size = new Size(65, 15);
             labelRoughness.TabIndex = 6;
@@ -357,10 +400,19 @@ namespace PBR_Material_Maker
             pictureBoxRoughness.MouseDown += PictureBoxMouseDown;
 
 
-            // Metallic
+            // Metallic Checkbox
+            checkBoxMetallic.AutoSize = true;
+            checkBoxMetallic.Location = new Point(10, 450);
+            checkBoxMetallic.Name = "checkBoxMetallic";
+            checkBoxMetallic.Size = new Size(15, 14);
+            checkBoxMetallic.TabIndex = 103;
+            checkBoxMetallic.UseVisualStyleBackColor = true;
+            checkBoxMetallic.Checked = true;
+            toolTip1.SetToolTip(checkBoxMetallic, "Metallic Map aktivieren/deaktivieren");
+            // Metallic Label
             labelMetallic.AutoSize = true;
             labelMetallic.ForeColor = Color.White;
-            labelMetallic.Location = new Point(10, 450);
+            labelMetallic.Location = new Point(22, 450);
             labelMetallic.Name = "labelMetallic";
             labelMetallic.Size = new Size(49, 15);
             labelMetallic.TabIndex = 8;
@@ -380,10 +432,19 @@ namespace PBR_Material_Maker
             pictureBoxMetallic.DragEnter += PictureBoxDragEnter;
             pictureBoxMetallic.MouseDown += PictureBoxMouseDown;
 
-            // Normal
+            // Normal Checkbox
+            checkBoxNormal.AutoSize = true;
+            checkBoxNormal.Location = new Point(10, 560);
+            checkBoxNormal.Name = "checkBoxNormal";
+            checkBoxNormal.Size = new Size(15, 14);
+            checkBoxNormal.TabIndex = 104;
+            checkBoxNormal.UseVisualStyleBackColor = true;
+            checkBoxNormal.Checked = true;
+            toolTip1.SetToolTip(checkBoxNormal, "Normal Map aktivieren/deaktivieren");
+            // Normal Label
             labelNormal.AutoSize = true;
             labelNormal.ForeColor = Color.White;
-            labelNormal.Location = new Point(10, 560);
+            labelNormal.Location = new Point(22, 560);
             labelNormal.Name = "labelNormal";
             labelNormal.Size = new Size(47, 15);
             labelNormal.TabIndex = 10;
@@ -447,10 +508,19 @@ namespace PBR_Material_Maker
             pictureBoxNormal.DragEnter += PictureBoxDragEnter;
             pictureBoxNormal.MouseDown += PictureBoxMouseDown;
 
-            // Emission
+            // Emission Checkbox
+            checkBoxEmission.AutoSize = true;
+            checkBoxEmission.Location = new Point(10, 670);
+            checkBoxEmission.Name = "checkBoxEmission";
+            checkBoxEmission.Size = new Size(15, 14);
+            checkBoxEmission.TabIndex = 105;
+            checkBoxEmission.UseVisualStyleBackColor = true;
+            checkBoxEmission.Checked = true;
+            toolTip1.SetToolTip(checkBoxEmission, "Emission Map aktivieren/deaktivieren");
+            // Emission Label
             labelEmission.AutoSize = true;
             labelEmission.ForeColor = Color.White;
-            labelEmission.Location = new Point(10, 670);
+            labelEmission.Location = new Point(22, 670);
             labelEmission.Name = "labelEmission";
             labelEmission.Size = new Size(54, 15);
             labelEmission.TabIndex = 12;
@@ -470,10 +540,19 @@ namespace PBR_Material_Maker
             pictureBoxEmission.DragEnter += PictureBoxDragEnter;
             pictureBoxEmission.MouseDown += PictureBoxMouseDown;
 
-            // ORM
+            // ORM Checkbox
+            checkBoxORM.AutoSize = true;
+            checkBoxORM.Location = new Point(10, 780);
+            checkBoxORM.Name = "checkBoxORM";
+            checkBoxORM.Size = new Size(15, 14);
+            checkBoxORM.TabIndex = 106;
+            checkBoxORM.UseVisualStyleBackColor = true;
+            checkBoxORM.Checked = true;
+            toolTip1.SetToolTip(checkBoxORM, "ORM Map aktivieren/deaktivieren");
+            // ORM Label
             labelORM.AutoSize = true;
             labelORM.ForeColor = Color.White;
-            labelORM.Location = new Point(10, 780);
+            labelORM.Location = new Point(22, 780);
             labelORM.Name = "labelORM";
             labelORM.Size = new Size(60, 15);
             labelORM.TabIndex = 14;
@@ -1524,6 +1603,13 @@ namespace PBR_Material_Maker
         private Button buttonEmissionColor;
         
         // Vorhandene Controls
+        private System.Windows.Forms.CheckBox checkBoxORM;
+        private System.Windows.Forms.CheckBox checkBoxEmission;
+        private System.Windows.Forms.CheckBox checkBoxNormal;
+        private System.Windows.Forms.CheckBox checkBoxMetallic;
+        private System.Windows.Forms.CheckBox checkBoxRoughness;
+        private System.Windows.Forms.CheckBox checkBoxOcclusion;
+        private System.Windows.Forms.CheckBox checkBoxAlpha;
         private System.Windows.Forms.PictureBox pictureBoxBaseColor;
         private System.Windows.Forms.Label labelBaseColor;
         private System.Windows.Forms.Label labelOcclusion;

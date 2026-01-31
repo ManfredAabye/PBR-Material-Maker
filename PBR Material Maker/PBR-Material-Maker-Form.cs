@@ -341,6 +341,136 @@ namespace PBR_Material_Maker
         #region UI- und Event-Handler
 
         /// <summary>
+        /// GLTF Exporter Funktion
+        /// </summary>
+        private JObject gltf_exporter(JObject o, string materialName, string baseColorPath, string nrmPath, string ormPath, string emissionPath, string metallicPath, string roughnessPath, string occlusionPath, string alphaPath, float[] emissiveFactor, string alphaMode, dynamic materialConfig, Dictionary<string, bool> checkboxes)
+        {
+            // Images und Textures Arrays vorbereiten
+            var images = (JArray)o["images"];
+            var textures = (JArray)o["textures"];
+            var mat = (JObject)o["materials"][0];
+            images.Clear();
+            textures.Clear();
+
+            // BaseColor ist immer Pflicht
+            images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_col", uri = baseColorPath }));
+            textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+            int baseColorIdx = textures.Count - 1;
+
+            // Normal
+            int? normalIdx = null;
+            if (checkboxes["Normal"] && !string.IsNullOrEmpty(nrmPath))
+            {
+                images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_nrm", uri = nrmPath }));
+                textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+                normalIdx = textures.Count - 1;
+            }
+
+            // ORM
+            int? ormIdx = null;
+            if (checkboxes["ORM"] && !string.IsNullOrEmpty(ormPath))
+            {
+                images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_orm", uri = ormPath }));
+                textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+                ormIdx = textures.Count - 1;
+            }
+
+            // Emission
+            int? emissionIdx = null;
+            if (checkboxes["Emission"] && !string.IsNullOrEmpty(emissionPath))
+            {
+                images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_emission", uri = emissionPath }));
+                textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+                emissionIdx = textures.Count - 1;
+            }
+
+            // Metallic
+            int? metallicIdx = null;
+            if (checkboxes["Metallic"] && !string.IsNullOrEmpty(metallicPath))
+            {
+                images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_metal", uri = metallicPath }));
+                textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+                metallicIdx = textures.Count - 1;
+            }
+
+            // Roughness
+            int? roughnessIdx = null;
+            if (checkboxes["Roughness"] && !string.IsNullOrEmpty(roughnessPath))
+            {
+                images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_rough", uri = roughnessPath }));
+                textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+                roughnessIdx = textures.Count - 1;
+            }
+
+            // Occlusion
+            int? occlusionIdx = null;
+            if (checkboxes["Occlusion"] && !string.IsNullOrEmpty(occlusionPath))
+            {
+                images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_occ", uri = occlusionPath }));
+                textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+                occlusionIdx = textures.Count - 1;
+            }
+
+            // Alpha
+            int? alphaIdx = null;
+            if (checkboxes["Alpha"] && !string.IsNullOrEmpty(alphaPath))
+            {
+                images.Add(JToken.FromObject(new { mimeType = "image/png", name = materialName + "_alpha", uri = alphaPath }));
+                textures.Add(JToken.FromObject(new { source = images.Count - 1 }));
+                alphaIdx = textures.Count - 1;
+            }
+
+            // Material-Referenzen setzen
+            mat["name"] = materialName;
+            mat["doubleSided"] = false;
+            mat["alphaMode"] = alphaMode;
+
+            // pbrMetallicRoughness
+            var pbr = new JObject();
+            pbr["baseColorTexture"] = new JObject { ["index"] = baseColorIdx };
+            if (ormIdx.HasValue)
+            {
+                pbr["metallicRoughnessTexture"] = new JObject { ["index"] = ormIdx.Value };
+                pbr["metallicFactor"] = materialConfig.MetallicIntensity;
+                pbr["roughnessFactor"] = materialConfig.RoughnessStrength;
+            }
+            mat["pbrMetallicRoughness"] = pbr;
+
+            // Normal
+            if (normalIdx.HasValue)
+                mat["normalTexture"] = new JObject { ["index"] = normalIdx.Value };
+            else
+                mat["normalTexture"] = null;
+
+            // Emission
+            if (emissionIdx.HasValue)
+            {
+                mat["emissiveTexture"] = new JObject { ["index"] = emissionIdx.Value };
+                mat["emissiveFactor"] = JArray.FromObject(emissiveFactor ?? new float[] { 1.0f, 1.0f, 1.0f });
+            }
+            else
+            {
+                mat["emissiveTexture"] = null;
+            }
+
+            // Occlusion
+            if (occlusionIdx.HasValue)
+                mat["occlusionTexture"] = new JObject { ["index"] = occlusionIdx.Value };
+            else
+                mat["occlusionTexture"] = null;
+
+            // Alpha-Map: keine direkte Referenz, aber ggf. als Property
+            // (kann für Maskierung genutzt werden, je nach GLTF-Viewer)
+
+            // Generator und Version
+            Version appVersion = Assembly.GetExecutingAssembly().GetName().Version;
+            string strVers = appVersion.Major + "." + appVersion.Minor + "." + appVersion.Build;
+            o["asset"]["generator"] = "PBR Material Maker " + strVers;
+            o["asset"]["version"] = "2.0";
+
+            return o;
+        }
+        /// <summary>
         /// Event handler for the Save button.
         /// Handles saving the material with optional resizing.
         /// </summary>
@@ -360,7 +490,7 @@ namespace PBR_Material_Maker
                 progressBarMain.Style = ProgressBarStyle.Marquee;
             }
 
-            #region Get/Parse resize parameter
+            // Auflösung bestimmen
             bool resize = false;
             int resizeX = 1024;
             int resizeY = 1024;
@@ -368,22 +498,14 @@ namespace PBR_Material_Maker
             {
                 resize = true;
                 string strRes = comboBoxResolution.Text;
-
                 if (strRes == "")
                 {
                     strRes = comboBoxResolution.Items[comboBoxResolution.SelectedIndex].ToString();
                 }
-                this.UseWaitCursor = false;
-                MessageBox.Show("strRes " + strRes);
                 if (strRes.Contains("*"))
                 {
                     string[] tmp = strRes.Split('*');
-                    if (tmp.Length != 2)
-                    {
-                        this.UseWaitCursor = false;
-                        MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
+                    if (tmp.Length == 2)
                     {
                         try
                         {
@@ -397,6 +519,12 @@ namespace PBR_Material_Maker
                             return;
                         }
                     }
+                    else
+                    {
+                        this.UseWaitCursor = false;
+                        MessageBox.Show("Enter a valid resolution in the format 1024 * 1024", "Parse Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else
                 {
@@ -405,7 +533,6 @@ namespace PBR_Material_Maker
                     return;
                 }
             }
-            #endregion
 
             string txtBefore = buttonSave.Text;
             buttonSave.Text = "Please Wait";
@@ -418,10 +545,8 @@ namespace PBR_Material_Maker
             string gltf_output_dir = Path.Combine(Path.GetDirectoryName(pictureBoxBaseColor.ImageLocation), "gltf_textures");
             Directory.CreateDirectory(gltf_output_dir);
 
-            // Bitmap-Objekte erzeugen
+            // Bildverarbeitung wie gehabt
             Bitmap col = new Bitmap(pictureBoxBaseColor.ImageLocation);
-
-            // Neue Felder auslesen
             float[] baseColorTint = (materialConfig.BaseColorTint is JArray jarr)
                 ? jarr.ToObject<float[]>()
                 : (materialConfig.BaseColorTint ?? new float[] { 1.0f, 1.0f, 1.0f });
@@ -433,30 +558,13 @@ namespace PBR_Material_Maker
                 : (materialConfig.EmissionColor ?? new float[] { 1.0f, 1.0f, 1.0f });
             string alphaMode = materialConfig.AlphaMode ?? "opaque";
 
-            // BaseColorTint anwenden
             ApplyBaseColorTint(col, baseColorTint);
 
-            // NormalMapType verwenden
-            Bitmap nrm;
-            if (pictureBoxNormal.ImageLocation != null && File.Exists(pictureBoxNormal.ImageLocation))
-            {
-                nrm = new Bitmap(pictureBoxNormal.ImageLocation);
-            }
-            else
-            {
-                if (normalMapType == "sobel")
-                    nrm = GenerateNormalMap(col, (float)materialConfig.NormalStrength);
-                else
-                    nrm = GenerateFlatNormal(col.Width, col.Height); // Beispiel für anderen Typ
-            }
-
-            // RoughnessInvert verwenden
+            Bitmap nrm = (pictureBoxNormal.ImageLocation != null && File.Exists(pictureBoxNormal.ImageLocation))
+                ? new Bitmap(pictureBoxNormal.ImageLocation)
+                : (normalMapType == "sobel" ? GenerateNormalMap(col, (float)materialConfig.NormalStrength) : GenerateFlatNormal(col.Width, col.Height));
             Bitmap bRoughness = GenerateRoughnessMap(col, (float)materialConfig.RoughnessStrength, roughnessInvert);
-
-            // MetallicIntensity verwenden
             Bitmap bMetallic = GenerateMetallicMap(col, (int)materialConfig.MetallicThreshold, metallicIntensity);
-
-            // EmissionColor verwenden
             Bitmap emission = GenerateEmissionMap(col, (float)materialConfig.EmissionStrength, emissionColor);
             Bitmap alpha = GenerateAlphaMap(col, (float)materialConfig.AlphaStrength);
             Bitmap bOcclusion = GenerateOcclusionMap(col, (float)materialConfig.OcclusionStrength);
@@ -473,24 +581,31 @@ namespace PBR_Material_Maker
                 colResized = ResizeImage(col, resizeX, resizeY);
             }
 
-
             // Speichern der Einzelmaps
+            string rel_col = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_col.png")).Replace(@"\", "/").TrimStart('.');
+            string rel_nrm = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_nrm.png")).Replace(@"\", "/").TrimStart('.');
+            string rel_orm = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_orm.png")).Replace(@"\", "/").TrimStart('.');
+            string rel_emission = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_emission.png")).Replace(@"\", "/").TrimStart('.');
+            string rel_metal = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_metal.png")).Replace(@"\", "/").TrimStart('.');
+            string rel_rough = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_rough.png")).Replace(@"\", "/").TrimStart('.');
+            string rel_occ = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_occ.png")).Replace(@"\", "/").TrimStart('.');
+            string rel_alpha = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_alpha.png")).Replace(@"\", "/").TrimStart('.');
+
+            colResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_col.png"), System.Drawing.Imaging.ImageFormat.Png);
             nrmResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_nrm.png"), System.Drawing.Imaging.ImageFormat.Png);
-            bOcclusionResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_occ.png"), System.Drawing.Imaging.ImageFormat.Png);
             bRoughnessResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_rough.png"), System.Drawing.Imaging.ImageFormat.Png);
             bMetallicResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_metal.png"), System.Drawing.Imaging.ImageFormat.Png);
             emissionResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_emission.png"), System.Drawing.Imaging.ImageFormat.Png);
             alphaResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_alpha.png"), System.Drawing.Imaging.ImageFormat.Png);
-            colResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_col.png"), System.Drawing.Imaging.ImageFormat.Png);
+            bOcclusionResized.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_occ.png"), System.Drawing.Imaging.ImageFormat.Png);
 
-            // ORM-Map erzeugen und speichern, wenn alle Maps vorhanden sind
+            // ORM-Map erzeugen und speichern
             try
             {
                 if (bOcclusionResized != null && bRoughnessResized != null && bMetallicResized != null)
                 {
                     Bitmap orm = GenerateORMMap(bOcclusionResized, bRoughnessResized, bMetallicResized);
-                    string ormPath = Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_orm.png");
-                    orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
+                    orm.Save(Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_orm.png"), System.Drawing.Imaging.ImageFormat.Png);
                     orm.Dispose();
                 }
             }
@@ -499,7 +614,6 @@ namespace PBR_Material_Maker
                 Debug.WriteLine("Fehler beim Erzeugen der ORM-Map (ButtonSave_Click): " + ex.Message);
             }
 
-            // Dispose der ggf. neu erzeugten Bitmaps
             if (resize)
             {
                 nrmResized.Dispose();
@@ -510,8 +624,6 @@ namespace PBR_Material_Maker
                 alphaResized.Dispose();
                 colResized.Dispose();
             }
-
-            // Dispose der Original-Bitmaps
             nrm.Dispose();
             bOcclusion.Dispose();
             bRoughness.Dispose();
@@ -520,127 +632,39 @@ namespace PBR_Material_Maker
             alpha.Dispose();
             col.Dispose();
 
-            string orm_file_path = Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_orm.png");
-            orm_file_path = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, orm_file_path).Replace(@"\", "/").TrimStart('.');
-            string col_file_path = Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_col.png");
-            col_file_path = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, col_file_path).Replace(@"\", "/").TrimStart('.');
-            string nrm_file_path = Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_nrm.png");
-            nrm_file_path = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, nrm_file_path).Replace(@"\", "/").TrimStart('.');
+            // Checkboxes für Texturtypen
 
-            o["images"][0]["mimeType"] = "image/png";
-            o["images"][1]["mimeType"] = "image/png";
-            o["images"][2]["mimeType"] = "image/png";
-
-            o["images"][1]["uri"] = "." + col_file_path;
-            o["images"][2]["uri"] = "." + orm_file_path;
-            if (pictureBoxNormal.ImageLocation != null)
+            var checkboxes = new Dictionary<string, bool>
             {
-                o["images"][0]["uri"] = "." + nrm_file_path;
-            }
-            else
-            {
-                o["materials"][0]["normalTexture"] = null;
-            }
-            o["materials"][0]["name"] = textBoxMaterialName.Text;
-
-            // Ergänzen Sie die GLTF-Generierung, damit alle erzeugten PNG-Dateien in die images- und textures-Arrays aufgenommen werden.
-            // Beispiel: Nach dem bisherigen Hinzufügen der drei Standardbilder, fügen Sie die weiteren Bilder hinzu:
-
-            // Alpha-Map
-            ((JArray)o["images"]).Add(JToken.FromObject(new
-            {
-                mimeType = "image/png",
-                name = textBoxMaterialName.Text + "_alpha",
-                uri = "./gltf_textures/" + textBoxMaterialName.Text + "_alpha.png"
-            }));
-            ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-
-            // Emission-Map (falls nicht schon vorhanden)
-            ((JArray)o["images"]).Add(JToken.FromObject(new
-            {
-                mimeType = "image/png",
-                name = textBoxMaterialName.Text + "_emission",
-                uri = "./gltf_textures/" + textBoxMaterialName.Text + "_emission.png"
-            }));
-            ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-
-            // Metallic-Map
-            ((JArray)o["images"]).Add(JToken.FromObject(new
-            {
-                mimeType = "image/png",
-                name = textBoxMaterialName.Text + "_metal",
-                uri = "./gltf_textures/" + textBoxMaterialName.Text + "_metal.png"
-            }));
-            ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-
-            // Occlusion-Map
-            ((JArray)o["images"]).Add(JToken.FromObject(new
-            {
-                mimeType = "image/png",
-                name = textBoxMaterialName.Text + "_occ",
-                uri = "./gltf_textures/" + textBoxMaterialName.Text + "_occ.png"
-            }));
-            ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-
-            // Roughness-Map
-            ((JArray)o["images"]).Add(JToken.FromObject(new
-            {
-                mimeType = "image/png",
-                name = textBoxMaterialName.Text + "_rough",
-                uri = "./gltf_textures/" + textBoxMaterialName.Text + "_rough.png"
-            }));
-            ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-
-            // Danach können Sie die neuen Texturen in den Material-Abschnitt referenzieren, z.B. für alpha, emission, metallic, roughness, occlusion usw.
-
-            if (pictureBoxEmission.ImageLocation != null)
-            {
-                string emission_file_path_local = Path.Combine(gltf_output_dir, textBoxMaterialName.Text + "_emission.png");
-                using (Bitmap emissionBmp = new Bitmap(pictureBoxEmission.ImageLocation))
-                {
-                    Bitmap emissionBmpResized = emissionBmp;
-                    if (resize) emissionBmpResized = ResizeImage(emissionBmp, resizeX, resizeY);
-                    emissionBmpResized.Save(emission_file_path_local);
-                    if (resize) emissionBmpResized.Dispose();
-                }
-                string emission_file_path_relative = Utils.GetRelativePath(pictureBoxBaseColor.ImageLocation, emission_file_path_local).Replace(@"\", "/").TrimStart('.');
-                o["images"].Last.AddAfterSelf(JToken.FromObject(new ImageToken(emission_file_path_relative)));
-                o["textures"].Last.AddAfterSelf(JToken.FromObject(new SourceToken(3)));
-                o["materials"][0]["emissiveTexture"] = JToken.FromObject(new IndexToken(3));
-                float[] emissiveFactor = new float[] { 1.0f, 1.0f, 1.0f };
-                o["materials"][0]["emissiveFactor"] = JArray.FromObject(emissiveFactor);
-            }
-
-            // Nach dem Speichern der Einzeltexturen und dem Hinzufügen zu images/textures,
-            // müssen die Texturen auch im Material-Abschnitt referenziert werden:
-
-            // Beispiel für Metallic-Roughness-Occlusion (ORM):
-            o["materials"][0]["pbrMetallicRoughness"] = new JObject
-            {
-                ["baseColorTexture"] = new JObject { ["index"] = 1 }, // Annahme: Index 1 ist baseColor
-                ["metallicRoughnessTexture"] = new JObject { ["index"] = ((JArray)o["textures"]).Count - 3 }, // Annahme: drittletzte Textur ist metallic/rough
-                ["metallicFactor"] = materialConfig.MetallicIntensity,
-                ["roughnessFactor"] = materialConfig.RoughnessStrength
+                { "Normal", checkBoxNormal != null && checkBoxNormal.Checked },
+                { "ORM", checkBoxORM != null && checkBoxORM.Checked },
+                { "Emission", checkBoxEmission != null && checkBoxEmission.Checked },
+                { "Metallic", checkBoxMetallic != null && checkBoxMetallic.Checked },
+                { "Roughness", checkBoxRoughness != null && checkBoxRoughness.Checked },
+                { "Occlusion", checkBoxOcclusion != null && checkBoxOcclusion.Checked },
+                { "Alpha", checkBoxAlpha != null && checkBoxAlpha.Checked }
             };
 
-            // Emissive-Map korrekt referenzieren:
-            o["materials"][0]["emissiveTexture"] = new JObject { ["index"] = ((JArray)o["textures"]).Count - 4 }; // Annahme: viertletzte Textur ist emission
-            o["materials"][0]["emissiveFactor"] = JArray.FromObject(emissionColor);
-
-            // Occlusion separat referenzieren:
-            o["materials"][0]["occlusionTexture"] = new JObject { ["index"] = ((JArray)o["textures"]).Count - 2 }; // Annahme: vorletzte Textur ist occlusion
-
-            // Alpha-Map ggf. als extra property (z.B. für Maskierung):
-            o["materials"][0]["alphaMode"] = alphaMode;
-
-            o["materials"][0]["doubleSided"] = false;
-            Version appVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            string strVers = +appVersion.Major + "." + appVersion.Minor + "." + appVersion.Build;
-            o["asset"]["generator"] = "PBR Material Maker " + strVers;
-            o["asset"]["version"] = "2.0";
+            // GLTF-Export zentral
+            JObject gltf = gltf_exporter(
+                o,
+                textBoxMaterialName.Text,
+                "." + rel_col,
+                "." + rel_nrm,
+                "." + rel_orm,
+                "." + rel_emission,
+                "." + rel_metal,
+                "." + rel_rough,
+                "." + rel_occ,
+                "." + rel_alpha,
+                emissionColor,
+                alphaMode,
+                materialConfig,
+                checkboxes
+            );
 
             string gltf_path = Path.Combine(Path.GetDirectoryName(pictureBoxBaseColor.ImageLocation), textBoxMaterialName.Text + ".gltf");
-            File.WriteAllText(gltf_path, JsonConvert.SerializeObject(o, Formatting.Indented));
+            File.WriteAllText(gltf_path, JsonConvert.SerializeObject(gltf, Formatting.Indented));
 
             UseWaitCursor = false;
             buttonSave.Text = "Saved!";
@@ -752,7 +776,6 @@ namespace PBR_Material_Maker
             foreach (var baseColorFile in baseColorFiles)
             {
                 string matName = Path.GetFileNameWithoutExtension(baseColorFile);
-                // Suffix entfernen
                 foreach (var suf in baseColorSuffixes)
                 {
                     if (matName.ToLower().EndsWith(suf))
@@ -762,7 +785,6 @@ namespace PBR_Material_Maker
                     }
                 }
 
-                // Passende weitere Maps suchen
                 string FindMap(string[] suffixes)
                 {
                     foreach (var file in allFiles)
@@ -785,11 +807,9 @@ namespace PBR_Material_Maker
                 string emissionFile = FindMap(new string[] { "_emission", "_emiss", "_emit", "_Emissive", "_Emiss", "_emissiveTex", "_emissiveTexture", "_emissive_map", "_emissionmap", "_emission_map", "_Glow", "_glow", "_illum", "_illumination" });
                 string alphaFile = FindMap(new string[] { "_alpha", "_transparency", "_Opacity", "_opacity", "_mask", "_Mask", "_transTex", "_transTexture", "_alpha_map", "_alphamap", "_alphaMap" });
 
-                // GLTF-Template laden
                 string resourceData = Encoding.UTF8.GetString(Properties.Resources.pavement_03_4k_TEST2);
                 JObject o = JObject.Parse(resourceData);
 
-                // Bitmap-Objekte erzeugen
                 Bitmap col = new Bitmap(baseColorFile);
                 float[] baseColorTint = (materialConfig.BaseColorTint is JArray jarr)
                     ? jarr.ToObject<float[]>()
@@ -804,12 +824,9 @@ namespace PBR_Material_Maker
 
                 ApplyBaseColorTint(col, baseColorTint);
 
-                Bitmap nrm = null;
-                if (normalFile != null && File.Exists(normalFile))
-                    nrm = new Bitmap(normalFile);
-                else
-                    nrm = (normalMapType == "sobel") ? GenerateNormalMap(col, (float)materialConfig.NormalStrength) : GenerateFlatNormal(col.Width, col.Height);
-
+                Bitmap nrm = (normalFile != null && File.Exists(normalFile))
+                    ? new Bitmap(normalFile)
+                    : (normalMapType == "sobel" ? GenerateNormalMap(col, (float)materialConfig.NormalStrength) : GenerateFlatNormal(col.Width, col.Height));
                 Bitmap bRoughness = (roughFile != null && File.Exists(roughFile)) ? new Bitmap(roughFile) : GenerateRoughnessMap(col, (float)materialConfig.RoughnessStrength, roughnessInvert);
                 Bitmap bMetallic = (metalFile != null && File.Exists(metalFile)) ? new Bitmap(metalFile) : GenerateMetallicMap(col, (int)materialConfig.MetallicThreshold, metallicIntensity);
                 Bitmap emission = (emissionFile != null && File.Exists(emissionFile)) ? new Bitmap(emissionFile) : GenerateEmissionMap(col, (float)materialConfig.EmissionStrength, emissionColor);
@@ -828,35 +845,31 @@ namespace PBR_Material_Maker
                     colResized = ResizeImage(col, resizeX, resizeY);
                 }
 
-
                 // Speichern der Einzelmaps
+                string rel_col = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_col.png")).Replace(@"\", "/").TrimStart('.');
+                string rel_nrm = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_nrm.png")).Replace(@"\", "/").TrimStart('.');
+                string rel_orm = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_orm.png")).Replace(@"\", "/").TrimStart('.');
+                string rel_emission = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_emission.png")).Replace(@"\", "/").TrimStart('.');
+                string rel_metal = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_metal.png")).Replace(@"\", "/").TrimStart('.');
+                string rel_rough = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_rough.png")).Replace(@"\", "/").TrimStart('.');
+                string rel_occ = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_occ.png")).Replace(@"\", "/").TrimStart('.');
+                string rel_alpha = Utils.GetRelativePath(baseColorFile, Path.Combine(gltf_output_dir, matName + "_alpha.png")).Replace(@"\", "/").TrimStart('.');
+
+                colResized.Save(Path.Combine(gltf_output_dir, matName + "_col.png"), System.Drawing.Imaging.ImageFormat.Png);
                 nrmResized.Save(Path.Combine(gltf_output_dir, matName + "_nrm.png"), System.Drawing.Imaging.ImageFormat.Png);
-                bOcclusionResized.Save(Path.Combine(gltf_output_dir, matName + "_occ.png"), System.Drawing.Imaging.ImageFormat.Png);
                 bRoughnessResized.Save(Path.Combine(gltf_output_dir, matName + "_rough.png"), System.Drawing.Imaging.ImageFormat.Png);
                 bMetallicResized.Save(Path.Combine(gltf_output_dir, matName + "_metal.png"), System.Drawing.Imaging.ImageFormat.Png);
                 emissionResized.Save(Path.Combine(gltf_output_dir, matName + "_emission.png"), System.Drawing.Imaging.ImageFormat.Png);
-                                // Zeige die zuletzt generierte Emission-Map in der UI an (nur für das aktuell geladene Bild)
-                                if (baseColorFile == pictureBoxBaseColor.ImageLocation)
-                                {
-                                    pictureBoxEmission.ImageLocation = Path.Combine(gltf_output_dir, matName + "_emission.png");
-                                }
                 alphaResized.Save(Path.Combine(gltf_output_dir, matName + "_alpha.png"), System.Drawing.Imaging.ImageFormat.Png);
-                colResized.Save(Path.Combine(gltf_output_dir, matName + "_col.png"), System.Drawing.Imaging.ImageFormat.Png);
+                bOcclusionResized.Save(Path.Combine(gltf_output_dir, matName + "_occ.png"), System.Drawing.Imaging.ImageFormat.Png);
 
-                // ORM-Map erzeugen und speichern, wenn alle Maps vorhanden sind
+                // ORM-Map erzeugen und speichern
                 try
                 {
                     if (bOcclusionResized != null && bRoughnessResized != null && bMetallicResized != null)
                     {
                         Bitmap orm = GenerateORMMap(bOcclusionResized, bRoughnessResized, bMetallicResized);
-                        string ormPath = Path.Combine(gltf_output_dir, matName + "_orm.png");
-                        orm.Save(ormPath, System.Drawing.Imaging.ImageFormat.Png);
-                        // Zeige die zuletzt generierte ORM-Map in der UI an (nur für den letzten Durchlauf relevant)
-                        if (baseColorFile == pictureBoxBaseColor.ImageLocation)
-                        {
-                            pictureBoxORM.ImageLocation = ormPath;
-                        }
-                        pictureBoxORM.ImageLocation = ormPath;
+                        orm.Save(Path.Combine(gltf_output_dir, matName + "_orm.png"), System.Drawing.Imaging.ImageFormat.Png);
                         orm.Dispose();
                     }
                 }
@@ -883,61 +896,37 @@ namespace PBR_Material_Maker
                 alpha.Dispose();
                 col.Dispose();
 
-                string orm_file_path = Path.Combine(gltf_output_dir, matName + "_orm.png");
-                orm_file_path = Utils.GetRelativePath(baseColorFile, orm_file_path).Replace(@"\", "/").TrimStart('.');
-                string col_file_path = Path.Combine(gltf_output_dir, matName + "_col.png");
-                col_file_path = Utils.GetRelativePath(baseColorFile, col_file_path).Replace(@"\", "/").TrimStart('.');
-                string nrm_file_path = Path.Combine(gltf_output_dir, matName + "_nrm.png");
-                nrm_file_path = Utils.GetRelativePath(baseColorFile, nrm_file_path).Replace(@"\", "/").TrimStart('.');
 
-                o["images"][0]["mimeType"] = "image/png";
-                o["images"][1]["mimeType"] = "image/png";
-                o["images"][2]["mimeType"] = "image/png";
-
-                o["images"][1]["uri"] = "." + col_file_path;
-                o["images"][2]["uri"] = "." + orm_file_path;
-                if (normalFile != null)
+                var checkboxes = new Dictionary<string, bool>
                 {
-                    o["images"][0]["uri"] = "." + nrm_file_path;
-                }
-                else
-                {
-                    o["materials"][0]["normalTexture"] = null;
-                }
-                o["materials"][0]["name"] = matName;
-
-                // Weitere Texturen wie gehabt hinzufügen
-                ((JArray)o["images"]).Add(JToken.FromObject(new { mimeType = "image/png", name = matName + "_alpha", uri = "./gltf_textures/" + matName + "_alpha.png" }));
-                ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-                ((JArray)o["images"]).Add(JToken.FromObject(new { mimeType = "image/png", name = matName + "_emission", uri = "./gltf_textures/" + matName + "_emission.png" }));
-                ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-                ((JArray)o["images"]).Add(JToken.FromObject(new { mimeType = "image/png", name = matName + "_metal", uri = "./gltf_textures/" + matName + "_metal.png" }));
-                ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-                ((JArray)o["images"]).Add(JToken.FromObject(new { mimeType = "image/png", name = matName + "_occ", uri = "./gltf_textures/" + matName + "_occ.png" }));
-                ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-                ((JArray)o["images"]).Add(JToken.FromObject(new { mimeType = "image/png", name = matName + "_rough", uri = "./gltf_textures/" + matName + "_rough.png" }));
-                ((JArray)o["textures"]).Add(JToken.FromObject(new { source = ((JArray)o["images"]).Count - 1 }));
-
-                // Material-Referenzen wie gehabt
-                o["materials"][0]["pbrMetallicRoughness"] = new JObject
-                {
-                    ["baseColorTexture"] = new JObject { ["index"] = 1 },
-                    ["metallicRoughnessTexture"] = new JObject { ["index"] = ((JArray)o["textures"]).Count - 3 },
-                    ["metallicFactor"] = materialConfig.MetallicIntensity,
-                    ["roughnessFactor"] = materialConfig.RoughnessStrength
+                    { "Normal", checkBoxNormal != null && checkBoxNormal.Checked },
+                    { "ORM", checkBoxORM != null && checkBoxORM.Checked },
+                    { "Emission", checkBoxEmission != null && checkBoxEmission.Checked },
+                    { "Metallic", checkBoxMetallic != null && checkBoxMetallic.Checked },
+                    { "Roughness", checkBoxRoughness != null && checkBoxRoughness.Checked },
+                    { "Occlusion", checkBoxOcclusion != null && checkBoxOcclusion.Checked },
+                    { "Alpha", checkBoxAlpha != null && checkBoxAlpha.Checked }
                 };
-                o["materials"][0]["emissiveTexture"] = new JObject { ["index"] = ((JArray)o["textures"]).Count - 4 };
-                o["materials"][0]["emissiveFactor"] = JArray.FromObject(emissionColor);
-                o["materials"][0]["occlusionTexture"] = new JObject { ["index"] = ((JArray)o["textures"]).Count - 2 };
-                o["materials"][0]["alphaMode"] = alphaMode;
-                o["materials"][0]["doubleSided"] = false;
-                Version appVersion = Assembly.GetExecutingAssembly().GetName().Version;
-                string strVers = appVersion.Major + "." + appVersion.Minor + "." + appVersion.Build;
-                o["asset"]["generator"] = "PBR Material Maker " + strVers;
-                o["asset"]["version"] = "2.0";
+
+                JObject gltf = gltf_exporter(
+                    o,
+                    matName,
+                    "." + rel_col,
+                    "." + rel_nrm,
+                    "." + rel_orm,
+                    "." + rel_emission,
+                    "." + rel_metal,
+                    "." + rel_rough,
+                    "." + rel_occ,
+                    "." + rel_alpha,
+                    emissionColor,
+                    alphaMode,
+                    materialConfig,
+                    checkboxes
+                );
 
                 string gltf_path = Path.Combine(baseDir, matName + ".gltf");
-                File.WriteAllText(gltf_path, JsonConvert.SerializeObject(o, Formatting.Indented));
+                File.WriteAllText(gltf_path, JsonConvert.SerializeObject(gltf, Formatting.Indented));
             }
 
             UseWaitCursor = false;
@@ -953,7 +942,7 @@ namespace PBR_Material_Maker
             }
             this.UseWaitCursor = false;
         }
-
+        
         /// <summary>
         /// Event handler for the Clear button.
         /// </summary>
@@ -2496,7 +2485,13 @@ namespace PBR_Material_Maker
                 return;
             }
 
+
             this.UseWaitCursor = true;
+            if (progressBarMain != null)
+            {
+                progressBarMain.Visible = true;
+                progressBarMain.Style = ProgressBarStyle.Marquee;
+            }
 
             string baseDir = Path.GetDirectoryName(pictureBoxBaseColor.ImageLocation);
             string[] baseColorSuffixes = new string[] { "_albedo", "_base", "_color", "_col", "_diffuse", "_diff", "_basecol", "_basecolor" };
@@ -2621,6 +2616,10 @@ namespace PBR_Material_Maker
             }
             
             this.UseWaitCursor = false;
+            if (progressBarMain != null)
+            {
+                progressBarMain.Visible = false;
+            }
             MessageBox.Show("Batch-Generierung der fehlenden Maps abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
