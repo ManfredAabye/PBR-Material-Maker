@@ -1,4 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿///
+/// PBR Material Maker - Ein Tool zum Erstellen von PBR-Materialien und Exportieren als GLTF
+/// Copyright (C) 2023-2024 by Michael 'Mick' Knüppel ( https://github.com/ManfredAabye/PBR-Material-Maker/tree/main/PBR%20Material%20Maker , http://openmanniland.de )
+/// This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+/// the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+/// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+/// You should have received a copy of the GNU General Public License along with this program; If not, see <https://www.gnu.org/licenses/>.
+///
+/// Strg+K, Strg+0 (alle ausklappen: Strg+K, Strg+J)
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 using System;
@@ -54,12 +63,12 @@ namespace PBR_Material_Maker
             };
 
             // Konfiguration laden oder anlegen
-            if (File.Exists("material.json"))
-                materialConfig = JsonConvert.DeserializeObject(File.ReadAllText("material.json"));
+            if (File.Exists("material_save.json"))
+                materialConfig = JsonConvert.DeserializeObject(File.ReadAllText("material_save.json"));
             else
             {
                 materialConfig = defaultConfig;
-                File.WriteAllText("material.json", JsonConvert.SerializeObject(defaultConfig, Formatting.Indented));
+                File.WriteAllText("material_save.json", JsonConvert.SerializeObject(defaultConfig, Formatting.Indented));
             }
 
             if (materialConfig.Materials != null)
@@ -2127,7 +2136,7 @@ namespace PBR_Material_Maker
         /// </summary>
         private void LoadMaterialPresets()
         {
-            string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "material.json");
+            string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "material_presets.json");
             if (!File.Exists(jsonPath))
                 return;
 

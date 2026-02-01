@@ -45,6 +45,12 @@
     <Content Include="PBR_Material_Maker.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="material_presets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="material_save.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <!-- Kopiert alle Dateien aus Resources rekursiv ins Ausgabeverzeichnis -->
