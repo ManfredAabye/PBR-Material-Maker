@@ -7,6 +7,8 @@
 /// You should have received a copy of the GNU General Public License along with this program; If not, see <https://www.gnu.org/licenses/>.
 ///
 /// Strg+K, Strg+0 (alle ausklappen: Strg+K, Strg+J)
+///
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

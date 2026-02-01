@@ -1,4 +1,15 @@
-﻿using System.Windows.Forms;
+﻿///
+/// PBR Material Maker - Ein Tool zum Erstellen von PBR-Materialien und Exportieren als GLTF
+/// Copyright (C) 2023-2024 by Michael 'Mick' Knüppel ( https://github.com/ManfredAabye/PBR-Material-Maker/tree/main/PBR%20Material%20Maker , http://openmanniland.de )
+/// This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+/// the Free Software Foundation; either version 3 of the License, or (at your option) any later version.
+/// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+/// You should have received a copy of the GNU General Public License along with this program; If not, see <https://www.gnu.org/licenses/>.
+///
+/// Strg+K, Strg+0 (alle ausklappen: Strg+K, Strg+J)
+///
+
+using System.Windows.Forms;
 using System.Drawing;
 using System;
 
@@ -50,9 +61,6 @@ namespace PBR_Material_Maker
                 this.Icon = SystemIcons.Application;
             }
 
-            #endregion Controls erstellen
-
-            #region Controls erstellen
             labelORM = new Label();
             pictureBoxORM = new PictureBox();
             checkBoxORM = new CheckBox();
@@ -197,7 +205,7 @@ namespace PBR_Material_Maker
             progressBarMain = new ProgressBar();
             #endregion Vorschau & Footer
 
-            #region  Initialisierung beginnen
+            #region Initialisierung beginnen
             mainTableLayoutPanel.SuspendLayout();
             panelDragDrop.SuspendLayout();
             panelControls.SuspendLayout();
@@ -225,7 +233,7 @@ namespace PBR_Material_Maker
             ((System.ComponentModel.ISupportInitialize)trackBarEmissionEdgeStrength).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBarAlphaStrength).BeginInit();
             SuspendLayout();
-            #endregion  Initialisierung beginnen
+            #endregion Initialisierung beginnen
 
             #region MainTableLayoutPanel - 3-Spalten Layout
             mainTableLayoutPanel.ColumnCount = 3;
