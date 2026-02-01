@@ -39,8 +39,17 @@ namespace PBR_Material_Maker
             components = new System.ComponentModel.Container();
             // Fenstersymbol oben Links setzen (nur .ico-Dateien sind erlaubt)
             // Stelle sicher, dass die Datei "PBR-Material-Maker.ico" im Ausgabeverzeichnis liegt!
-            //this.Icon = new Icon("PBR_Material_Maker.png");
-            this.Icon = new Icon("PBR_Material_Maker2.ico");
+            //this.Icon = new Icon("PBR_Material_Maker.ico");
+            if (System.IO.File.Exists("PBR_Material_Maker.ico"))
+            {
+                this.Icon = new Icon("PBR_Material_Maker.ico");
+            }
+            else
+            {
+                // Fallback-Icon, falls die Datei nicht gefunden wird
+                this.Icon = SystemIcons.Application;
+            }
+
             #endregion Controls erstellen
 
             #region Controls erstellen

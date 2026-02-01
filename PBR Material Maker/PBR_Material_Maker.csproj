@@ -41,7 +41,6 @@
     <None Include="Resources\icons8-pin-16.png" />
     <None Include="Resources\material.json" />
     <None Include="PBR_Material_Maker.ico" />
-    <None Include="PBR_Material_Maker2.ico" />
     <None Include="PBR_Material_Maker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>material.json</TargetPath>
@@ -55,6 +54,13 @@
 
   <ItemGroup>
     <Content Include="PBR_Material_Maker.ico" />
+  </ItemGroup>
+
+  <!-- Kopiert alle Dateien aus Resources rekursiv ins Ausgabeverzeichnis -->
+  <ItemGroup>
+    <Content Include="Resources\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
