@@ -34,20 +34,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\CubeCross01.gltf" />
-    <None Include="Resources\pavement_03_4k.gltf" />
-    <None Include="Resources\pavement_03_4k_TEST2.gltf" />
-    <None Include="Resources\icons8-pin-24.png" />
-    <None Include="Resources\icons8-pin-16.png" />
-    <None Include="Resources\material.json" />
-    <None Include="PBR_Material_Maker.ico" />
-    <None Include="PBR_Material_Maker.png">
+    <!-- Ressourcen-Verzeichnis rekursiv einbinden -->
+    <None Include="Resources\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>material.json</TargetPath>
-    </None>
-    <None Include="Resources\fallback.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>Resources\fallback.jpg</TargetPath>
     </None>
     <None Include="App.config" />
   </ItemGroup>
