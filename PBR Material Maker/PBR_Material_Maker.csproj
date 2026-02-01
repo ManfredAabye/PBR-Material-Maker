@@ -14,9 +14,9 @@
     <AssemblyDescription>Beschreibung des PBR Material Makers</AssemblyDescription>
     <AssemblyCompany>PBR Material Maker</AssemblyCompany>
     <AssemblyProduct>PBR Material Maker</AssemblyProduct>
-    <AssemblyVersion>3.8.603.0</AssemblyVersion>
-    <FileVersion>3.8.603.0</FileVersion>
-    <InformationalVersion>3.8.603</InformationalVersion>
+    <AssemblyVersion>3.8.604.0</AssemblyVersion>
+    <FileVersion>3.8.604.0</FileVersion>
+    <InformationalVersion>3.8.604</InformationalVersion>
     <TargetPlatform>Windows7.0</TargetPlatform>
     <SupportedOSPlatform>Windows7.0</SupportedOSPlatform>
   </PropertyGroup>
