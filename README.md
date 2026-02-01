@@ -34,7 +34,7 @@ Tipp: Testen Sie, wie viele Materialien sich gleichzeitig hochladen lassen – b
 ## Installation
 
 1. Release herunterladen und entpacken.
-2. Die Datei `PBR Material Maker.exe` ausführen.
+2. Die Datei `PBR Material Maker.exe` ausführen. <br>
 Info: Beim ersten Start werden fehlende Dateien angelegt!
 
 ## Nutzung
@@ -130,6 +130,7 @@ Nach dem Speichern der Änderungen die Anwendung neu starten, damit die neuen Ei
 Dieses Projekt steht unter der MIT-Lizenz.
 
 ---
+
 
 
 
