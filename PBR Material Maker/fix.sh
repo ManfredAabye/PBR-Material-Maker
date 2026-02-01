@@ -1,3 +1,3 @@
-export GIT_COMMITTER_NAME="Captain Ai"
-export GIT_COMMITTER_EMAIL="extrude.ragu@proton.me"
-git rebase -i --root --rebase-merges -x "git commit --amend --author=\"Captain Ai <extrude.ragu@proton.me>\" -C HEAD"
+export GIT_COMMITTER_NAME="Manfred Aabye"
+export GIT_COMMITTER_EMAIL="manfred.aabye@mail.com"
+git rebase -i --root --rebase-merges -x "git commit --amend --author=\"Manfred Aabye <manfred.aabye@mail.com>\" -C HEAD"
