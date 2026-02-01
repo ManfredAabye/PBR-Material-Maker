@@ -11,7 +11,7 @@
 
     <!-- Hinzugefügte Eigenschaften -->
     <AssemblyTitle>PBR Material Maker</AssemblyTitle>
-    <AssemblyDescription>Beschreibung des PBR Material Makers</AssemblyDescription>
+    <AssemblyDescription>A tool for creating, editing, and managing PBR materials for 3D graphics applications.</AssemblyDescription>
     <AssemblyCompany>PBR Material Maker</AssemblyCompany>
     <AssemblyProduct>PBR Material Maker</AssemblyProduct>
     <AssemblyVersion>3.8.604.0</AssemblyVersion>
