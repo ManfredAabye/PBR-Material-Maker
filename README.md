@@ -2,7 +2,7 @@
  PBR Material Maker basiert auf dem GLTF Packer 2.2.64 von Ai (extrude.ragu) der stark erweitert wurde.
 
 **Version:** 3.7.585.0  <br>
-**Target:** .NET 10 (Windows Forms & WPF)   <br>
+**Target:** .NET 8 (Windows Forms & WPF)   <br>
 **Plattform:** Windows 7.0 und neuer <br>
 
 <img src="https://raw.githubusercontent.com/ManfredAabye/PBR-Material-Maker/refs/heads/main/PBR-Material-Maker.png" alt="Project Badge" width="800">
@@ -130,6 +130,7 @@ Nach dem Speichern der Änderungen die Anwendung neu starten, damit die neuen Ei
 Dieses Projekt steht unter der MIT-Lizenz.
 
 ---
+
 
 
 
